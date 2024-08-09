@@ -1,7 +1,5 @@
 export default async function createEvent(day: string, hour: number, meetingMonth: number, meetingYear: number, title: string, description: string) {
   try {
-    console.log(hour);
-    
     const beginning = new Date(meetingYear, meetingMonth - 1, Number(day), hour);
     const end = new Date(meetingYear, meetingMonth - 1, Number(day), hour + 1);
 
@@ -22,11 +20,7 @@ export default async function createEvent(day: string, hour: number, meetingMont
       const errorText = await response.text();
       throw new Error(errorText);
     }
-
-    const data = await response.json();
-    alert('Event created successfully');
   } catch (error) {
     console.error('Error creating event', error);
-    alert('Error creating event');
   }
 }

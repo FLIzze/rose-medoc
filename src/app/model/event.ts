@@ -1,4 +1,4 @@
-export interface Event {
+export interface EventInterface {
     id?: number,
     beginning: Date,
     end: Date,

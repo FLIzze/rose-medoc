@@ -2,9 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import CalEvent from "../event/page";
+import { EventInterface } from '@/app/model/event';
 import createEvent from '@/app/event';
+import axios from 'axios';
 
 export default function WeeklyCal() {
+    let skip = false;
     const days = ["Empty", "LUN", "MAR", "MER", "JEU", "VEN", "SAM", "DIM"];
     const hours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
     const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
@@ -13,6 +16,7 @@ export default function WeeklyCal() {
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
     const [dates, setDates] = useState<string[]>([]);
+    const [events, setEvents] = useState<EventInterface[]>([]);
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -23,8 +27,13 @@ export default function WeeklyCal() {
     const [currentHour, setCurrentHour] = useState(0);
 
     useEffect(() => {
+        checkEvents();
+    }, []);
+
+    useEffect(() => {
         updateWeekDates();
     }, [currentDay, currentMonth, currentYear]);
+
 
     function updateWeekDates() {
         const newDates = ["Empty"];
@@ -116,8 +125,19 @@ export default function WeeklyCal() {
     }
 
     async function createNewMeeting() {
-        // console.log(`Meeting created: ${title} ${description} ${days[currentDayMeeting]} ${hours[currentHour]}:00 ${months[currentMonth]} ${currentYear}`);
         await createEvent(dates[currentDayMeeting], hours[currentHour], currentMonth, currentYear, title, description);
+        setEvents([]);
+        checkEvents();
+    }
+
+    function checkEvents() {
+        axios.get('http://localhost:5000/api/events')
+            .then((response) => {
+                setEvents(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching events', error);
+            });
     }
 
     return (
@@ -150,7 +170,7 @@ export default function WeeklyCal() {
                                 <div className='hidden' id='begginingHour'>
                                     <div className='flex-col bg-white shadow-xl h-44 overflow-scroll flex'>
                                         {hours.map((hour, index) => (
-                                            <button key={index} className='text-start py-2 pl-4 pr-12 hover:bg-gray-200' onClick={() => setBegginingHourState(hour)}>{begginingHour}:00</button>
+                                            <button key={index} className='text-start py-2 pl-4 pr-12 hover:bg-gray-200' onClick={() => setBegginingHourState(hour)}>{hour}:00</button>
                                         ))}
                                     </div>
                                 </div>
@@ -180,7 +200,7 @@ export default function WeeklyCal() {
             </div>
 
             <p className='font-bold ml-52 pl-1'>{months[currentMonth]} {currentYear}</p>
-            <div className="grid grid-cols-8 w-full pt-6">
+            <div className="grid grid-cols-8 w-full pt-6 grid-rows-10 overflow-hidden">
                 {days.map((day, dayIndex) => (
                     <div key={dayIndex} className="bg-white">
                         {day === "Empty" ? (
@@ -195,13 +215,34 @@ export default function WeeklyCal() {
                         )}
                         {hours.map((hour, hoursIndex) => (
                             <div key={hoursIndex}>
+                                {skip = false}
                                 {dayIndex === 0 ? (
                                     <div className="text-right text-gray-400 text-xs pt-1 pb-16 mb-1 pr-3">{hour}:00</div>
                                 ) : (
-                                    <div onClick={() => newMeeting(hoursIndex, dayIndex)}>
-                                        <div className="bg-white">
-                                            <div className="bg-white p-11 border-l border-t border-gray-300"></div>
-                                        </div>
+                                    <div>
+                                        {events.map((event, eventIndex) => (
+                                            <div key={eventIndex}>
+                                                {new Date(event.beginning).getHours() + 2 == hour
+                                                    && new Date(event.beginning).getMonth() == currentMonth - 1
+                                                    && new Date(event.beginning).getDate() == Number(dates[dayIndex])
+                                                    && new Date(event.beginning).getFullYear() == currentYear ? (
+                                                    <div>
+                                                        <CalEvent hour={hour} title={event.title} color='blue' />
+                                                        {skip = true}
+                                                    </div>
+                                                ) : (
+                                                    <div>
+                                                        {eventIndex == events.length - 1 && (
+                                                            <div>
+                                                                {!skip && (
+                                                                    <div className={`bg-white border-gray-300 border-l border-t h-20 mb-2 $`} onClick={() => newMeeting(hoursIndex, dayIndex)}></div>
+                                                                )}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
                                     </div>
                                 )}
                             </div>
