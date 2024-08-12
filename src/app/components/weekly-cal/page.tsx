@@ -81,21 +81,21 @@ export default function WeeklyCal() {
                 {days.map((day, dayIndex) => (
                     <div key={dayIndex} className="bg-white">
                         {day === "Empty" ? (
-                            <div>
+                            <>
                                 <div className="bg-white p-6"></div>
-                            </div>
+                            </>
                         ) : (
-                            <div>
+                            <>
                                 <p className="text-gray-600 text-xs">{day}</p>
                                 <p className="text-2xl font-semibold">{dates[dayIndex]}</p>
-                            </div>
+                            </>
                         )}
                     </div>
                 ))}
             </div>
 
             <div className="flex-grow overflow-y-scroll">
-                <div className="grid grid-cols-8 w-full pt-6">
+                <div className="grid grid-cols-8 w-full">
                     {days.map((day, dayIndex) => (
                         <div key={dayIndex} className="bg-white">
                             {hours.map((hour, hoursIndex) => (
@@ -111,10 +111,10 @@ export default function WeeklyCal() {
                                                         && new Date(event.beginning).getMonth() == currentMonth - 1
                                                         && new Date(event.beginning).getDate() == Number(dates[dayIndex])
                                                         && new Date(event.beginning).getFullYear() == currentYear ? (
-                                                        <div>
+                                                        <>
                                                             <CalEvent hour={hour} title={event.title} color='blue' />
                                                             {skip = true}
-                                                        </div>
+                                                        </>
                                                     ) : (
                                                         <>
                                                             {eventIndex == events.length - 1 && (

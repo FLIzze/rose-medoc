@@ -38,28 +38,28 @@ export default function PoopupMeeting({ begginingHour,
 
     return (
         <Draggable posX={posX} posY={posY}>
-            <div className="absolute opacity-0 w-96 h-fit bg-white rounded-lg shadow-2xl py-5 transition-all duration-125" id="calendarPopup">
-                <div className='flex flex-col gap-4 text-sm ml-7 mr-4'>
+            <div className="absolute opacity-0 w-96 h-fit bg-white rounded-lg shadow-2xl py-5 transition-all duration-150" id="calendarPopup">
+                <div className='flex flex-col gap-4 text-sm ml-12 mt-5 mr-4'>
                     <input
                         type="text"
-                        placeholder='Ajouter un titre *'
-                        className='border-b border-gray-300 outline-none pl-3 font-bold'
+                        placeholder='Ajouter un titre'
+                        className='border-b border-gray-200 outline-none text-xl font-semibold h-9 transition-all focus:font-normal text-gray-600'
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
-                    <div className='flex gap-2'>
+                    {/* <div className='flex gap-2'>
                         <button className='py-2 px-6 hover:bg-gray-300 rounded-lg'>{days[currentDayMeeting]} {dates[currentDayMeeting]} {months[currentMonth]}</button>
                         <button className='py-2 px-6 hover:bg-gray-300 rounded-lg'>{hours[begginingHour]}:00</button>
                         <button className='py-2 px-6 hover:bg-gray-300 rounded-lg'>{hours[endHour]}:00</button>
-                    </div>
-                    <textarea
+                    </div> */}
+                    {/* <textarea
                         placeholder='Ajouter une description'
                         className='text-xs bg-gray-200 rounded-lg outline-none pl-2 pt-2 w-full h-32 resize-none font-medium'
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                    />
+                    /> */}
 
-                    <button className='bg-green-500 rounded-lg text-white h-9' onClick={() => createNewMeeting(dates, hours, currentDayMeeting, currentHour, currentMonth, currentYear, title, description, setEvents)}>Enregistrer</button>
+                    <button className='bg-gray-300 border rounded-lg h-10 text-white text-lg' onClick={() => createNewMeeting(dates, hours, currentDayMeeting, currentHour, currentMonth, currentYear, title, description, setEvents)}>Enregistrer</button>
                 </div>
             </div>
         </Draggable>
