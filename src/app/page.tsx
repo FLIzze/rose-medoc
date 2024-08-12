@@ -5,7 +5,7 @@ import Mod from "./components/mod/page";
 
 export default function Home() {
   return (
-    <div className="bg-white">
+    <div className="bg-white h-screen overflow-hidden">
       <Header></Header>
       <div className="flex mt-5">
         <Mod></Mod>

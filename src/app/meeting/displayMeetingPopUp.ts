@@ -1,6 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
 
-export default async function displayMeetingPopUp(hour: number, day: number, setCurrentDayMeeting: Dispatch<SetStateAction<number>>, setCurrentHour: Dispatch<SetStateAction<number>>, setBegginingHour: Dispatch<SetStateAction<number>>, setEndHour: Dispatch<SetStateAction<number>>) {
+export default async function displayMeetingPopUp(hour: number,
+    day: number,
+    setCurrentDayMeeting: Dispatch<SetStateAction<number>>,
+    setCurrentHour: Dispatch<SetStateAction<number>>,
+    setBegginingHour: Dispatch<SetStateAction<number>>,
+    setEndHour: Dispatch<SetStateAction<number>>) {
+
     const calendarPopup = document.getElementById("calendarPopup");
     if (calendarPopup) {
         setCurrentDayMeeting(day);
@@ -8,13 +14,13 @@ export default async function displayMeetingPopUp(hour: number, day: number, set
         setBegginingHour(hour);
         setEndHour(hour + 1);
 
-        calendarPopup.classList.remove("hidden");
-        calendarPopup.classList.add("absolute");
+        calendarPopup.style.opacity = '1';
+        calendarPopup.style.pointerEvents = 'auto'
 
         document.addEventListener('click', function handleClickOutside(event) {
             if (!calendarPopup.contains(event.target as Node)) {
-                calendarPopup.classList.remove('absolute');
-                calendarPopup.classList.add('hidden');
+                calendarPopup.style.opacity = '0';
+                calendarPopup.style.pointerEvents = 'none'
                 document.removeEventListener('click', handleClickOutside);
             }
         });
