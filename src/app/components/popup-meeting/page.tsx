@@ -1,17 +1,11 @@
-import createEvent from "@/app/event";
 import { Dispatch, SetStateAction } from "react";
 import { EventInterface } from "@/app/model/event";
-import checkEvents from "@/app/checkEvents";
+import createNewMeeting from "@/app/meeting/createNewMeeting";
+import { useState } from "react";
 
 interface PopupMeeting {
-    title: string,
-    setTitle: Dispatch<SetStateAction<string>>,
-    description: string,
-    setDescription: Dispatch<SetStateAction<string>>,
     begginingHour: number,
-    setBegginingHour: Dispatch<SetStateAction<number>>,
     endHour: number,
-    setEndHour: Dispatch<SetStateAction<number>>,
     currentDayMeeting: number,
     currentMonth: number,
     currentYear: number,
@@ -23,12 +17,9 @@ interface PopupMeeting {
     setEvents: Dispatch<SetStateAction<EventInterface[]>>
 }
 
-export default function PoopupMeeting({ title, setTitle, description, setDescription, begginingHour, setBegginingHour, endHour, setEndHour, currentDayMeeting, currentMonth, currentYear, currentHour, days, dates, months, hours, setEvents }: PopupMeeting) {
-    async function createNewMeeting() {
-        await createEvent(dates[currentDayMeeting], hours[currentHour], currentMonth, currentYear, title, description);
-        setEvents([]);
-        checkEvents(setEvents);
-    }
+export default function PoopupMeeting({ begginingHour, endHour, currentDayMeeting, currentMonth, currentYear, currentHour, days, dates, months, hours, setEvents }: PopupMeeting) {
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
 
     return (
         <div className="hidden w-96 h-fit bg-white rounded-lg shadow-2xl py-5" id="calendarPopup">
@@ -52,7 +43,7 @@ export default function PoopupMeeting({ title, setTitle, description, setDescrip
                     onChange={(e) => setDescription(e.target.value)}
                 ></textarea>
 
-                <button className='bg-green-500 rounded-lg text-white h-9' onClick={createNewMeeting}>Enregistrer</button>
+                <button className='bg-green-500 rounded-lg text-white h-9' onClick={() => createNewMeeting(dates, hours, currentDayMeeting, currentHour, currentMonth, currentYear, title, description, setEvents)}>Enregistrer</button>
             </div>
         </div>
     )

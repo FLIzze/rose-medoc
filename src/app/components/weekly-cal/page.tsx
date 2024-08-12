@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import CalEvent from "../event/page";
 import { EventInterface } from '@/app/model/event';
 import checkEvents from '@/app/checkEvents';
-import displayMeetingPopUp from '@/app/meetingSetHour';
+import displayMeetingPopUp from '@/app/meeting/meetingSetHour';
 import PoopupMeeting from '../popup-meeting/page';
-import prevWeek from '@/app/prevWeek';
-import nextWeek from '@/app/nextWeek';
-import updateWeekDates from '@/app/updateWeekDates';
+import prevWeek from '@/app/date/prevWeek';
+import nextWeek from '@/app/date/nextWeek';
+import updateWeekDates from '@/app/date/updateWeekDates';
 
 export default function WeeklyCal() {
     let skip = false;
@@ -25,8 +25,6 @@ export default function WeeklyCal() {
     const [currentDayMeeting, setCurrentDayMeeting] = useState(0);
     const [currentHour, setCurrentHour] = useState(0);
 
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
     const [begginingHour, setBegginingHour] = useState(0);
     const [endHour, setEndHour] = useState(0);
 
@@ -52,14 +50,8 @@ export default function WeeklyCal() {
             </button>
 
             <PoopupMeeting
-                title={title}
-                setTitle={setTitle}
-                description={description}
-                setDescription={setDescription}
                 begginingHour={begginingHour}
-                setBegginingHour={setBegginingHour}
                 endHour={endHour}
-                setEndHour={setEndHour}
                 currentDayMeeting={currentDayMeeting}
                 currentMonth={currentMonth}
                 currentYear={currentYear}
@@ -107,7 +99,7 @@ export default function WeeklyCal() {
                                                         {eventIndex == events.length - 1 && (
                                                             <div>
                                                                 {!skip && (
-                                                                    <div className={`bg-white border-gray-300 border-l border-t h-20 mb-2 $`} onClick={() => displayMeetingPopUp(hoursIndex, dayIndex, setCurrentDay, setCurrentHour, setBegginingHour, setEndHour)}></div>
+                                                                    <div className={`bg-white border-gray-300 border-l border-t h-20 mb-2 $`} onClick={() => displayMeetingPopUp(hoursIndex, dayIndex, setCurrentDayMeeting, setCurrentHour, setBegginingHour, setEndHour)}></div>
                                                                 )}
                                                             </div>
                                                         )}
