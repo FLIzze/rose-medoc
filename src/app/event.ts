@@ -1,7 +1,7 @@
-export default async function createEvent(day: string, hour: number, meetingMonth: number, meetingYear: number, title: string, description: string) {
+export default async function createEvent(day: string, begginingHour: number, endHour: number, meetingMonth: number, meetingYear: number, title: string, description: string) {
   try {
-    const beginning = new Date(meetingYear, meetingMonth - 1, Number(day), hour);
-    const end = new Date(meetingYear, meetingMonth - 1, Number(day), hour + 1);
+    const beginning = new Date(meetingYear, meetingMonth - 1, Number(day), begginingHour);
+    const end = new Date(meetingYear, meetingMonth - 1, Number(day), endHour);
 
     const response = await fetch('http://localhost:5000/api/events', {
       method: 'POST',

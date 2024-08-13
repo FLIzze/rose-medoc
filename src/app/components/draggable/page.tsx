@@ -10,7 +10,7 @@ export default function Draggable({ children, posX, posY }: Readonly<DraggablePr
     const [position, setPosition] = useState({ x: posX, y: posY });
     const [isDragging, setIsDragging] = useState(false);
     const initialClickRef = useRef({ offsetX: 0, offsetY: 0 });
-    const popUpSize = { width: 382, height: 300 };
+    const popUpSize = { width: 382, height: 440 };
 
     useEffect(() => {
         if (posX + popUpSize.width >= window.innerWidth && posY + popUpSize.height >= window.innerHeight) {
@@ -63,7 +63,7 @@ export default function Draggable({ children, posX, posY }: Readonly<DraggablePr
         <div
             style={{ left: position.x, top: position.y }}
             onMouseDown={handleMouseDown}
-            className='absolute'
+            className='absolute cursor-move'
             role='button'
             tabIndex={0}    
         >

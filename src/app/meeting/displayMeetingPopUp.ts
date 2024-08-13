@@ -1,11 +1,14 @@
 import { Dispatch, SetStateAction } from "react";
 
-export default async function displayMeetingPopUp(hour: number,
+export default async function displayMeetingPopUp(
+    hour: number,
     day: number,
     setCurrentDayMeeting: Dispatch<SetStateAction<number>>,
     setCurrentHour: Dispatch<SetStateAction<number>>,
     setBegginingHour: Dispatch<SetStateAction<number>>,
-    setEndHour: Dispatch<SetStateAction<number>>) {
+    setEndHour: Dispatch<SetStateAction<number>>,
+    setTitle: Dispatch<SetStateAction<string>>,
+    setDescription: Dispatch<SetStateAction<string>>) {
 
     const calendarPopup = document.getElementById("calendarPopup");
     if (calendarPopup) {
@@ -22,6 +25,10 @@ export default async function displayMeetingPopUp(hour: number,
                 calendarPopup.style.opacity = '0';
                 calendarPopup.style.pointerEvents = 'none'
                 document.removeEventListener('click', handleClickOutside);
+                setTimeout(() => {
+                    setTitle('');
+                    setDescription('');
+                }, 100);
             }
         });
     }

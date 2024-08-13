@@ -11,7 +11,6 @@ import nextWeek from '@/app/date/nextWeek';
 import updateWeekDates from '@/app/date/updateWeekDates';
 
 export default function WeeklyCal() {
-    let skip = false;
     const days = ["Empty", "LUN", "MAR", "MER", "JEU", "VEN", "SAM", "DIM"];
     const hours = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
     const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
@@ -25,10 +24,13 @@ export default function WeeklyCal() {
     const [currentDayMeeting, setCurrentDayMeeting] = useState(0);
     const [currentHour, setCurrentHour] = useState(0);
 
-    const [begginingHour, setBegginingHour] = useState(0);
+    const [beginningHour, setBeginningHour] = useState(0);
     const [endHour, setEndHour] = useState(0);
 
     const [position, setPosition] = useState({ x: 0, y: 0 });
+
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
 
     useEffect(() => {
         checkEvents(setEvents);
@@ -59,7 +61,7 @@ export default function WeeklyCal() {
                 </button>
 
                 <PoopupMeeting
-                    begginingHour={begginingHour}
+                    beginningHour={beginningHour}
                     endHour={endHour}
                     currentDayMeeting={currentDayMeeting}
                     currentMonth={currentMonth}
@@ -72,6 +74,12 @@ export default function WeeklyCal() {
                     setEvents={setEvents}
                     posX={position.x}
                     posY={position.y}
+                    title={title}
+                    setTitle={setTitle}
+                    description={description}
+                    setDescription={setDescription}
+                    setBeginningHour={setBeginningHour}
+                    setEndHour={setEndHour}
                 />
 
                 <p className='font-bold ml-52 pl-1'>{months[currentMonth]} {currentYear}</p>
@@ -81,9 +89,7 @@ export default function WeeklyCal() {
                 {days.map((day, dayIndex) => (
                     <div key={dayIndex} className="bg-white">
                         {day === "Empty" ? (
-                            <>
-                                <div className="bg-white p-6"></div>
-                            </>
+                            <div className="bg-white p-6"></div>
                         ) : (
                             <>
                                 <p className="text-gray-600 text-xs">{day}</p>
@@ -98,46 +104,50 @@ export default function WeeklyCal() {
                 <div className="grid grid-cols-8 w-full">
                     {days.map((day, dayIndex) => (
                         <div key={dayIndex} className="bg-white">
-                            {hours.map((hour, hoursIndex) => (
-                                <div key={hoursIndex}>
-                                    {skip = false}
-                                    {dayIndex === 0 ? (
-                                        <div className="text-right text-gray-400 text-xs pt-1 pb-16 mb-1 pr-3">{hour}:00</div>
-                                    ) : (
-                                        <div>
-                                            {events.map((event, eventIndex) => (
-                                                <div key={eventIndex}>
-                                                    {new Date(event.beginning).getHours() + 2 == hour
-                                                        && new Date(event.beginning).getMonth() == currentMonth - 1
-                                                        && new Date(event.beginning).getDate() == Number(dates[dayIndex])
-                                                        && new Date(event.beginning).getFullYear() == currentYear ? (
-                                                        <>
-                                                            <CalEvent hour={hour} title={event.title} color='blue' />
-                                                            {skip = true}
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            {eventIndex == events.length - 1 && (
-                                                                <>
-                                                                    {!skip && (
-                                                                        <div
-                                                                            className={`bg-white border-gray-300 border-l border-t h-20 mb-2`}
-                                                                            onClick={(e) => {
-                                                                                setPopUpPosition(e);
-                                                                                displayMeetingPopUp(hoursIndex, dayIndex, setCurrentDayMeeting, setCurrentHour, setBegginingHour, setEndHour);
-                                                                            }}>
-                                                                        </div>
-                                                                    )}
-                                                                </>
-                                                            )}
-                                                        </>
-                                                    )}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+                            {hours.slice(0, -1).map((hour, hoursIndex) => {
+                                const eventsForHour = events.filter(event =>
+                                    new Date(event.beginning).getHours() + 2 === hour &&
+                                    new Date(event.beginning).getMonth() === currentMonth - 1 &&
+                                    new Date(event.beginning).getDate() === Number(dates[dayIndex]) &&
+                                    new Date(event.beginning).getFullYear() === currentYear
+                                );
+
+                                return (
+                                    <div key={hoursIndex}>
+                                        {dayIndex === 0 ? (
+                                            <div className="text-right text-gray-400 text-xs pt-1 pr-3 h-24">{hour}:00</div>
+                                        ) : (
+                                            <div>
+                                                {eventsForHour.length > 0 ? (
+                                                    eventsForHour.map((event, eventIndex) => (
+                                                        <CalEvent key={eventIndex} hour={hour} title={event.title} color='blue' />
+                                                    ))
+                                                ) : (
+                                                    <div>
+                                                        {dates[dayIndex] == currentDay.toString() ? (
+                                                            <div
+                                                                className="bg-gray-100 border-gray-300 border-l border-t h-24"
+                                                                onClick={(e) => {
+                                                                    setPopUpPosition(e);
+                                                                    displayMeetingPopUp(hour, dayIndex, setCurrentDayMeeting, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription);
+                                                                }}>
+                                                            </div>
+                                                        ) : (
+                                                            <div
+                                                                className="bg-white border-gray-300 border-l border-t h-24"
+                                                                onClick={(e) => {
+                                                                    setPopUpPosition(e);
+                                                                    displayMeetingPopUp(hour, dayIndex, setCurrentDayMeeting, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription);
+                                                                }}>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
                     ))}
                 </div>

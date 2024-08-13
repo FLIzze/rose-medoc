@@ -1,17 +1,21 @@
+import { Dispatch, SetStateAction } from "react";
+import { EventInterface } from "../model/event";
+
 import createEvent from "../event";
 import checkEvents from "../checkEvents";
 
-export default async function createNewMeeting(dates: string[],
-    hours: number[],
+export default async function createNewMeeting(
+    dates: string[],
     currentDayMeeting: number,
-    currentHour: number,
+    begginingHour: number,
+    endHour: number, 
     currentMonth: number,
     currentYear: number,
     title: string,
     description: string,
-    setEvents: any) {
+    setEvents: Dispatch<SetStateAction<EventInterface[]>>) {
 
-    await createEvent(dates[currentDayMeeting], hours[currentHour], currentMonth, currentYear, title, description);
+    await createEvent(dates[currentDayMeeting], begginingHour, endHour, currentMonth, currentYear, title, description);
     setEvents([]);
     checkEvents(setEvents);
 
