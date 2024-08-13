@@ -32,6 +32,8 @@ export default function WeeklyCal() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
+    let skip = 1;
+
     useEffect(() => {
         checkEvents(setEvents);
     }, []);
@@ -42,8 +44,11 @@ export default function WeeklyCal() {
 
     function setPopUpPosition(e: React.MouseEvent<HTMLDivElement>) {
         const { clientX, clientY } = e;
-        console.log("Mouse position:", clientX, clientY);
         setPosition({ x: clientX, y: clientY });
+    }
+
+    function decrementSkip() {
+        skip--;
     }
 
     return (
@@ -115,33 +120,51 @@ export default function WeeklyCal() {
                                 return (
                                     <div key={hoursIndex}>
                                         {dayIndex === 0 ? (
-                                            <div className="text-right text-gray-400 text-xs pt-1 pr-3 h-24">{hour}:00</div>
+                                            <div className="text-right text-gray-400 text-xs pr-3 h-24">{hour}:00</div>
                                         ) : (
                                             <div>
                                                 {eventsForHour.length > 0 ? (
-                                                    eventsForHour.map((event, eventIndex) => (
-                                                        <CalEvent key={eventIndex} hour={hour} title={event.title} color='blue' />
-                                                    ))
+                                                    eventsForHour.map((event, eventIndex) => {
+                                                        const eventDuration = (new Date(event.end).getTime() - new Date(event.beginning).getTime()) / (1000 * 60 * 60);
+                                                        skip = eventDuration
+                                                        return (
+                                                            <div key={eventIndex}>
+                                                                <CalEvent
+                                                                    beginningHour={new Date(event.beginning).getHours() + 2}
+                                                                    endHour={new Date(event.end).getHours() + 2}
+                                                                    title={event.title}
+                                                                    color='blue'
+                                                                    duration={eventDuration}
+                                                                />
+                                                            </div>
+                                                        );
+                                                    })
                                                 ) : (
-                                                    <div>
-                                                        {dates[dayIndex] == currentDay.toString() ? (
-                                                            <div
-                                                                className="bg-gray-100 border-gray-300 border-l border-t h-24"
-                                                                onClick={(e) => {
-                                                                    setPopUpPosition(e);
-                                                                    displayMeetingPopUp(hour, dayIndex, setCurrentDayMeeting, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription);
-                                                                }}>
-                                                            </div>
-                                                        ) : (
-                                                            <div
-                                                                className="bg-white border-gray-300 border-l border-t h-24"
-                                                                onClick={(e) => {
-                                                                    setPopUpPosition(e);
-                                                                    displayMeetingPopUp(hour, dayIndex, setCurrentDayMeeting, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription);
-                                                                }}>
-                                                            </div>
-                                                        )}
-                                                    </div>
+                                                    skip == 1 ? (
+                                                        <div>
+                                                            {dates[dayIndex] == currentDay.toString() ? (
+                                                                <div
+                                                                    className="bg-gray-100 border-gray-300 border-l border-t h-24"
+                                                                    onClick={(e) => {
+                                                                        setPopUpPosition(e);
+                                                                        displayMeetingPopUp(hour, dayIndex, setCurrentDayMeeting, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription);
+                                                                    }}>
+                                                                </div>
+                                                            ) : (
+                                                                <div
+                                                                    className="bg-white border-gray-300 border-l border-t h-24"
+                                                                    onClick={(e) => {
+                                                                        setPopUpPosition(e);
+                                                                        displayMeetingPopUp(hour, dayIndex, setCurrentDayMeeting, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription);
+                                                                    }}>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    ) : (
+                                                        <>
+                                                            {decrementSkip()}
+                                                        </>
+                                                    )
                                                 )}
                                             </div>
                                         )}
