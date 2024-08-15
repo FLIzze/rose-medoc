@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction } from "react";
 import { EventInterface } from "../model/event";
 
-import createEvent from "../event";
-import checkEvents from "../checkEvents";
+import createEvent from "./createEvent";
+import getEvents from "./getEvents";
 
-export default async function createNewMeeting(
+export default async function hidePopupEvent(
     dates: string[],
     currentDayMeeting: number,
     begginingHour: number,
@@ -17,7 +17,7 @@ export default async function createNewMeeting(
 
     await createEvent(dates[currentDayMeeting], begginingHour, endHour, currentMonth, currentYear, title, description);
     setEvents([]);
-    checkEvents(setEvents);
+    getEvents(setEvents);
 
     const calendarPopup = document.getElementById("calendarPopup");
     if (calendarPopup) {

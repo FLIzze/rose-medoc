@@ -10,7 +10,7 @@ export default function Draggable({ children, posX, posY }: Readonly<DraggablePr
     const [position, setPosition] = useState({ x: posX, y: posY });
     const [isDragging, setIsDragging] = useState(false);
     const initialClickRef = useRef({ offsetX: 0, offsetY: 0 });
-    const popUpSize = { width: 382, height: 440 };
+    const popUpSize = { width: 413, height: 350 };
 
     useEffect(() => {
         if (posX + popUpSize.width >= window.innerWidth && posY + popUpSize.height >= window.innerHeight) {
@@ -51,23 +51,22 @@ export default function Draggable({ children, posX, posY }: Readonly<DraggablePr
         if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
             return;
         }
-    
+
         setIsDragging(true);
         const boundingRect = e.currentTarget.getBoundingClientRect();
         const offsetX = e.clientX - boundingRect.left;
         const offsetY = e.clientY - boundingRect.top;
         initialClickRef.current = { offsetX, offsetY };
     };
-    
+
     return (
         <div
             style={{ left: position.x, top: position.y }}
             onMouseDown={handleMouseDown}
             className='absolute cursor-move'
             role='button'
-            tabIndex={0}    
-        >
-            {children}
+            tabIndex={0}  >
+                {children}
         </div>
     );
 }

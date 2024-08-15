@@ -35,6 +35,20 @@ app.get('/api/events', function (req, res) {
         res.status(200).json(results);
     });
 });
+app.delete('/api/events', function (req, res) {
+    var id = req.body.id;
+    var sql = 'DELETE FROM event WHERE ID = ?';
+    pool.query(sql, id, function (error, results) {
+        if (error) {
+            console.error('Error deleting event:', error);
+            return res.status(500).send('Internal Server Error');
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).send('Event not found');
+        }
+        res.status(200).send('Event deleted successfully');
+    });
+});
 app.listen(port, function () {
     console.log("Server running at http://localhost:".concat(port));
 });

@@ -3,12 +3,13 @@
 import { useState, useEffect } from 'react';
 import CalEvent from "../event/page";
 import { EventInterface } from '@/app/model/event';
-import checkEvents from '@/app/checkEvents';
-import displayMeetingPopUp from '@/app/meeting/displayMeetingPopUp';
-import PoopupMeeting from '../popup-meeting/page';
+import getEvents from '@/app/event/getEvents';
+import displayEventPopUp from '@/app/event/displayEventPopUp';
+import PopupEvent from '../popup-event/page';
 import prevWeek from '@/app/date/prevWeek';
 import nextWeek from '@/app/date/nextWeek';
 import updateWeekDates from '@/app/date/updateWeekDates';
+import EventDetails from '../event-details/page';
 
 export default function WeeklyCal() {
     const days = ["Empty", "LUN", "MAR", "MER", "JEU", "VEN", "SAM", "DIM"];
@@ -21,7 +22,7 @@ export default function WeeklyCal() {
     const [dates, setDates] = useState<string[]>([]);
     const [events, setEvents] = useState<EventInterface[]>([]);
 
-    const [currentDayMeeting, setCurrentDayMeeting] = useState(0);
+    const [currentDayEvent, setCurrentDayEvent] = useState(0);
     const [currentHour, setCurrentHour] = useState(0);
 
     const [beginningHour, setBeginningHour] = useState(0);
@@ -32,10 +33,14 @@ export default function WeeklyCal() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
+    const [eventTitle, setEventTitle] = useState("");
+    const [eventDescription, setEventDescription] = useState("");
+    const [eventID, setEventID] = useState(0);
+
     let skip = 1;
 
     useEffect(() => {
-        checkEvents(setEvents);
+        getEvents(setEvents);
     }, []);
 
     useEffect(() => {
@@ -45,6 +50,12 @@ export default function WeeklyCal() {
     function setPopUpPosition(e: React.MouseEvent<HTMLDivElement>) {
         const { clientX, clientY } = e;
         setPosition({ x: clientX, y: clientY });
+    }
+
+    function setCurrentEvent(title: string, description: string, id: number) {
+        setEventTitle(title);
+        setEventDescription(description);
+        setEventID(id);
     }
 
     function decrementSkip() {
@@ -65,10 +76,10 @@ export default function WeeklyCal() {
                     NEXT WEEK
                 </button>
 
-                <PoopupMeeting
+                <PopupEvent
                     beginningHour={beginningHour}
                     endHour={endHour}
-                    currentDayMeeting={currentDayMeeting}
+                    currentDayEvent={currentDayEvent}
                     currentMonth={currentMonth}
                     currentYear={currentYear}
                     currentHour={currentHour}
@@ -85,6 +96,13 @@ export default function WeeklyCal() {
                     setDescription={setDescription}
                     setBeginningHour={setBeginningHour}
                     setEndHour={setEndHour}
+                />
+
+                <EventDetails
+                    title={eventTitle}
+                    description={eventDescription}    
+                    id={eventID}
+                    setEvents={setEvents}
                 />
 
                 <p className='font-bold ml-52 pl-1'>{months[currentMonth]} {currentYear}</p>
@@ -128,7 +146,11 @@ export default function WeeklyCal() {
                                                         const eventDuration = (new Date(event.end).getTime() - new Date(event.beginning).getTime()) / (1000 * 60 * 60);
                                                         skip = eventDuration
                                                         return (
-                                                            <div key={eventIndex}>
+                                                            <div 
+                                                                key={eventIndex}
+                                                                // onClick={displayEventDetails}
+                                                                onClick={() => setCurrentEvent(event.title, event.description, event.id)}
+                                                                >
                                                                 <CalEvent
                                                                     beginningHour={new Date(event.beginning).getHours() + 2}
                                                                     endHour={new Date(event.end).getHours() + 2}
@@ -144,18 +166,20 @@ export default function WeeklyCal() {
                                                         <div>
                                                             {dates[dayIndex] == currentDay.toString() ? (
                                                                 <div
+                                                                    id={`${dayIndex}-${hoursIndex}`}
                                                                     className="bg-gray-100 border-gray-300 border-l border-t h-24"
                                                                     onClick={(e) => {
                                                                         setPopUpPosition(e);
-                                                                        displayMeetingPopUp(hour, dayIndex, setCurrentDayMeeting, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription);
+                                                                        displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription);
                                                                     }}>
                                                                 </div>
                                                             ) : (
                                                                 <div
+                                                                    id={`${dayIndex}-${hoursIndex}`}
                                                                     className="bg-white border-gray-300 border-l border-t h-24"
                                                                     onClick={(e) => {
                                                                         setPopUpPosition(e);
-                                                                        displayMeetingPopUp(hour, dayIndex, setCurrentDayMeeting, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription);
+                                                                        displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription);
                                                                     }}>
                                                                 </div>
                                                             )}

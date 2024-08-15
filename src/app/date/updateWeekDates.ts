@@ -1,6 +1,10 @@
 import { Dispatch, SetStateAction } from "react";
 
-export default function updateWeekDates(currentYear: number, currentMonth: number, currentDay: number, setDates: Dispatch<SetStateAction<string[]>>) {
+export default function updateWeekDates(currentYear: number, 
+    currentMonth: number, 
+    currentDay: number, 
+    setDates: Dispatch<SetStateAction<string[]>>) {
+        
     const newDates = ["Empty"];
     const currentDate = new Date(currentYear, currentMonth, currentDay);
     const currentDayOfWeek = currentDate.getDay();

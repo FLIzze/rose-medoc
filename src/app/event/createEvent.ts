@@ -1,4 +1,12 @@
-export default async function createEvent(day: string, begginingHour: number, endHour: number, meetingMonth: number, meetingYear: number, title: string, description: string) {
+export default async function createEvent(
+  day: string,
+  begginingHour: number,
+  endHour: number,
+  meetingMonth: number,
+  meetingYear: number,
+  title: string,
+  description: string) {
+    
   try {
     const beginning = new Date(meetingYear, meetingMonth - 1, Number(day), begginingHour);
     const end = new Date(meetingYear, meetingMonth - 1, Number(day), endHour);
@@ -9,10 +17,10 @@ export default async function createEvent(day: string, begginingHour: number, en
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        title: title, 
+        title: title,
         description: description,
-        beginning: beginning.toISOString(), 
-        end: end.toISOString() 
+        beginning: beginning.toISOString(),
+        end: end.toISOString()
       })
     });
 

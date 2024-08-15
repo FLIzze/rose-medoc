@@ -17,7 +17,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.post('/api/events', (req: any, res: any) => {
-    const {  title, description, beginning, end } = req.body;
+    const { title, description, beginning, end } = req.body;
   
     const beginningDate = new Date(beginning).toISOString().slice(0, 19).replace('T', ' ');
     const endDate = new Date(end).toISOString().slice(0, 19).replace('T', ' ');
@@ -42,6 +42,25 @@ app.get('/api/events', (req: any, res: any) => {
         }
         res.status(200).json(results);
     });
+});
+
+app.delete('/api/events', (req: any, res: any) => {
+  const { id } = req.body;
+
+  const sql = 'DELETE FROM event WHERE ID = ?';
+
+  pool.query(sql, id, (error: any, results: any) => {
+    if (error) {
+      console.error('Error deleting event:', error);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    if (results.affectedRows === 0) {
+      return res.status(404).send('Event not found');
+    }
+
+    res.status(200).send('Event deleted successfully');
+  });
 });
 
 app.listen(port, () => {

@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
 
-export default async function displayMeetingPopUp(
+export default async function displayEventPopUp(
     hour: number,
     day: number,
-    setCurrentDayMeeting: Dispatch<SetStateAction<number>>,
+    setCurrentDayEvent: Dispatch<SetStateAction<number>>,
     setCurrentHour: Dispatch<SetStateAction<number>>,
     setBegginingHour: Dispatch<SetStateAction<number>>,
     setEndHour: Dispatch<SetStateAction<number>>,
@@ -11,25 +11,30 @@ export default async function displayMeetingPopUp(
     setDescription: Dispatch<SetStateAction<string>>) {
 
     const calendarPopup = document.getElementById("calendarPopup");
+
     if (calendarPopup) {
-        setCurrentDayMeeting(day);
+        setCurrentDayEvent(day);
         setCurrentHour(hour);
         setBegginingHour(hour);
         setEndHour(hour + 1);
 
         calendarPopup.style.opacity = '1';
-        calendarPopup.style.pointerEvents = 'auto'
+        calendarPopup.style.pointerEvents = 'auto';
 
-        document.addEventListener('click', function handleClickOutside(event) {
+        const handleClickOutside = (event: MouseEvent) => {
             if (!calendarPopup.contains(event.target as Node)) {
                 calendarPopup.style.opacity = '0';
-                calendarPopup.style.pointerEvents = 'none'
+                calendarPopup.style.pointerEvents = 'none';
                 document.removeEventListener('click', handleClickOutside);
                 setTimeout(() => {
                     setTitle('');
                     setDescription('');
                 }, 100);
             }
-        });
+        };
+
+        setTimeout(() => {
+            document.addEventListener('click', handleClickOutside);
+        }, 0);
     }
 }
