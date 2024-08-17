@@ -10,6 +10,7 @@ import prevWeek from '@/app/date/prevWeek';
 import nextWeek from '@/app/date/nextWeek';
 import updateWeekDates from '@/app/date/updateWeekDates';
 import EventDetails from '../event-details/page';
+import displayEventDetails from '@/app/event/displayEventDetails';
 
 export default function WeeklyCal() {
     const days = ["Empty", "LUN", "MAR", "MER", "JEU", "VEN", "SAM", "DIM"];
@@ -88,8 +89,7 @@ export default function WeeklyCal() {
                     months={months}
                     hours={hours}
                     setEvents={setEvents}
-                    posX={position.x}
-                    posY={position.y}
+                    pos={position}
                     title={title}
                     setTitle={setTitle}
                     description={description}
@@ -100,9 +100,10 @@ export default function WeeklyCal() {
 
                 <EventDetails
                     title={eventTitle}
-                    description={eventDescription}    
+                    description={eventDescription}
                     id={eventID}
                     setEvents={setEvents}
+                    pos={position}
                 />
 
                 <p className='font-bold ml-52 pl-1'>{months[currentMonth]} {currentYear}</p>
@@ -125,7 +126,7 @@ export default function WeeklyCal() {
 
             <div className="flex-grow overflow-y-scroll">
                 <div className="grid grid-cols-8 w-full">
-                    {days.map((day, dayIndex) => (
+                    {days.map((_, dayIndex) => (
                         <div key={dayIndex} className="bg-white">
                             {hours.slice(0, -1).map((hour, hoursIndex) => {
                                 const eventsForHour = events.filter(event =>
@@ -142,25 +143,42 @@ export default function WeeklyCal() {
                                         ) : (
                                             <div>
                                                 {eventsForHour.length > 0 ? (
-                                                    eventsForHour.map((event, eventIndex) => {
-                                                        const eventDuration = (new Date(event.end).getTime() - new Date(event.beginning).getTime()) / (1000 * 60 * 60);
-                                                        skip = eventDuration
-                                                        return (
-                                                            <div 
-                                                                key={eventIndex}
-                                                                // onClick={displayEventDetails}
-                                                                onClick={() => setCurrentEvent(event.title, event.description, event.id)}
-                                                                >
-                                                                <CalEvent
-                                                                    beginningHour={new Date(event.beginning).getHours() + 2}
-                                                                    endHour={new Date(event.end).getHours() + 2}
-                                                                    title={event.title}
-                                                                    color='blue'
-                                                                    duration={eventDuration}
-                                                                />
-                                                            </div>
-                                                        );
-                                                    })
+                                                    <div className="relative">
+                                                        {eventsForHour.map((event, eventIndex) => {
+                                                            const eventStart = new Date(event.beginning).getMinutes();
+                                                            const eventDuration = (new Date(event.end).getTime() - new Date(event.beginning).getTime()) / (1000 * 60 * 60);
+                                                            const eventWidth = 100 / eventsForHour.length;
+                                                            const eventLeft = eventWidth * eventIndex;
+                                                            const eventTop = (eventStart / 60) * 100;
+                                                            skip = eventDuration;
+                                                            return (
+                                                                <div
+                                                                    key={eventIndex}
+                                                                    onClick={(e) => {
+                                                                        setCurrentEvent(event.title, event.description, event.id);
+                                                                        setPopUpPosition(e);
+                                                                        displayEventDetails();
+                                                                    }}
+                                                                    className="absolute "
+                                                                    style={{
+                                                                        top: `${eventTop}%`,
+                                                                        left: `${eventLeft}%`,
+                                                                        width: `${eventWidth}%`,
+                                                                        height: `${eventDuration * 100}%`,
+                                                                        zIndex: eventIndex + 1,
+                                                                    }}
+                                                                    >
+                                                                    <CalEvent
+                                                                        beginningHour={new Date(event.beginning).getHours() + 2}
+                                                                        endHour={new Date(event.end).getHours() + 2}
+                                                                        title={event.title}
+                                                                        color='pink'
+                                                                        duration={eventDuration}
+                                                                    />
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
                                                 ) : (
                                                     skip == 1 ? (
                                                         <div>
@@ -171,8 +189,7 @@ export default function WeeklyCal() {
                                                                     onClick={(e) => {
                                                                         setPopUpPosition(e);
                                                                         displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription);
-                                                                    }}>
-                                                                </div>
+                                                                    }}></div>
                                                             ) : (
                                                                 <div
                                                                     id={`${dayIndex}-${hoursIndex}`}
@@ -180,14 +197,11 @@ export default function WeeklyCal() {
                                                                     onClick={(e) => {
                                                                         setPopUpPosition(e);
                                                                         displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription);
-                                                                    }}>
-                                                                </div>
+                                                                    }}></div>
                                                             )}
                                                         </div>
                                                     ) : (
-                                                        <>
-                                                            {decrementSkip()}
-                                                        </>
+                                                        <>{decrementSkip()}</>
                                                     )
                                                 )}
                                             </div>

@@ -2,6 +2,7 @@ import axios from "axios";
 import getEvents from "./getEvents";
 import { Dispatch, SetStateAction } from "react";
 import { EventInterface } from "../model/event";
+import hideEventDetails from "./hideEventDetails";
 
 export default async function deleteEvent(id: number, setEvents: Dispatch<SetStateAction<EventInterface[]>>) {
   try {
@@ -14,6 +15,7 @@ export default async function deleteEvent(id: number, setEvents: Dispatch<SetSta
     }
 
     getEvents(setEvents);
+    hideEventDetails();
   } catch (error) {
     console.error('Error deleting event', error);
   }

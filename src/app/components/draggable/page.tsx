@@ -2,68 +2,29 @@ import { useState, useRef, useEffect } from "react";
 
 interface DraggableProps {
     children: React.ReactNode;
-    posX: number;
-    posY: number;
+    pos : { x: number, y: number };
+    size : { width: number, height: number };
 }
 
-export default function Draggable({ children, posX, posY }: Readonly<DraggableProps>) {
-    const [position, setPosition] = useState({ x: posX, y: posY });
-    const [isDragging, setIsDragging] = useState(false);
-    const initialClickRef = useRef({ offsetX: 0, offsetY: 0 });
-    const popUpSize = { width: 413, height: 350 };
+export default function Draggable({ children, pos, size }: Readonly<DraggableProps>) {
+    const [position, setPosition] = useState({ x: pos.x, y: pos.y });
 
     useEffect(() => {
-        if (posX + popUpSize.width >= window.innerWidth && posY + popUpSize.height >= window.innerHeight) {
-            setPosition({ x: posX - popUpSize.width, y: posY - popUpSize.height });
-        } else if (posX + popUpSize.width >= window.innerWidth) {
-            setPosition({ x: posX - popUpSize.width, y: posY });
-        } else if (posY + popUpSize.height >= window.innerHeight) {
-            setPosition({ x: posX, y: posY - popUpSize.height });
+        if (pos.x + size.width >= window.innerWidth && pos.y + size.height >= window.innerHeight) {
+            setPosition({ x: pos.x - size.width, y: pos.y - size.height });
+        } else if (pos.x + size.width >= window.innerWidth) {
+            setPosition({ x: pos.x - size.width, y: pos.y });
+        } else if (pos.y + size.height >= window.innerHeight) {
+            setPosition({ x: pos.x, y: pos.y - size.height });
         } else {
-            setPosition({ x: posX, y: posY });
+            setPosition({ x: pos.x, y: pos.y });
         }
-    }, [posX, posY]);
-
-    useEffect(() => {
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
-
-        return () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-        };
-    }, [isDragging]);
-
-    function handleMouseMove(e: MouseEvent) {
-        if (isDragging) {
-            let offsetX = e.clientX - initialClickRef.current.offsetX;
-            let offsetY = e.clientY - initialClickRef.current.offsetY;
-
-            setPosition({ x: offsetX, y: offsetY });
-        }
-    };
-
-    function handleMouseUp() {
-        setIsDragging(false);
-    };
-
-    function handleMouseDown(e: React.MouseEvent<HTMLDivElement>) {
-        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
-            return;
-        }
-
-        setIsDragging(true);
-        const boundingRect = e.currentTarget.getBoundingClientRect();
-        const offsetX = e.clientX - boundingRect.left;
-        const offsetY = e.clientY - boundingRect.top;
-        initialClickRef.current = { offsetX, offsetY };
-    };
+    }, [pos.x, pos.y]);
 
     return (
         <div
             style={{ left: position.x, top: position.y }}
-            onMouseDown={handleMouseDown}
-            className='absolute cursor-move'
+            className='absolute z-10'
             role='button'
             tabIndex={0}  >
                 {children}

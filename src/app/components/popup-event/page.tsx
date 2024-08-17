@@ -15,8 +15,7 @@ interface PopupEventProps {
     months: string[],
     hours: number[],
     setEvents: Dispatch<SetStateAction<EventInterface[]>>
-    posX: number,
-    posY: number,
+    pos : {x: number, y: number},
     title: string,
     setTitle: Dispatch<SetStateAction<string>>,
     description: string,
@@ -37,8 +36,7 @@ export default function PopupEvent({
     months,
     hours,
     setEvents,
-    posX,
-    posY,
+    pos,
     title,
     setTitle,
     description,
@@ -104,7 +102,7 @@ export default function PopupEvent({
     }
 
     return (
-        <Draggable posX={posX} posY={posY}>
+        <Draggable pos={pos} size={{ width: 415, height: 345}}>
             <div className="absolute opacity-0 h-fit bg-white rounded-lg shadow-2xl py-5 transition-all duration-150 pb-6 w-fit pointer-events-none pr-8 pl-16" id="calendarPopup">
                 <div className='flex flex-col text-sm mt-5 text-gray-600'>
                     <input
