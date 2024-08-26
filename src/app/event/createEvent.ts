@@ -1,3 +1,5 @@
+import { UserInterface } from "../model/user";
+
 export default async function createEvent(
   day: string,
   begginingHour: number,
@@ -5,8 +7,9 @@ export default async function createEvent(
   meetingMonth: number,
   meetingYear: number,
   title: string,
-  description: string) {
-    
+  description: string,
+  user: UserInterface | undefined) {
+
   try {
     const beginning = new Date(meetingYear, meetingMonth - 1, Number(day), begginingHour);
     const end = new Date(meetingYear, meetingMonth - 1, Number(day), endHour);
@@ -20,7 +23,9 @@ export default async function createEvent(
         title: title,
         description: description,
         beginning: beginning.toISOString(),
-        end: end.toISOString()
+        end: end.toISOString(),
+        by: user?.id,
+        where: 'random'
       })
     });
 

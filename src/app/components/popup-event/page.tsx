@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { EventInterface } from "@/app/model/event";
 import Draggable from "../draggable/page";
 import hidePopupEvent from "@/app/event/hideEventPopup";
+import { UserInterface } from "@/app/model/user";
 
 interface PopupEventProps {
     beginningHour: number,
@@ -15,13 +16,14 @@ interface PopupEventProps {
     months: string[],
     hours: number[],
     setEvents: Dispatch<SetStateAction<EventInterface[]>>
-    pos : {x: number, y: number},
+    pos: { x: number, y: number },
     title: string,
     setTitle: Dispatch<SetStateAction<string>>,
     description: string,
     setDescription: Dispatch<SetStateAction<string>>,
     setBeginningHour: Dispatch<SetStateAction<number>>,
     setEndHour: Dispatch<SetStateAction<number>>,
+    user: UserInterface | undefined
 }
 
 export default function PopupEvent({
@@ -42,7 +44,8 @@ export default function PopupEvent({
     description,
     setDescription,
     setBeginningHour,
-    setEndHour}: PopupEventProps) {
+    setEndHour, 
+    user }: PopupEventProps) {
 
     const [isBeginningHoursVisible, setIsBeginningHoursVisible] = useState(false);
     const [isEndHoursVisible, setIsEndHoursVisible] = useState(false);
@@ -50,6 +53,7 @@ export default function PopupEvent({
     const endHoursRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        
         function handleClickOutside(event: MouseEvent) {
             if (beginningHoursRef.current && !beginningHoursRef.current.contains(event.target as Node)) {
                 setIsBeginningHoursVisible(false);
@@ -102,7 +106,7 @@ export default function PopupEvent({
     }
 
     return (
-        <Draggable pos={pos} size={{ width: 415, height: 345}}>
+        <Draggable pos={pos} size={{ width: 415, height: 345 }}>
             <div className="absolute opacity-0 h-fit bg-white rounded-lg shadow-2xl py-5 transition-all duration-150 pb-6 w-fit pointer-events-none pr-8 pl-16" id="calendarPopup">
                 <div className='flex flex-col text-sm mt-5 text-gray-600'>
                     <input
@@ -177,7 +181,7 @@ export default function PopupEvent({
                         </div>
                     </div>
 
-                    
+
                     <textarea
                         placeholder='Ajouter une description'
                         className='mt-4 text-xs  bg-gray-100 rounded-sm outline-none pl-2 pt-2 w-full h-32 resize-none hover:bg-gray-200 transition-all'
@@ -189,7 +193,7 @@ export default function PopupEvent({
                     <div className="flex justify-end mt-4">
                         <button
                             className='rounded-lg h-10 border border-gray-200 transition-all hover:bg-gray-200 w-2/5'
-                            onClick={() => hidePopupEvent(dates, currentDayEvent, beginningHour, endHour, currentMonth, currentYear, title, description, setEvents)}>
+                            onClick={() => hidePopupEvent(dates, currentDayEvent, beginningHour, endHour, currentMonth, currentYear, title, description, setEvents, user)}>
                             Enregistrer
                         </button>
                     </div>

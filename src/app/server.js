@@ -13,11 +13,11 @@ var pool = mysql.createPool({
 app.use(cors());
 app.use(bodyParser.json());
 app.post('/api/events', function (req, res) {
-    var _a = req.body, title = _a.title, description = _a.description, beginning = _a.beginning, end = _a.end;
+    var _a = req.body, title = _a.title, description = _a.description, beginning = _a.beginning, end = _a.end, by = _a.by;
     var beginningDate = new Date(beginning).toISOString().slice(0, 19).replace('T', ' ');
     var endDate = new Date(end).toISOString().slice(0, 19).replace('T', ' ');
-    var sql = 'INSERT INTO event (beginning, end, title, description, `by`, `where`, theme) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    var values = [beginningDate, endDate, title, description, 'Organizer Name', 'Event Location', 'Event Theme'];
+    var sql = 'INSERT INTO event (title, description, beginning, end, `by`, `where`) VALUES (?, ?, ?, ?, ?, ?)';
+    var values = [title, description, beginningDate, endDate, by, 'Event Location'];
     pool.query(sql, values, function (error, results) {
         if (error) {
             console.error('Error creating event:', error);
@@ -47,6 +47,15 @@ app.delete('/api/events', function (req, res) {
             return res.status(404).send('Event not found');
         }
         res.status(200).send('Event deleted successfully');
+    });
+});
+app.get('/api/users', function (req, res) {
+    pool.query('SELECT * FROM user', function (error, results) {
+        if (error) {
+            console.error('Error fetching users:', error);
+            return res.status(500).json({ error: error.message });
+        }
+        res.status(200).json(results);
     });
 });
 app.listen(port, function () {

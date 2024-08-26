@@ -17,13 +17,13 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.post('/api/events', (req: any, res: any) => {
-    const { title, description, beginning, end } = req.body;
+    const { title, description, beginning, end, by } = req.body;
   
     const beginningDate = new Date(beginning).toISOString().slice(0, 19).replace('T', ' ');
     const endDate = new Date(end).toISOString().slice(0, 19).replace('T', ' ');
   
-    const sql = 'INSERT INTO event (beginning, end, title, description, `by`, `where`, theme) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    const values = [beginningDate, endDate, title, description, 'Organizer Name', 'Event Location', 'Event Theme'];
+    const sql = 'INSERT INTO event (title, description, beginning, end, `by`, `where`) VALUES (?, ?, ?, ?, ?, ?)';
+    const values = [title, description, beginningDate, endDate, by, 'Event Location'];
   
     pool.query(sql, values, (error: any, results: any) => {
       if (error) {
@@ -61,6 +61,16 @@ app.delete('/api/events', (req: any, res: any) => {
 
     res.status(200).send('Event deleted successfully');
   });
+});
+
+app.get('/api/users', (req: any, res: any) => {
+    pool.query('SELECT * FROM user', (error: any, results: any) => {
+        if (error) {
+            console.error('Error fetching users:', error);
+            return res.status(500).json({ error: error.message });
+        }
+        res.status(200).json(results);
+    });
 });
 
 app.listen(port, () => {

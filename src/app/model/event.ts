@@ -1,10 +1,9 @@
 export interface EventInterface {
     id: number,
-    beginning: Date,
-    end: Date,
     title: string,
     description: string,
-    by: string,
+    beginning: Date,
+    end: Date,
+    by: number,
     where: string,
-    theme: string
 }

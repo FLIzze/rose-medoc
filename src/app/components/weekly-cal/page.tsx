@@ -11,6 +11,9 @@ import nextWeek from '@/app/date/nextWeek';
 import updateWeekDates from '@/app/date/updateWeekDates';
 import EventDetails from '../event-details/page';
 import displayEventDetails from '@/app/event/displayEventDetails';
+import axios from 'axios';
+import { UserInterface } from '@/app/model/user';
+import Cookies from 'js-cookie';
 
 export default function WeeklyCal() {
     const days = ["Empty", "LUN", "MAR", "MER", "JEU", "VEN", "SAM", "DIM"];
@@ -38,7 +41,24 @@ export default function WeeklyCal() {
     const [eventDescription, setEventDescription] = useState("");
     const [eventID, setEventID] = useState(0);
 
+    const [user, setUser] = useState<UserInterface>()
+    const cookie = Cookies.get();
+
     let skip = 1;
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/users')
+            .then((response) => {
+                for (const user of response.data as UserInterface[]) {
+                    if (user.id == +cookie['userId']) {
+                        setUser(user);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching events', error);
+            });
+    }, []);
 
     useEffect(() => {
         getEvents(setEvents);
@@ -96,6 +116,7 @@ export default function WeeklyCal() {
                     setDescription={setDescription}
                     setBeginningHour={setBeginningHour}
                     setEndHour={setEndHour}
+                    user={user}
                 />
 
                 <EventDetails
@@ -172,8 +193,8 @@ export default function WeeklyCal() {
                                                                         beginningHour={new Date(event.beginning).getHours() + 2}
                                                                         endHour={new Date(event.end).getHours() + 2}
                                                                         title={event.title}
-                                                                        color='pink'
                                                                         duration={eventDuration}
+                                                                        id={event.by}
                                                                     />
                                                                 </div>
                                                             );
