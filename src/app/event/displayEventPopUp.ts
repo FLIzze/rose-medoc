@@ -13,6 +13,12 @@ export default async function displayEventPopUp(
     const calendarPopup = document.getElementById("calendarPopup");
 
     if (calendarPopup) {
+        const titleInput = document.getElementById("required-title");
+
+        if (titleInput) {
+            titleInput.style.display = "none";
+        }
+
         setCurrentDayEvent(day);
         setCurrentHour(hour);
         setBegginingHour(hour);

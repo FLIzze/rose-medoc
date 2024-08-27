@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 interface DraggableProps {
     children: React.ReactNode;
@@ -24,7 +24,7 @@ export default function Draggable({ children, pos, size }: Readonly<DraggablePro
     return (
         <div
             style={{ left: position.x, top: position.y }}
-            className='absolute z-10'
+            className='absolute z-10 cursor-default'
             role='button'
             tabIndex={0}  >
                 {children}

@@ -15,9 +15,23 @@ export default async function hidePopupEvent(
     title: string,
     description: string,
     setEvents: Dispatch<SetStateAction<EventInterface[]>>,
-    user: UserInterface | undefined) {
+    user: UserInterface | undefined,
+    participants: UserInterface[]) {
 
-    await createEvent(dates[currentDayMeeting], begginingHour, endHour, currentMonth, currentYear, title, description, user);
+    const titleInput = document.getElementById("required-title");
+    
+    if (title == "") {
+        if (titleInput) {
+            titleInput.style.display = 'block';
+        }
+        return;
+    } else {
+        if (titleInput) {
+            titleInput.style.display = 'none';
+        }
+    }
+
+    await createEvent(dates[currentDayMeeting], begginingHour, endHour, currentMonth, currentYear, title, description, user, participants);
     setEvents([]);
     getEvents(setEvents);
 

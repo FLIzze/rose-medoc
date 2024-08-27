@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 import { EventInterface } from "../model/event";
 import hideEventDetails from "./hideEventDetails";
 
-export default async function deleteEvent(id: number, setEvents: Dispatch<SetStateAction<EventInterface[]>>) {
+export default async function deleteEvent(id: number | undefined, setEvents: Dispatch<SetStateAction<EventInterface[]>>) {
   try {
     const response = await axios.delete(`http://localhost:5000/api/events`, {
       data: { id }

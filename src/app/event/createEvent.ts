@@ -8,7 +8,8 @@ export default async function createEvent(
   meetingYear: number,
   title: string,
   description: string,
-  user: UserInterface | undefined) {
+  user: UserInterface | undefined,
+  participants: UserInterface[]) {
 
   try {
     const beginning = new Date(meetingYear, meetingMonth - 1, Number(day), begginingHour);
@@ -25,7 +26,8 @@ export default async function createEvent(
         beginning: beginning.toISOString(),
         end: end.toISOString(),
         by: user?.id,
-        where: 'random'
+        location: 'random',
+        participants: participants.map(participant => participant.id)
       })
     });
 

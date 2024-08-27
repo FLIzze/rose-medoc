@@ -13,11 +13,11 @@ var pool = mysql.createPool({
 app.use(cors());
 app.use(bodyParser.json());
 app.post('/api/events', function (req, res) {
-    var _a = req.body, title = _a.title, description = _a.description, beginning = _a.beginning, end = _a.end, by = _a.by;
+    var _a = req.body, title = _a.title, description = _a.description, beginning = _a.beginning, end = _a.end, by = _a.by, participants = _a.participants;
     var beginningDate = new Date(beginning).toISOString().slice(0, 19).replace('T', ' ');
     var endDate = new Date(end).toISOString().slice(0, 19).replace('T', ' ');
-    var sql = 'INSERT INTO event (title, description, beginning, end, `by`, `where`) VALUES (?, ?, ?, ?, ?, ?)';
-    var values = [title, description, beginningDate, endDate, by, 'Event Location'];
+    var sql = 'INSERT INTO event (title, description, beginning, end, `by`, location, participants) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    var values = [title, description, beginningDate, endDate, by, 'Event Location', JSON.stringify(participants)];
     pool.query(sql, values, function (error, results) {
         if (error) {
             console.error('Error creating event:', error);

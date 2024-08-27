@@ -5,5 +5,6 @@ export interface EventInterface {
     beginning: Date,
     end: Date,
     by: number,
-    where: string,
+    location: string,
+    participants: number[]
 }

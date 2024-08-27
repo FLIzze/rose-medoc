@@ -6,14 +6,13 @@ import { EventInterface } from '@/app/model/event';
 import getEvents from '@/app/event/getEvents';
 import displayEventPopUp from '@/app/event/displayEventPopUp';
 import PopupEvent from '../popup-event/page';
-import prevWeek from '@/app/date/prevWeek';
-import nextWeek from '@/app/date/nextWeek';
 import updateWeekDates from '@/app/date/updateWeekDates';
 import EventDetails from '../event-details/page';
 import displayEventDetails from '@/app/event/displayEventDetails';
 import axios from 'axios';
 import { UserInterface } from '@/app/model/user';
 import Cookies from 'js-cookie';
+import CalendarHeader from '../calendar-header/page';
 
 export default function WeeklyCal() {
     const days = ["Empty", "LUN", "MAR", "MER", "JEU", "VEN", "SAM", "DIM"];
@@ -37,11 +36,10 @@ export default function WeeklyCal() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
-    const [eventTitle, setEventTitle] = useState("");
-    const [eventDescription, setEventDescription] = useState("");
-    const [eventID, setEventID] = useState(0);
+    const [event, setEvent] = useState<EventInterface>();
 
-    const [user, setUser] = useState<UserInterface>()
+    const [currentUser, setCurrentUser] = useState<UserInterface>()
+    const [users, setUsers] = useState<UserInterface[]>([])
     const cookie = Cookies.get();
 
     let skip = 1;
@@ -49,9 +47,10 @@ export default function WeeklyCal() {
     useEffect(() => {
         axios.get('http://localhost:5000/api/users')
             .then((response) => {
+                setUsers(response.data)
                 for (const user of response.data as UserInterface[]) {
                     if (user.id == +cookie['userId']) {
-                        setUser(user);
+                        setCurrentUser(user);
                     }
                 }
             })
@@ -73,10 +72,8 @@ export default function WeeklyCal() {
         setPosition({ x: clientX, y: clientY });
     }
 
-    function setCurrentEvent(title: string, description: string, id: number) {
-        setEventTitle(title);
-        setEventDescription(description);
-        setEventID(id);
+    function setCurrentEvent(event: EventInterface) {
+        setEvent(event);
     }
 
     function decrementSkip() {
@@ -86,24 +83,12 @@ export default function WeeklyCal() {
     return (
         <div className="h-screen flex flex-col pb-6">
             <div className="flex-none">
-                <button
-                    className="mr-3 ml-52 pl-1"
-                    onClick={() => prevWeek(currentYear, currentMonth, currentDay, setCurrentDay, setCurrentMonth, setCurrentYear)}>
-                    PREV WEEK
-                </button>
-                <button
-                    className="mr-3"
-                    onClick={() => nextWeek(currentYear, currentMonth, currentDay, setCurrentDay, setCurrentMonth, setCurrentYear)}>
-                    NEXT WEEK
-                </button>
-
                 <PopupEvent
                     beginningHour={beginningHour}
                     endHour={endHour}
                     currentDayEvent={currentDayEvent}
                     currentMonth={currentMonth}
                     currentYear={currentYear}
-                    currentHour={currentHour}
                     days={days}
                     dates={dates}
                     months={months}
@@ -116,19 +101,29 @@ export default function WeeklyCal() {
                     setDescription={setDescription}
                     setBeginningHour={setBeginningHour}
                     setEndHour={setEndHour}
-                    user={user}
+                    currentUser={currentUser}
+                    users={users}
                 />
 
                 <EventDetails
-                    title={eventTitle}
-                    description={eventDescription}
-                    id={eventID}
+                    event={event}
                     setEvents={setEvents}
                     pos={position}
+                    currentUser={currentUser}
+                    users={users}
                 />
-
-                <p className='font-bold ml-52 pl-1'>{months[currentMonth]} {currentYear}</p>
             </div>
+
+            <CalendarHeader
+                userName={currentUser?.name}
+                currentYear={currentYear}
+                currentMonth={currentMonth}
+                currentDay={currentDay}
+                setCurrentDay={setCurrentDay}
+                setCurrentMonth={setCurrentMonth}
+                setCurrentYear={setCurrentYear}
+                months={months}
+            />
 
             <div className="flex-none grid grid-cols-8 w-full pt-6">
                 {days.map((day, dayIndex) => (
@@ -176,7 +171,7 @@ export default function WeeklyCal() {
                                                                 <div
                                                                     key={eventIndex}
                                                                     onClick={(e) => {
-                                                                        setCurrentEvent(event.title, event.description, event.id);
+                                                                        setCurrentEvent(event);
                                                                         setPopUpPosition(e);
                                                                         displayEventDetails();
                                                                     }}
@@ -188,7 +183,7 @@ export default function WeeklyCal() {
                                                                         height: `${eventDuration * 100}%`,
                                                                         zIndex: eventIndex + 1,
                                                                     }}
-                                                                    >
+                                                                >
                                                                     <CalEvent
                                                                         beginningHour={new Date(event.beginning).getHours() + 2}
                                                                         endHour={new Date(event.end).getHours() + 2}
