@@ -4,7 +4,7 @@ import prevWeek from '@/app/date/prevWeek';
 import nextWeek from '@/app/date/nextWeek';
 
 interface CalendarHeaderProps {
-    userName: string | undefined;
+    userName: string;
     currentYear: number;
     currentMonth: number;
     currentDay: number;

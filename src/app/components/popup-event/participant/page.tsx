@@ -6,13 +6,39 @@ interface ParticipantProps {
     participants: UserInterface[],
     setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
     participantsInput: string,
-    setParticipantsInput: Dispatch<SetStateAction<string>>
-
+    setParticipantsInput: Dispatch<SetStateAction<string>>,
+    currentUser: UserInterface | undefined,
 }
 
-export default function Participant({ users, participants, setParticipants, participantsInput, setParticipantsInput }: ParticipantProps) {
+export default function Participant({
+    users,
+    participants,
+    setParticipants,
+    participantsInput,
+    setParticipantsInput,
+    currentUser }: ParticipantProps) {
+
     function removeParticipant(participantId: number) {
         setParticipants(participants.filter(participant => participant.id !== participantId));
+    }
+
+    function hideParticipantsPopUp() {
+        const participantsInput = document.getElementById("participantsInput") as HTMLInputElement;
+        if (participantsInput) {
+            participantsInput.value = "";
+        }
+
+        const participantsPopUp = document.getElementById("participantsPopUp") as HTMLDivElement;
+        if (participantsPopUp) {
+            participantsPopUp.style.display = "none";
+        }
+    }
+
+    function displayParticipantsPopUp() {
+        const participantsPopUp = document.getElementById("participantsPopUp") as HTMLDivElement;
+        if (participantsPopUp) {
+            participantsPopUp.style.display = "block";
+        }
     }
 
     return (
@@ -21,22 +47,49 @@ export default function Participant({ users, participants, setParticipants, part
                 type="text"
                 className="py-2 text-left px-2 hover:bg-gray-100 w-full outline-none focus:border-gray-400 transition-all border-b border-white h-9"
                 placeholder="Ajouter des participants"
-                onChange={(e) => setParticipantsInput(e.target.value)}
+                onChange={(e) => {
+                    setParticipantsInput(e.target.value);
+                    displayParticipantsPopUp();
+                }}
+                id="participantsInput"
             />
 
             {participantsInput != "" && (
-                <div className="absolute border border-gray-200 mt-1 rounded-sm w-72 max-h-32 h-fit bg-white overflow-scroll">
+                <div
+                    className="absolute border border-gray-200 mt-1 rounded-sm w-72 max-h-32 h-fit bg-white overflow-scroll"
+                    id="participantsPopUp"
+                >
                     {users
-                        .filter(user => user.name.toLowerCase().includes(participantsInput.toLowerCase()))
-                        .map((user, index) => (
-                            <div key={index}>
-                                <button
-                                    onClick={() => setParticipants([...participants, user])}
-                                    className="hover:bg-gray-100 w-full h-full p-2 text-left">
-                                    {user.name}
-                                </button>
+                        .filter(user => 
+                            user.name.toLowerCase().includes(participantsInput.toLowerCase()) &&
+                            user.id !== currentUser?.id &&
+                            !participants.some(participant => participant.id === user.id)
+                        ).length === 0 ? (
+                            <div className="p-2 text-center text-gray-500">
+                                <p>
+                                    Aucun participant éligible
+                                </p>
                             </div>
-                        ))}
+                        ) : (
+                            users
+                                .filter(user => 
+                                    user.name.toLowerCase().includes(participantsInput.toLowerCase()) &&
+                                    user.id !== currentUser?.id &&
+                                    !participants.some(participant => participant.id === user.id)
+                                )
+                                .map((user, index) => (
+                                    <div key={index}>
+                                        <button
+                                            onClick={() => {
+                                                setParticipants([...participants, user]);
+                                                hideParticipantsPopUp();
+                                            }}
+                                            className="hover:bg-gray-100 w-full h-full p-2 text-left">
+                                            {user.name}
+                                        </button>
+                                    </div>
+                                ))
+                        )}
                 </div>
             )}
 

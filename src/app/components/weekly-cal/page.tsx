@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import CalEvent from "../event/page";
 import { EventInterface } from '@/app/model/event';
 import getEvents from '@/app/event/getEvents';
@@ -11,10 +11,15 @@ import EventDetails from '../event-details/page';
 import displayEventDetails from '@/app/event/displayEventDetails';
 import axios from 'axios';
 import { UserInterface } from '@/app/model/user';
-import Cookies from 'js-cookie';
 import CalendarHeader from '../calendar-header/page';
 
-export default function WeeklyCal() {
+interface WeeklyCalProps {
+    currentUser: UserInterface,
+    setCurrentUser: Dispatch<SetStateAction<UserInterface>>,
+    cookie: { [key: string]: string }
+}
+
+export default function WeeklyCal({ currentUser, setCurrentUser, cookie }: WeeklyCalProps) {
     const days = ["Empty", "LUN", "MAR", "MER", "JEU", "VEN", "SAM", "DIM"];
     const hours = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
     const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
@@ -36,11 +41,10 @@ export default function WeeklyCal() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
-    const [event, setEvent] = useState<EventInterface>();
+    const [event, setEvent] = useState<EventInterface>({} as EventInterface);
 
-    const [currentUser, setCurrentUser] = useState<UserInterface>()
-    const [users, setUsers] = useState<UserInterface[]>([])
-    const cookie = Cookies.get();
+    const [users, setUsers] = useState<UserInterface[]>([]);
+    const [participants, setParticipants] = useState<UserInterface[]>([]);
 
     let skip = 1;
 
@@ -103,6 +107,8 @@ export default function WeeklyCal() {
                     setEndHour={setEndHour}
                     currentUser={currentUser}
                     users={users}
+                    participants={participants}
+                    setParticipants={setParticipants}
                 />
 
                 <EventDetails
@@ -115,7 +121,7 @@ export default function WeeklyCal() {
             </div>
 
             <CalendarHeader
-                userName={currentUser?.name}
+                userName={currentUser.name}
                 currentYear={currentYear}
                 currentMonth={currentMonth}
                 currentDay={currentDay}
@@ -204,7 +210,7 @@ export default function WeeklyCal() {
                                                                     className="bg-gray-100 border-gray-300 border-l border-t h-24"
                                                                     onClick={(e) => {
                                                                         setPopUpPosition(e);
-                                                                        displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription);
+                                                                        displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription, setParticipants);
                                                                     }}></div>
                                                             ) : (
                                                                 <div
@@ -212,7 +218,7 @@ export default function WeeklyCal() {
                                                                     className="bg-white border-gray-300 border-l border-t h-24"
                                                                     onClick={(e) => {
                                                                         setPopUpPosition(e);
-                                                                        displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription);
+                                                                        displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription, setParticipants);
                                                                     }}></div>
                                                             )}
                                                         </div>

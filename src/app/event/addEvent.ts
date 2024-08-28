@@ -5,7 +5,7 @@ import createEvent from "./createEvent";
 import getEvents from "./getEvents";
 import { UserInterface } from "../model/user";
 
-export default async function hidePopupEvent(
+export default async function addEvent(
     dates: string[],
     currentDayMeeting: number,
     begginingHour: number,

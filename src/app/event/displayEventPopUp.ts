@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { UserInterface } from "../model/user";
 
 export default async function displayEventPopUp(
     hour: number,
@@ -8,7 +9,8 @@ export default async function displayEventPopUp(
     setBegginingHour: Dispatch<SetStateAction<number>>,
     setEndHour: Dispatch<SetStateAction<number>>,
     setTitle: Dispatch<SetStateAction<string>>,
-    setDescription: Dispatch<SetStateAction<string>>) {
+    setDescription: Dispatch<SetStateAction<string>>,
+    setParticipants: Dispatch<SetStateAction<UserInterface[]>>) {
 
     const calendarPopup = document.getElementById("calendarPopup");
 
@@ -23,6 +25,7 @@ export default async function displayEventPopUp(
         setCurrentHour(hour);
         setBegginingHour(hour);
         setEndHour(hour + 1);
+        setParticipants([]);
 
         calendarPopup.style.opacity = '1';
         calendarPopup.style.pointerEvents = 'auto';

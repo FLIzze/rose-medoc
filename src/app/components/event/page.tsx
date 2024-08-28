@@ -11,7 +11,7 @@ interface EventInterface {
 }
 
 export default function CalEvent({ beginningHour, endHour, title, duration, id }: EventInterface) {
-    const [by, setBy] = useState<UserInterface>();
+    const [by, setBy] = useState<UserInterface>({} as UserInterface);
     const eventHeight = 24 * +duration;
 
     useEffect(() => {
@@ -27,14 +27,21 @@ export default function CalEvent({ beginningHour, endHour, title, duration, id }
             .catch((error) => {
                 console.error('Error fetching events', error);
             });
-    }, []);
+    }, [id]);
 
     return (
-        <div className={`bg-${by?.color}-700 bg-opacity-10 rounded-l-md border-l-4 border-l-${by?.color}-700 pl-3 text-${by?.color}-700 text-sm py-1 hover:cursor-pointer hover:bg-opacity-15 h-${eventHeight} pb-3 select-none`}>
+        <div 
+            style={{
+                backgroundColor: `${by.color}1A`,
+                borderLeft: `4px solid ${by.color}`,
+                color: by.color,
+            }}
+            className={`rounded-l-md pl-3 text-sm py-1 hover:cursor-pointer pb-3 select-none h-${eventHeight}`}
+        >
             <p>{beginningHour.toString()}:00 - {(endHour).toString()}:00</p>
             <p className="font-bold overflow-hidden whitespace-nowrap mr-2 text-ellipsis">{title}</p>
-            <p>par {by?.name}</p>
-            <p>Locaux</p>
+            <p>par {by.firstName} {by.name}</p>
+            <p>Location</p>
         </div>
     )
 }

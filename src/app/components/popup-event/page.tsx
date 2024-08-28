@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { EventInterface } from "@/app/model/event";
 import Draggable from "../draggable/page";
-import hidePopupEvent from "@/app/event/hideEventPopup";
+import addEvent from "@/app/event/addEvent";
 import { UserInterface } from "@/app/model/user";
 import Participant from "./participant/page";
 import Location from "./location/page";
@@ -26,7 +26,9 @@ interface PopupEventProps {
     setBeginningHour: Dispatch<SetStateAction<number>>,
     setEndHour: Dispatch<SetStateAction<number>>,
     currentUser: UserInterface | undefined,
-    users: UserInterface[]
+    users: UserInterface[],
+    participants: UserInterface[],
+    setParticipants: Dispatch<SetStateAction<UserInterface[]>>
 }
 
 export default function PopupEvent({
@@ -48,7 +50,9 @@ export default function PopupEvent({
     setBeginningHour,
     setEndHour,
     currentUser,
-    users }: PopupEventProps) {
+    users,
+    participants,
+    setParticipants }: PopupEventProps) {
 
     const [isBeginningHoursVisible, setIsBeginningHoursVisible] = useState(false);
     const [isEndHoursVisible, setIsEndHoursVisible] = useState(false);
@@ -56,7 +60,6 @@ export default function PopupEvent({
     const endHoursRef = useRef<HTMLDivElement>(null);
 
     const [participantsInput, setParticipantsInput] = useState("");
-    const [participants, setParticipants] = useState<UserInterface[]>([]);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -126,6 +129,7 @@ export default function PopupEvent({
                         setParticipants={setParticipants}
                         participantsInput={participantsInput}
                         setParticipantsInput={setParticipantsInput}
+                        currentUser={currentUser}
                     />
 
                     <Location />
@@ -133,7 +137,7 @@ export default function PopupEvent({
                     <div className="flex justify-end mt-4">
                         <button
                             className='rounded-sm h-10 border border-gray-200 transition-all hover:bg-gray-100 w-2/5'
-                            onClick={() => hidePopupEvent(dates, currentDayEvent, beginningHour, endHour, currentMonth, currentYear, title, description, setEvents, currentUser, participants)}>
+                            onClick={() => addEvent(dates, currentDayEvent, beginningHour, endHour, currentMonth, currentYear, title, description, setEvents, currentUser, participants)}>
                             Enregistrer
                         </button>
                     </div>
