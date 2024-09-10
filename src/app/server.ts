@@ -17,13 +17,13 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.post('/api/events', (req: any, res: any) => {
-    const { title, description, beginning, end, by, participants } = req.body;
+    const { title, description, beginning, end, by, participants, location } = req.body;
   
     const beginningDate = new Date(beginning).toISOString().slice(0, 19).replace('T', ' ');
     const endDate = new Date(end).toISOString().slice(0, 19).replace('T', ' ');
   
     const sql = 'INSERT INTO event (title, description, beginning, end, `by`, location, participants) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    const values = [title, description, beginningDate, endDate, by, 'Event Location', JSON.stringify(participants)];
+    const values = [title, description, beginningDate, endDate, by, location, JSON.stringify(participants)];
   
     pool.query(sql, values, (error: any, results: any) => {
       if (error) {

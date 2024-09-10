@@ -60,6 +60,7 @@ export default function PopupEvent({
     const endHoursRef = useRef<HTMLDivElement>(null);
 
     const [participantsInput, setParticipantsInput] = useState("");
+    const [location, setLocation] = useState("Piece de vie");
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -132,12 +133,15 @@ export default function PopupEvent({
                         currentUser={currentUser}
                     />
 
-                    <Location />
+                    <Location 
+                        location={location}
+                        setLocation={setLocation}
+                    />
 
                     <div className="flex justify-end mt-4">
                         <button
                             className='rounded-sm h-10 border border-gray-200 transition-all hover:bg-gray-100 w-2/5'
-                            onClick={() => addEvent(dates, currentDayEvent, beginningHour, endHour, currentMonth, currentYear, title, description, setEvents, currentUser, participants)}>
+                            onClick={() => addEvent(dates, currentDayEvent, beginningHour, endHour, currentMonth, currentYear, title, description, setEvents, currentUser, participants, location)}>
                             Enregistrer
                         </button>
                     </div>

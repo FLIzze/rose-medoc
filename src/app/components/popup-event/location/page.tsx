@@ -1,8 +1,11 @@
-import { useState } from "react"
+import { Dispatch, SetStateAction } from "react";
 
-export default function Location() {
-    const [location, setLocation] = useState("inside");
+interface LocationProps {
+    location: string,
+    setLocation: Dispatch<SetStateAction<string>>,
+}
 
+export default function Location({ location, setLocation }: LocationProps) {
     return (
         <div>
             <label htmlFor="location">
@@ -13,7 +16,7 @@ export default function Location() {
                             name="location"
                             id="inside"
                             defaultChecked
-                            onClick={() => setLocation("inside")}
+                            onClick={() => setLocation("Piece de vie")}
                         />
                         <label htmlFor="inside">Rose Medoc</label>
                     </div>
@@ -29,7 +32,7 @@ export default function Location() {
                 </div>
             </label>
 
-            {location === "inside" && (
+            {(location == "Piece de vie" || location == "Etage") ? (
                 <label htmlFor="inside">
                     <div className="flex flex-col">
                         <div className="flex gap-3">
@@ -38,6 +41,7 @@ export default function Location() {
                                 type="radio"
                                 name="inside"
                                 id="main-room"
+                                onClick={() => setLocation("Piece de vie")}
                             />
                             <label htmlFor="main-room">Piece de vie</label>
                         </div>
@@ -45,20 +49,20 @@ export default function Location() {
                             <input type="radio"
                                 name="inside"
                                 id="upper-room"
+                                onClick={() => setLocation("Etage")}
                             />
                             <label htmlFor="upper-room">Etage</label>
                         </div>
                     </div>
                 </label>
-            )}
-
-            {location === "outside" && (
+            ) : (
                 <div>
                     <input
                         type="text"
                         id=""
                         placeholder="Ajouter une adresse"
                         className="py-2 text-left px-2 hover:bg-gray-100 w-full outline-none focus:border-gray-400 transition-all border-b border-white h-9"
+                        onChange={(e) => setLocation(e.target.value)}
                     />
                 </div>
             )}

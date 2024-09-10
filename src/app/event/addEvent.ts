@@ -16,7 +16,8 @@ export default async function addEvent(
     description: string,
     setEvents: Dispatch<SetStateAction<EventInterface[]>>,
     user: UserInterface | undefined,
-    participants: UserInterface[]) {
+    participants: UserInterface[],
+    location: string) {
 
     const titleInput = document.getElementById("required-title");
     
@@ -31,7 +32,7 @@ export default async function addEvent(
         }
     }
 
-    await createEvent(dates[currentDayMeeting], begginingHour, endHour, currentMonth, currentYear, title, description, user, participants);
+    await createEvent(dates[currentDayMeeting], begginingHour, endHour, currentMonth, currentYear, title, description, user, participants, location);
     setEvents([]);
     getEvents(setEvents);
 

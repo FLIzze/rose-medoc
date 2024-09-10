@@ -16,10 +16,13 @@ import CalendarHeader from '../calendar-header/page';
 interface WeeklyCalProps {
     currentUser: UserInterface,
     setCurrentUser: Dispatch<SetStateAction<UserInterface>>,
-    cookie: { [key: string]: string }
+    cookie: { [key: string]: string },
+    own: boolean,
+    tagged: boolean,
+    others: boolean
 }
 
-export default function WeeklyCal({ currentUser, setCurrentUser, cookie }: WeeklyCalProps) {
+export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, tagged, others }: WeeklyCalProps) {
     const days = ["Empty", "LUN", "MAR", "MER", "JEU", "VEN", "SAM", "DIM"];
     const hours = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
     const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
@@ -121,7 +124,7 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie }: Weekl
             </div>
 
             <CalendarHeader
-                userName={currentUser.name}
+                userName={`${currentUser.name} ${currentUser.firstName}`}
                 currentYear={currentYear}
                 currentMonth={currentMonth}
                 currentDay={currentDay}
@@ -190,37 +193,50 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie }: Weekl
                                                                         zIndex: eventIndex + 1,
                                                                     }}
                                                                 >
-                                                                    <CalEvent
-                                                                        beginningHour={new Date(event.beginning).getHours() + 2}
-                                                                        endHour={new Date(event.end).getHours() + 2}
-                                                                        title={event.title}
-                                                                        duration={eventDuration}
-                                                                        id={event.by}
-                                                                    />
+                                                                    {currentUser.id == event.by && own && (
+                                                                        <CalEvent
+                                                                            beginningHour={new Date(event.beginning).getHours() + 2}
+                                                                            endHour={new Date(event.end).getHours() + 2}
+                                                                            title={event.title}
+                                                                            duration={eventDuration}
+                                                                            id={event.by}
+                                                                            location={event.location}
+                                                                        />
+                                                                    )}
+
+                                                                    {tagged && event.participants.includes(currentUser.id) && (
+                                                                        <CalEvent
+                                                                            beginningHour={new Date(event.beginning).getHours() + 2}
+                                                                            endHour={new Date(event.end).getHours() + 2}
+                                                                            title={event.title}
+                                                                            duration={eventDuration}
+                                                                            id={event.by}
+                                                                            location={event.location}
+                                                                        />
+                                                                    )}
+
+                                                                    {others && !event.participants.includes(currentUser.id) && event.by !== currentUser.id && (
+                                                                        <CalEvent
+                                                                            beginningHour={new Date(event.beginning).getHours() + 2}
+                                                                            endHour={new Date(event.end).getHours() + 2}
+                                                                            title={event.title}
+                                                                            duration={eventDuration}
+                                                                            id={event.by}
+                                                                            location={event.location}
+                                                                        />)}
                                                                 </div>
                                                             );
                                                         })}
                                                     </div>
                                                 ) : (
                                                     skip == 1 ? (
-                                                        <div>
-                                                            {dates[dayIndex] == currentDay.toString() ? (
-                                                                <div
-                                                                    id={`${dayIndex}-${hoursIndex}`}
-                                                                    className="bg-gray-100 border-gray-300 border-l border-t h-24"
-                                                                    onClick={(e) => {
-                                                                        setPopUpPosition(e);
-                                                                        displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription, setParticipants);
-                                                                    }}></div>
-                                                            ) : (
-                                                                <div
-                                                                    id={`${dayIndex}-${hoursIndex}`}
-                                                                    className="bg-white border-gray-300 border-l border-t h-24"
-                                                                    onClick={(e) => {
-                                                                        setPopUpPosition(e);
-                                                                        displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription, setParticipants);
-                                                                    }}></div>
-                                                            )}
+                                                        <div
+                                                            id={`${dayIndex}-${hoursIndex}`}
+                                                            className="bg-white border-gray-300 border-l border-t h-24"
+                                                            onClick={(e) => {
+                                                                setPopUpPosition(e);
+                                                                displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription, setParticipants);
+                                                            }}>
                                                         </div>
                                                     ) : (
                                                         <>{decrementSkip()}</>

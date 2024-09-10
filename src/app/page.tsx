@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import login from './user/login';
 import Cookies from 'js-cookie';
 import WeeklyCal from './components/weekly-cal/page';
+import Filters from './components/filters/page';
 import { UserInterface } from './model/user';
 
 export default function Home() {
@@ -11,12 +12,16 @@ export default function Home() {
     const [password, setPassword] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
-    const [currentUser, setCurrentUser] = useState<UserInterface>({} as UserInterface);
+    const [currentUser, setCurrentUser] = useState<UserInterface>();
+
+    const [own, setOwn] = useState(true);
+    const [tagged, setTagged] = useState(true);
+    const [others, setOthers] = useState(false);
 
     useEffect(() => {
         const userId = Cookies.get('userId');
         if (userId) {
-            setCurrentUser({ id: userId } as unknown as UserInterface); 
+            setCurrentUser({ id: userId } as unknown as UserInterface);
         }
     }, []);
 
@@ -63,11 +68,24 @@ export default function Home() {
             {currentUser ? (
                 <div className="bg-white h-screen overflow-hidden">
                     <div className="flex mt-5">
+                        <div>
+                            <Filters
+                                own={own}
+                                tagged={tagged}
+                                setOwn={setOwn}
+                                setTagged={setTagged}
+                                others={others}
+                                setOthers={setOthers}
+                            />
+                        </div>
                         <div className="w-screen">
                             <WeeklyCal 
                                 currentUser={currentUser}
                                 setCurrentUser={setCurrentUser}
                                 cookie={Cookies.get()}
+                                own={own}
+                                tagged={tagged}
+                                others={others}
                             />
                         </div>
                     </div>

@@ -7,10 +7,11 @@ interface EventInterface {
     endHour: Number,
     title: string,
     duration: Number,
-    id: Number
+    id: Number,
+    location: string
 }
 
-export default function CalEvent({ beginningHour, endHour, title, duration, id }: EventInterface) {
+export default function CalEvent({ beginningHour, endHour, title, duration, id, location }: EventInterface) {
     const [by, setBy] = useState<UserInterface>({} as UserInterface);
     const eventHeight = 24 * +duration;
 
@@ -40,8 +41,8 @@ export default function CalEvent({ beginningHour, endHour, title, duration, id }
         >
             <p>{beginningHour.toString()}:00 - {(endHour).toString()}:00</p>
             <p className="font-bold overflow-hidden whitespace-nowrap mr-2 text-ellipsis">{title}</p>
-            <p>par {by.firstName} {by.name}</p>
-            <p>Location</p>
+            <p className="overflow-hidden whitespace-nowrap text-ellipsis">par {by.firstName} {by.name}</p>
+            <p>{location}</p>
         </div>
     )
 }

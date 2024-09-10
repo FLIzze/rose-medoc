@@ -28,7 +28,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                 id="eventDetails"
                 className="absolute border h-fit bg-white rounded-sm shadow-2xl py-5 transition-all duration-150 pb-6 pr-8 pl-16 opacity-0 pointer-events-none text-gray-600 w-96"
             >
-                <h1 className="w-full whitespace-nowrap font-bold text-xl mb-3">{event.title}</h1>
+                <h1 className="w-full font-bold text-xl mb-3">{event.title}</h1>
                 <hr />
 
                 {event.beginning && (
@@ -45,17 +45,17 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                     </div>
                 )}
 
-                {event.participants && (
+                {event.participants ? (
                     <div>
                         {event.participants.length > 0 && (
                             <div>
                                 <div className="py-3">
-                                    <p className="font-bold">{eventCreator?.name}</p>
+                                    <p className="font-bold">{eventCreator?.name} {eventCreator?.firstName}</p>
                                     {event.participants.map((participantId, index) => {
                                         const participant = users.find(user => user.id === participantId);
                                         return (
                                             <div key={index}>
-                                                {participant?.name}
+                                                {participant?.name} {participant?.firstName}
                                             </div>
                                         );
                                     })}
@@ -63,6 +63,10 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                                 <hr />
                             </div>
                         )}
+                    </div>
+                ) : (
+                    <div className="py-3">
+                        <p className="font-bold">{eventCreator?.name} {eventCreator?.firstName}</p>
                     </div>
                 )}
 

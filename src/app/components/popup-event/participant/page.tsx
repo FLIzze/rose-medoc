@@ -54,14 +54,15 @@ export default function Participant({
                 id="participantsInput"
             />
 
-            {participantsInput != "" && (
+            {participantsInput !== "" && (
                 <div
                     className="absolute border border-gray-200 mt-1 rounded-sm w-72 max-h-32 h-fit bg-white overflow-scroll"
                     id="participantsPopUp"
                 >
                     {users
                         .filter(user => 
-                            user.name.toLowerCase().includes(participantsInput.toLowerCase()) &&
+                            (user.name.toLowerCase().includes(participantsInput.toLowerCase()) ||
+                            user.firstName.toLowerCase().includes(participantsInput.toLowerCase())) &&
                             user.id !== currentUser?.id &&
                             !participants.some(participant => participant.id === user.id)
                         ).length === 0 ? (
@@ -73,7 +74,8 @@ export default function Participant({
                         ) : (
                             users
                                 .filter(user => 
-                                    user.name.toLowerCase().includes(participantsInput.toLowerCase()) &&
+                                    (user.name.toLowerCase().includes(participantsInput.toLowerCase()) ||
+                                    user.firstName.toLowerCase().includes(participantsInput.toLowerCase())) &&
                                     user.id !== currentUser?.id &&
                                     !participants.some(participant => participant.id === user.id)
                                 )
@@ -85,7 +87,7 @@ export default function Participant({
                                                 hideParticipantsPopUp();
                                             }}
                                             className="hover:bg-gray-100 w-full h-full p-2 text-left">
-                                            {user.name}
+                                            {user.name} {user.firstName}
                                         </button>
                                     </div>
                                 ))

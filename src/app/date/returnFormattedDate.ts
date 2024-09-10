@@ -8,8 +8,5 @@ export default function returnFormattedDate(beginning: Date, end: Date): string 
     const monthsName = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
     const dayName = dayNames[beginning.getDay()];
 
-    console.log(beginning);
-    
-
-    return `${dayName} ${day} ${monthsName[month]} ${year} ${beginningHours}h00 : ${endHours}h00`;
+    return `${dayName} ${day} ${monthsName[month]} ${year} ${beginningHours}h00 - ${endHours}h00`;
 }
