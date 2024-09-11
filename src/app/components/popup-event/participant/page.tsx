@@ -42,56 +42,64 @@ export default function Participant({
     }
 
     return (
-        <div className="w-full">
-            <input
-                type="text"
-                className="py-2 text-left px-2 hover:bg-gray-100 w-full outline-none focus:border-gray-400 transition-all border-b border-white h-9"
-                placeholder="Ajouter des participants"
-                onChange={(e) => {
-                    setParticipantsInput(e.target.value);
-                    displayParticipantsPopUp();
-                }}
-                id="participantsInput"
-            />
+        <div>
+            <div className="flex items-center">
+                <img
+                    src="person.png"
+                    alt="horloge"
+                    className='w-5 h-5 mr-4'
+                />
+
+                <input
+                    type="text"
+                    className="py-2 text-left px-2 hover:bg-gray-100 w-full outline-none focus:border-gray-400 transition-all border-b border-white h-9 focus:bg-gray-100"
+                    placeholder="Ajouter des participants"
+                    onChange={(e) => {
+                        setParticipantsInput(e.target.value);
+                        displayParticipantsPopUp();
+                    }}
+                    id="participantsInput"
+                />
+            </div>
 
             {participantsInput !== "" && (
                 <div
-                    className="absolute border border-gray-200 mt-1 rounded-sm w-72 max-h-32 h-fit bg-white overflow-scroll"
+                    className="absolute border border-gray-200 mt-1 rounded-sm w-72 max-h-48 h-fit bg-white overflow-scroll"
                     id="participantsPopUp"
                 >
                     {users
-                        .filter(user => 
+                        .filter(user =>
                             (user.name.toLowerCase().includes(participantsInput.toLowerCase()) ||
-                            user.firstName.toLowerCase().includes(participantsInput.toLowerCase())) &&
+                                user.firstName.toLowerCase().includes(participantsInput.toLowerCase())) &&
                             user.id !== currentUser?.id &&
                             !participants.some(participant => participant.id === user.id)
                         ).length === 0 ? (
-                            <div className="p-2 text-center text-gray-500">
-                                <p>
-                                    Aucun participant éligible
-                                </p>
-                            </div>
-                        ) : (
-                            users
-                                .filter(user => 
-                                    (user.name.toLowerCase().includes(participantsInput.toLowerCase()) ||
+                        <div className="p-2 text-center text-gray-500">
+                            <p>
+                                Aucun participant éligible
+                            </p>
+                        </div>
+                    ) : (
+                        users
+                            .filter(user =>
+                                (user.name.toLowerCase().includes(participantsInput.toLowerCase()) ||
                                     user.firstName.toLowerCase().includes(participantsInput.toLowerCase())) &&
-                                    user.id !== currentUser?.id &&
-                                    !participants.some(participant => participant.id === user.id)
-                                )
-                                .map((user, index) => (
-                                    <div key={index}>
-                                        <button
-                                            onClick={() => {
-                                                setParticipants([...participants, user]);
-                                                hideParticipantsPopUp();
-                                            }}
-                                            className="hover:bg-gray-100 w-full h-full p-2 text-left">
-                                            {user.name} {user.firstName}
-                                        </button>
-                                    </div>
-                                ))
-                        )}
+                                user.id !== currentUser?.id &&
+                                !participants.some(participant => participant.id === user.id)
+                            )
+                            .map((user, index) => (
+                                <div key={index}>
+                                    <button
+                                        onClick={() => {
+                                            setParticipants([...participants, user]);
+                                            hideParticipantsPopUp();
+                                        }}
+                                        className="hover:bg-gray-100 w-full h-full p-2 text-left">
+                                        {user.name} {user.firstName}
+                                    </button>
+                                </div>
+                            ))
+                    )}
                 </div>
             )}
 

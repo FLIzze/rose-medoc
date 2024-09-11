@@ -71,7 +71,13 @@ export default function Date({
     }
 
     return (
-        <div className="flex">
+        <div className="flex items-center">
+            <img
+                src="clock.png"
+                alt="horloge"
+                className='w-4 h-4 mr-4'
+            />
+
             <button
                 className="hover:bg-gray-100 transition-all py-2 px-2 text-left flex-wrap whitespace-nowrap"
             >

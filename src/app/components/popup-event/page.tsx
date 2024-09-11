@@ -85,12 +85,12 @@ export default function PopupEvent({
 
     return (
         <Draggable pos={pos} size={{ width: 415, height: 345 }}>
-            <div className="absolute opacity-0 h-fit bg-white rounded-sm shadow-2xl py-5 transition-all duration-150 pb-6 w-fit pointer-events-none pr-8 pl-16" id="calendarPopup">
+            <div className="absolute opacity-0 h-fit bg-white rounded-sm shadow-2xl py-5 transition-all duration-150 pb-6 w-fit pointer-events-none pr-8 pl-5" id="calendarPopup">
                 <div className='flex flex-col text-sm mt-5 text-gray-600'>
                     <input
                         type="text"
                         placeholder='Ajouter un titre'
-                        className='border-b outline-none text-xl font-semibold h-9 transition-all focus:font-normal w-80 border-white focus:border-gray-500 hover:bg-gray-100 pl-2 mb-6'
+                        className='border-b outline-none text-xl font-semibold h-9 transition-all focus:font-normal w-80 border-white focus:border-gray-500 hover:bg-gray-100 pl-2 ml-8 mb-2'
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
@@ -117,12 +117,20 @@ export default function PopupEvent({
                         endHoursRef={endHoursRef}
                     />
 
-                    <textarea
-                        placeholder='Ajouter une description'
-                        className='rounded-sm outline-none pl-2 pt-2 w-full resize-none hover:bg-gray-100 transition-all h-9 focus:h-40 focus:bg-gray-100 border-b border-white focus:border-gray-500'
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
+
+                    <div className="flex items-center">
+                        <img
+                            src="description.png"
+                            alt="description"
+                            className='w-4 h-4 mr-5'
+                        />
+                        <textarea
+                            placeholder='Ajouter une description'
+                            className='rounded-sm outline-none pl-2 pt-2 w-full resize-none hover:bg-gray-100 transition-all h-9 focus:h-40 focus:bg-gray-100 border-b border-white focus:border-gray-500'
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                    </div>
 
                     <Participant
                         users={users}
@@ -133,7 +141,7 @@ export default function PopupEvent({
                         currentUser={currentUser}
                     />
 
-                    <Location 
+                    <Location
                         location={location}
                         setLocation={setLocation}
                     />

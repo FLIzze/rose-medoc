@@ -62,7 +62,7 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
                 }
             })
             .catch((error) => {
-                console.error('Error fetching events', error);
+                console.error('Error fetching users', error);
             });
     }, []);
 
@@ -169,31 +169,36 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
                                             <div>
                                                 {eventsForHour.length > 0 ? (
                                                     <div className="relative">
-                                                        {eventsForHour.map((event, eventIndex) => {
-                                                            const eventStart = new Date(event.beginning).getMinutes();
-                                                            const eventDuration = (new Date(event.end).getTime() - new Date(event.beginning).getTime()) / (1000 * 60 * 60);
-                                                            const eventWidth = 100 / eventsForHour.length;
-                                                            const eventLeft = eventWidth * eventIndex;
-                                                            const eventTop = (eventStart / 60) * 100;
-                                                            skip = eventDuration;
-                                                            return (
-                                                                <div
-                                                                    key={eventIndex}
-                                                                    onClick={(e) => {
-                                                                        setCurrentEvent(event);
-                                                                        setPopUpPosition(e);
-                                                                        displayEventDetails();
-                                                                    }}
-                                                                    className="absolute "
-                                                                    style={{
-                                                                        top: `${eventTop}%`,
-                                                                        left: `${eventLeft}%`,
-                                                                        width: `${eventWidth}%`,
-                                                                        height: `${eventDuration * 100}%`,
-                                                                        zIndex: eventIndex + 1,
-                                                                    }}
-                                                                >
-                                                                    {currentUser.id == event.by && own && (
+                                                        {eventsForHour
+                                                            .filter(event => 
+                                                                (own && currentUser.id === event.by) ||
+                                                                (tagged && event.participants.includes(currentUser.id)) ||
+                                                                (others && !event.participants.includes(currentUser.id) && event.by !== currentUser.id)
+                                                            )
+                                                            .map((event, eventIndex) => {
+                                                                const eventStart = new Date(event.beginning).getMinutes();
+                                                                const eventDuration = (new Date(event.end).getTime() - new Date(event.beginning).getTime()) / (1000 * 60 * 60);
+                                                                const eventWidth = 100 / eventsForHour.length;
+                                                                const eventLeft = eventWidth * eventIndex;
+                                                                const eventTop = (eventStart / 60) * 100;
+                                                                skip = eventDuration;
+                                                                return (
+                                                                    <div
+                                                                        key={eventIndex}
+                                                                        onClick={(e) => {
+                                                                            setCurrentEvent(event);
+                                                                            setPopUpPosition(e);
+                                                                            displayEventDetails();
+                                                                        }}
+                                                                        className="absolute"
+                                                                        style={{
+                                                                            top: `${eventTop}%`,
+                                                                            left: `${eventLeft}%`,
+                                                                            width: `${eventWidth}%`,
+                                                                            height: `${eventDuration * 100}%`,
+                                                                            zIndex: eventIndex + 1,
+                                                                        }}
+                                                                    >
                                                                         <CalEvent
                                                                             beginningHour={new Date(event.beginning).getHours() + 2}
                                                                             endHour={new Date(event.end).getHours() + 2}
@@ -202,31 +207,9 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
                                                                             id={event.by}
                                                                             location={event.location}
                                                                         />
-                                                                    )}
-
-                                                                    {tagged && event.participants.includes(currentUser.id) && (
-                                                                        <CalEvent
-                                                                            beginningHour={new Date(event.beginning).getHours() + 2}
-                                                                            endHour={new Date(event.end).getHours() + 2}
-                                                                            title={event.title}
-                                                                            duration={eventDuration}
-                                                                            id={event.by}
-                                                                            location={event.location}
-                                                                        />
-                                                                    )}
-
-                                                                    {others && !event.participants.includes(currentUser.id) && event.by !== currentUser.id && (
-                                                                        <CalEvent
-                                                                            beginningHour={new Date(event.beginning).getHours() + 2}
-                                                                            endHour={new Date(event.end).getHours() + 2}
-                                                                            title={event.title}
-                                                                            duration={eventDuration}
-                                                                            id={event.by}
-                                                                            location={event.location}
-                                                                        />)}
-                                                                </div>
-                                                            );
-                                                        })}
+                                                                    </div>
+                                                                );
+                                                            })}
                                                     </div>
                                                 ) : (
                                                     skip == 1 ? (
@@ -236,8 +219,7 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
                                                             onClick={(e) => {
                                                                 setPopUpPosition(e);
                                                                 displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription, setParticipants);
-                                                            }}>
-                                                        </div>
+                                                            }}></div>
                                                     ) : (
                                                         <>{decrementSkip()}</>
                                                     )

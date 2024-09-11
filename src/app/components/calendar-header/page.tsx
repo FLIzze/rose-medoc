@@ -17,17 +17,25 @@ interface CalendarHeaderProps {
 export default function CalendarHeader({ userName, currentYear, currentMonth, currentDay, setCurrentDay, setCurrentMonth, setCurrentYear, months }: CalendarHeaderProps) {
     return (
         <div className='flex ml-52 justify-between'>
-            <div className='flex flex-col'>
+            <div className='flex'>
                 <div className='flex'>
                     <button
                         className="mr-3"
                         onClick={() => prevWeek(currentYear, currentMonth, currentDay, setCurrentDay, setCurrentMonth, setCurrentYear)}>
-                        PREV WEEK
+                        <img
+                            src="right_arrow_nav.png"
+                            alt="prev Week"
+                            className='w-8 h-8 hover:bg-gray-200 p-2 rounded-full'
+                        />
                     </button>
                     <button
                         className="mr-3"
                         onClick={() => nextWeek(currentYear, currentMonth, currentDay, setCurrentDay, setCurrentMonth, setCurrentYear)}>
-                        NEXT WEEK
+                        <img
+                            src="left_arrow_nav.png"
+                            alt="prev Week"
+                            className='w-8 h-8 hover:bg-gray-200 p-2 rounded-full'
+                        />
                     </button>
                 </div>
 
