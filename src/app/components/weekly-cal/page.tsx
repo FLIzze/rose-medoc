@@ -49,6 +49,9 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
     const [users, setUsers] = useState<UserInterface[]>([]);
     const [participants, setParticipants] = useState<UserInterface[]>([]);
 
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const [isDetailsVisible, setIsDetailsVisible] = useState(false);
+
     let skip = 1;
 
     useEffect(() => {
@@ -112,6 +115,7 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
                     users={users}
                     participants={participants}
                     setParticipants={setParticipants}
+                    setIsPopupVisible={setIsPopupVisible}
                 />
 
                 <EventDetails
@@ -217,8 +221,8 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
                                                             id={`${dayIndex}-${hoursIndex}`}
                                                             className="bg-white border-gray-300 border-l border-t h-24"
                                                             onClick={(e) => {
+                                                                displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription, setParticipants, isPopupVisible, setIsPopupVisible);
                                                                 setPopUpPosition(e);
-                                                                displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription, setParticipants);
                                                             }}></div>
                                                     ) : (
                                                         <>{decrementSkip()}</>

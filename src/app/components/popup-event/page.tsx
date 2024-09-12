@@ -6,6 +6,7 @@ import { UserInterface } from "@/app/model/user";
 import Participant from "./participant/page";
 import Location from "./location/page";
 import Date from "./date/page";
+import hideEventPopup from "@/app/event/hideEventPopup";
 
 interface PopupEventProps {
     beginningHour: number,
@@ -28,7 +29,8 @@ interface PopupEventProps {
     currentUser: UserInterface | undefined,
     users: UserInterface[],
     participants: UserInterface[],
-    setParticipants: Dispatch<SetStateAction<UserInterface[]>>
+    setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
+    setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
 }
 
 export default function PopupEvent({
@@ -52,7 +54,8 @@ export default function PopupEvent({
     currentUser,
     users,
     participants,
-    setParticipants }: PopupEventProps) {
+    setParticipants,
+    setIsPopupVisible }: PopupEventProps) {
 
     const [isBeginningHoursVisible, setIsBeginningHoursVisible] = useState(false);
     const [isEndHoursVisible, setIsEndHoursVisible] = useState(false);
@@ -85,17 +88,26 @@ export default function PopupEvent({
 
     return (
         <Draggable pos={pos} size={{ width: 415, height: 345 }}>
-            <div className="absolute opacity-0 h-fit bg-white rounded-sm shadow-2xl py-5 transition-all duration-150 pb-6 w-fit pointer-events-none pr-8 pl-5" id="calendarPopup">
-                <div className='flex flex-col text-sm mt-5 text-gray-600'>
+            <div
+                className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-fit pointer-events-none"
+                id="eventPopup"
+            >
+                <div className="flex justify-end pr-5 h-9 w-full">
+                    <button onClick={() => hideEventPopup(setIsPopupVisible)}>
+                        <img src="/cross.svg" alt="cross" className="w-3 h-3" />
+                    </button>
+                </div>
+
+                <div className='flex flex-col text-sm mt-3 text-gray-600 pl-9 pr-7 pb-5 pt-2'>
                     <input
                         type="text"
                         placeholder='Ajouter un titre'
-                        className='border-b outline-none text-xl font-semibold h-9 transition-all focus:font-normal w-80 border-white focus:border-gray-500 hover:bg-gray-100 pl-2 ml-8 mb-2'
+                        className='border-b outline-none text-xl font-semibold h-9 transition-all focus:font-normal w-80 border-white focus:border-gray-500 hover:bg-gray-100 pl-2 mb-2'
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
 
-                    <p className="text-xs text-red-500 hidden" id="required-title">Titre obligratoire.</p>
+                    <p className="text-xs text-red-500 hidden" id="required-title">Titre obligatoire.</p>
 
                     <Date
                         days={days}
@@ -116,7 +128,6 @@ export default function PopupEvent({
                         beginningHoursRef={beginningHoursRef}
                         endHoursRef={endHoursRef}
                     />
-
 
                     <div className="flex items-center">
                         <img

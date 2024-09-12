@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 
 interface DraggableProps {
     children: React.ReactNode;
-    pos : { x: number, y: number };
-    size : { width: number, height: number };
+    pos: { x: number, y: number };
+    size: { width: number, height: number };
 }
 
 export default function Draggable({ children, pos, size }: Readonly<DraggableProps>) {
@@ -27,7 +27,7 @@ export default function Draggable({ children, pos, size }: Readonly<DraggablePro
             className='absolute z-10 cursor-default'
             role='button'
             tabIndex={0}  >
-                {children}
+            {children}
         </div>
     );
 }

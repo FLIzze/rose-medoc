@@ -26,7 +26,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
         <Draggable pos={pos} size={{ width: 170, height: 120 }}>
             <div
                 id="eventDetails"
-                className="absolute border h-fit bg-white rounded-sm shadow-2xl py-5 transition-all duration-150 pr-8 pl-5 opacity-0 pointer-events-none text-gray-600 w-96 text-sm"
+                className="absolute h-fit bg-white rounded-sm shadow-2xl py-5 transition-all duration-150 pr-8 pl-1 opacity-0 pointer-events-none text-gray-600 w-96 text-sm"
             >
                 <h1 className="w-full font-bold text-xl ml-11">{event.title}</h1>
                 <p className="ml-11">{formattedDate}</p>

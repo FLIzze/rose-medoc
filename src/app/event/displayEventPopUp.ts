@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { UserInterface } from "../model/user";
+import hideEventPopup from "./hideEventPopup";
 
 export default async function displayEventPopUp(
     hour: number,
@@ -10,11 +11,18 @@ export default async function displayEventPopUp(
     setEndHour: Dispatch<SetStateAction<number>>,
     setTitle: Dispatch<SetStateAction<string>>,
     setDescription: Dispatch<SetStateAction<string>>,
-    setParticipants: Dispatch<SetStateAction<UserInterface[]>>) {
+    setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
+    isPopupVisible: boolean,
+    setIsPopupVisible: Dispatch<SetStateAction<boolean>>) {
 
-    const calendarPopup = document.getElementById("calendarPopup");
+    const calendarPopup = document.getElementById("eventPopup");
 
     if (calendarPopup) {
+        if (isPopupVisible) {
+            hideEventPopup(setIsPopupVisible);
+            return;
+        }
+
         const titleInput = document.getElementById("required-title");
 
         if (titleInput) {
@@ -26,24 +34,11 @@ export default async function displayEventPopUp(
         setBegginingHour(hour);
         setEndHour(hour + 1);
         setParticipants([]);
+        setTitle("");
+        setDescription("");
 
         calendarPopup.style.opacity = '1';
         calendarPopup.style.pointerEvents = 'auto';
-
-        const handleClickOutside = (event: MouseEvent) => {
-            if (!calendarPopup.contains(event.target as Node)) {
-                calendarPopup.style.opacity = '0';
-                calendarPopup.style.pointerEvents = 'none';
-                document.removeEventListener('click', handleClickOutside);
-                setTimeout(() => {
-                    setTitle('');
-                    setDescription('');
-                }, 100);
-            }
-        };
-
-        setTimeout(() => {
-            document.addEventListener('click', handleClickOutside);
-        }, 0);
+        setIsPopupVisible(true);
     }
 }
