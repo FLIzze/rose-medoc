@@ -46,8 +46,8 @@ export default function Participant({
             <div className="flex items-center">
                 <img
                     src="person.png"
-                    alt="horloge"
-                    className='w-5 h-5 mr-4'
+                    alt="participant"
+                    className='w-4 h-4 mr-5'
                 />
 
                 <input

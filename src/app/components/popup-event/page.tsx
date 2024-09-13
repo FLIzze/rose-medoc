@@ -65,7 +65,7 @@ export default function PopupEvent({
     const endHoursRef = useRef<HTMLDivElement>(null);
 
     const [participantsInput, setParticipantsInput] = useState("");
-    const [location, setLocation] = useState("Piece de vie");
+    const [location, setLocation] = useState("Rose Medoc");
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -94,9 +94,9 @@ export default function PopupEvent({
                 className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-fit pointer-events-none"
                 id="eventPopup"
             >
-                <div className="flex justify-end pr-5 h-9 w-full">
+                <div className="flex justify-end pr-5 h-9 w-full bg-gray-100">
                     <button onClick={() => hideEventPopup(setIsPopupVisible)}>
-                        <img src="/cross.svg" alt="cross" className="w-3 h-3" />
+                        <img src="/cross.svg" alt="cross" className="w-8 h-8 p-2 hover:bg-gray-200 rounded-full" />
                     </button>
                 </div>
 
@@ -162,7 +162,10 @@ export default function PopupEvent({
                     <div className="flex justify-end mt-4">
                         <button
                             className='rounded-sm h-10 border border-gray-200 transition-all hover:bg-gray-100 w-2/5'
-                            onClick={() => addEvent(dates, currentDayEvent, beginningHour, endHour, currentMonth, currentYear, title, description, setEvents, currentUser, participants, location)}>
+                            onClick={() => {
+                                addEvent(dates, currentDayEvent, beginningHour, endHour, currentMonth, currentYear, title, description, setEvents, currentUser, participants, location),
+                                hideEventPopup(setIsPopupVisible)
+                            }}>
                             Enregistrer
                         </button>
                     </div>

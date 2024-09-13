@@ -44,7 +44,7 @@ export default function CalEvent({ beginningHour, endHour, title, duration, id, 
             <p>{beginningHour.toString()}:00 - {(endHour).toString()}:00</p>
             <p className="font-bold overflow-hidden whitespace-nowrap mr-2 text-ellipsis">{title}</p>
             <p className="overflow-hidden whitespace-nowrap text-ellipsis">par {by.firstName} {by.name}</p>
-            <p>{location}</p>
+            <p className="overflow-hidden whitespace-nowrap text-ellipsis">{location}</p>
         </div>
     )
 }

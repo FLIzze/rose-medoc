@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Dispatch, SetStateAction } from "react";
 
 interface LocationProps {
@@ -6,6 +7,33 @@ interface LocationProps {
 }
 
 export default function Location({ location, setLocation }: LocationProps) {
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if (!inputRef.current) return;
+
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyACMsKni9JGHzeEMwU7R_H2gk0h9H-ZeOI&libraries=places`;
+        script.async = true;
+        script.onload = () => {
+            if (!inputRef.current) return;
+
+            const autocomplete = new google.maps.places.Autocomplete(inputRef.current);
+
+            autocomplete.addListener("place_changed", () => {
+                const place = autocomplete.getPlace();
+                if (place.formatted_address) {
+                    setLocation(place.formatted_address);
+                }
+            });
+        };
+        document.head.appendChild(script);
+
+        return () => {
+            document.head.removeChild(script);
+        };
+    }, [setLocation]);
+
     return (
         <div className="flex items-center">
             <img
@@ -13,14 +41,12 @@ export default function Location({ location, setLocation }: LocationProps) {
                 alt="location"
                 className='w-5 h-5 mr-4'
             />
-
             <input
+                ref={inputRef}
                 type="text"
-                id=""
-                placeholder="Ajouter une adresse"
+                placeholder="Laisser vide pour Rose Medoc"
                 className="py-2 text-left px-2 hover:bg-gray-100 w-full outline-none focus:border-gray-400 transition-all border-b border-white h-9 focus:bg-gray-100"
-                onChange={(e) => setLocation(e.target.value)}
             />
         </div>
-    )
+    );
 }

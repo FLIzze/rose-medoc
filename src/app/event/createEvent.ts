@@ -16,6 +16,10 @@ export default async function createEvent(
     const beginning = new Date(meetingYear, meetingMonth - 1, Number(day), begginingHour);
     const end = new Date(meetingYear, meetingMonth - 1, Number(day), endHour);
 
+    if (location == '') {
+      location = 'Rose Medoc';
+    }
+
     const response = await fetch('http://localhost:5000/api/events', {
       method: 'POST',
       headers: {

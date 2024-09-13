@@ -126,6 +126,7 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
                     pos={position}
                     currentUser={currentUser}
                     users={users}
+                    setIsDetailsVisible={setIsDetailsVisible}
                 />
             </div>
 
