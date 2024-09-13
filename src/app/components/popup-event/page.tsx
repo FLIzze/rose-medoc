@@ -1,3 +1,5 @@
+"use client";
+
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { EventInterface } from "@/app/model/event";
 import Draggable from "../draggable/page";

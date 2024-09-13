@@ -1,20 +1,19 @@
-export default function displayEventDetails() {
-    // const popup = document.getElementById("eventDetails");
+import { Dispatch, SetStateAction } from "react";
+import hideEventDetails from "./hideEventDetails";
 
-    // if (popup) {
-    //     popup.style.opacity = '1';
-    //     popup.style.pointerEvents = 'auto';
+export default function displayEventDetails(setIsDetailsVisible: Dispatch<SetStateAction<boolean>>, isDetailsVisible: boolean, isPopupVisible: boolean) {
+    const popup = document.getElementById("eventDetails");
 
-    //     const handleClickOutside = (event: MouseEvent) => {
-    //         if (!popup.contains(event.target as Node)) {
-    //             popup.style.opacity = '0';
-    //             popup.style.pointerEvents = 'none';
-    //             document.removeEventListener('click', handleClickOutside);
-    //         }
-    //     };
+    if (popup) {
+        if (isDetailsVisible) {
+            hideEventDetails(setIsDetailsVisible);
+            return;
+        } else if (isPopupVisible) {
+            return;
+        }
 
-    //     setTimeout(() => {
-    //         document.addEventListener('click', handleClickOutside);
-    //     }, 0);
-    // }
+        popup.style.opacity = '1';
+        popup.style.pointerEvents = 'auto';
+        setIsDetailsVisible(true);
+    }
 }

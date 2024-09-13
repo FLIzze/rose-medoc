@@ -12,6 +12,8 @@ import displayEventDetails from '@/app/event/displayEventDetails';
 import axios from 'axios';
 import { UserInterface } from '@/app/model/user';
 import CalendarHeader from '../calendar-header/page';
+import hideEventDetails from '@/app/event/hideEventDetails';
+import hideEventPopup from '@/app/event/hideEventPopup';
 
 interface WeeklyCalProps {
     currentUser: UserInterface,
@@ -174,7 +176,7 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
                                                 {eventsForHour.length > 0 ? (
                                                     <div className="relative">
                                                         {eventsForHour
-                                                            .filter(event => 
+                                                            .filter(event =>
                                                                 (own && currentUser.id === event.by) ||
                                                                 (tagged && event.participants.includes(currentUser.id)) ||
                                                                 (others && !event.participants.includes(currentUser.id) && event.by !== currentUser.id)
@@ -190,17 +192,10 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
                                                                     <div
                                                                         key={eventIndex}
                                                                         onClick={(e) => {
+                                                                            hideEventPopup(setIsPopupVisible);
+                                                                            displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
                                                                             setCurrentEvent(event);
                                                                             setPopUpPosition(e);
-                                                                            displayEventDetails();
-                                                                        }}
-                                                                        className="absolute"
-                                                                        style={{
-                                                                            top: `${eventTop}%`,
-                                                                            left: `${eventLeft}%`,
-                                                                            width: `${eventWidth}%`,
-                                                                            height: `${eventDuration * 100}%`,
-                                                                            zIndex: eventIndex + 1,
                                                                         }}
                                                                     >
                                                                         <CalEvent
@@ -221,9 +216,11 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
                                                             id={`${dayIndex}-${hoursIndex}`}
                                                             className="bg-white border-gray-300 border-l border-t h-24"
                                                             onClick={(e) => {
-                                                                displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription, setParticipants, isPopupVisible, setIsPopupVisible);
+                                                                hideEventDetails(setIsDetailsVisible);
+                                                                displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription, setParticipants, isPopupVisible, setIsPopupVisible, isDetailsVisible);
                                                                 setPopUpPosition(e);
-                                                            }}></div>
+                                                            }}>
+                                                        </div>
                                                     ) : (
                                                         <>{decrementSkip()}</>
                                                     )

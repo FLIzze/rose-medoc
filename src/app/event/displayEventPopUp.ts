@@ -13,13 +13,16 @@ export default async function displayEventPopUp(
     setDescription: Dispatch<SetStateAction<string>>,
     setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
     isPopupVisible: boolean,
-    setIsPopupVisible: Dispatch<SetStateAction<boolean>>) {
+    setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
+    isDetailsVisible: boolean) {
 
     const calendarPopup = document.getElementById("eventPopup");
 
     if (calendarPopup) {
         if (isPopupVisible) {
             hideEventPopup(setIsPopupVisible);
+            return;
+        } else if (isDetailsVisible) {
             return;
         }
 

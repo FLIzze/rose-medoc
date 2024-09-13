@@ -1,3 +1,5 @@
+"use client";
+
 import { UserInterface } from "@/app/model/user";
 import { useState, useEffect } from "react";
 import axios from "axios";
