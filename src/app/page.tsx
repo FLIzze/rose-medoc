@@ -6,8 +6,16 @@ import Cookies from 'js-cookie';
 import WeeklyCal from './components/weekly-cal/page';
 import Filters from './components/filters/page';
 import { UserInterface } from './model/user';
+import MonthlyCal from './components/monthly-calendar/page';
 
 export default function Home() {
+    const [currentDay, setCurrentDay] = useState(new Date().getDate());
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
+    const [localMonth, setLocalMonth] = useState(currentMonth);
+    const [currentDate, setCurrentDate] = useState(new Date(currentYear, localMonth));
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(true);
@@ -69,6 +77,17 @@ export default function Home() {
                 <div className="bg-white h-screen overflow-hidden">
                     <div className="flex mt-5">
                         <div>
+                            <MonthlyCal
+                                setCurrentDay={setCurrentDay}
+                                currentMonth={currentMonth}
+                                setCurrentMonth={setCurrentMonth}
+                                currentYear={currentYear}
+                                setCurrentYear={setCurrentYear}
+                                localMonth={localMonth}
+                                setLocalMonth={setLocalMonth}
+                                currentDate={currentDate}
+                                setCurrentDate={setCurrentDate}
+                            />
                             <Filters
                                 own={own}
                                 tagged={tagged}
@@ -79,13 +98,21 @@ export default function Home() {
                             />
                         </div>
                         <div className="w-screen">
-                            <WeeklyCal 
+                            <WeeklyCal
                                 currentUser={currentUser}
                                 setCurrentUser={setCurrentUser}
                                 cookie={Cookies.get()}
                                 own={own}
                                 tagged={tagged}
                                 others={others}
+                                currentDay={currentDay}
+                                currentMonth={currentMonth}
+                                currentYear={currentYear}
+                                setCurrentDay={setCurrentDay}
+                                setCurrentMonth={setCurrentMonth}
+                                setCurrentYear={setCurrentYear}
+                                setLocalMonth={setLocalMonth}
+                                setCurrentDate={setCurrentDate}
                             />
                         </div>
                     </div>

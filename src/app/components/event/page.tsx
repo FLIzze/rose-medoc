@@ -41,7 +41,7 @@ export default function CalEvent({ beginningHour, endHour, title, duration, id, 
             }}
             className={`rounded-l-md pl-3 text-sm py-1 hover:cursor-pointer pb-3 select-none h-${eventHeight}`}
         >
-            <p>{beginningHour.toString()}:00 - {(endHour).toString()}:00</p>
+            <p className="overflow-hidden whitespace-nowrap text-ellipsis">{beginningHour.toString()}:00 - {(endHour).toString()}:00</p>
             <p className="font-bold overflow-hidden whitespace-nowrap mr-2 text-ellipsis">{title}</p>
             <p className="overflow-hidden whitespace-nowrap text-ellipsis">par {by.firstName} {by.name}</p>
             <p className="overflow-hidden whitespace-nowrap text-ellipsis">{location}</p>

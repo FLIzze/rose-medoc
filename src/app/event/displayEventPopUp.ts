@@ -7,15 +7,16 @@ export default async function displayEventPopUp(
     day: number,
     setCurrentDayEvent: Dispatch<SetStateAction<number>>,
     setCurrentHour: Dispatch<SetStateAction<number>>,
-    setBegginingHour: Dispatch<SetStateAction<number>>,
+    setBeginningHour: Dispatch<SetStateAction<number>>,
     setEndHour: Dispatch<SetStateAction<number>>,
     setTitle: Dispatch<SetStateAction<string>>,
     setDescription: Dispatch<SetStateAction<string>>,
     setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
     isPopupVisible: boolean,
     setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
-    isDetailsVisible: boolean) {
-
+    isDetailsVisible: boolean,
+    setLocation: Dispatch<SetStateAction<string>>
+) {
     const calendarPopup = document.getElementById("eventPopup");
 
     if (calendarPopup) {
@@ -34,11 +35,12 @@ export default async function displayEventPopUp(
 
         setCurrentDayEvent(day);
         setCurrentHour(hour);
-        setBegginingHour(hour);
+        setBeginningHour(hour);
         setEndHour(hour + 1);
         setParticipants([]);
         setTitle("");
         setDescription("");
+        // setLocation("");
 
         calendarPopup.style.opacity = '1';
         calendarPopup.style.pointerEvents = 'auto';

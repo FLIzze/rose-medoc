@@ -18,7 +18,9 @@ export default function Location({ location, setLocation }: LocationProps) {
         script.onload = () => {
             if (!inputRef.current) return;
 
-            const autocomplete = new google.maps.places.Autocomplete(inputRef.current);
+            const autocomplete = new google.maps.places.Autocomplete(inputRef.current, {
+                componentRestrictions: { country: 'fr' }
+            });
 
             autocomplete.addListener("place_changed", () => {
                 const place = autocomplete.getPlace();

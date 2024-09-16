@@ -21,17 +21,41 @@ interface WeeklyCalProps {
     cookie: { [key: string]: string },
     own: boolean,
     tagged: boolean,
-    others: boolean
+    others: boolean,
+    setLocation: Dispatch<SetStateAction<string>>,
+    currentDay: number,
+    setCurrentDay: Dispatch<SetStateAction<number>>,
+    currentMonth: number,
+    setCurrentMonth: Dispatch<SetStateAction<number>>,
+    currentYear: number,
+    setCurrentYear: Dispatch<SetStateAction<number>>,
+    localMonth: number,
+    setLocalMonth: Dispatch<SetStateAction<number>>,
+    currentDate: Date,
+    setCurrentDate: Dispatch<SetStateAction<Date>>
 }
 
-export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, tagged, others }: WeeklyCalProps) {
+export default function WeeklyCal({ 
+    currentUser, 
+    setCurrentUser, 
+    cookie, 
+    own, 
+    tagged, 
+    others, 
+    setLocation,
+    currentDay,
+    currentMonth,
+    currentYear,
+    setCurrentDay,
+    setCurrentMonth,
+    setCurrentYear,
+    setLocalMonth,
+    setCurrentDate }: WeeklyCalProps) {
+
     const days = ["Empty", "LUN", "MAR", "MER", "JEU", "VEN", "SAM", "DIM"];
     const hours = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
     const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
 
-    const [currentDay, setCurrentDay] = useState(new Date().getDate());
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
     const [dates, setDates] = useState<string[]>([]);
     const [events, setEvents] = useState<EventInterface[]>([]);
 
@@ -139,6 +163,8 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
                 setCurrentMonth={setCurrentMonth}
                 setCurrentYear={setCurrentYear}
                 months={months}
+                setLocalMonth={setLocalMonth}
+                setCurrentDate={setCurrentDate}
             />
 
             <div className="flex-none grid grid-cols-8 w-full pt-6">
@@ -171,8 +197,7 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
                                 return (
                                     <div key={hoursIndex}>
                                         {dayIndex === 0 ? (
-                                            <div className="text-right text-gray-400 text-xs pr-3 h-24">{hour}:00</div>
-                                        ) : (
+                                            <div className="text-xs text-right text-gray-400 pr-3 h-24">{hour}:00</div>                                        ) : (
                                             <div>
                                                 {eventsForHour.length > 0 ? (
                                                     <div className="relative">
@@ -183,11 +208,7 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
                                                                 (others && !event.participants.includes(currentUser.id) && event.by !== currentUser.id)
                                                             )
                                                             .map((event, eventIndex) => {
-                                                                const eventStart = new Date(event.beginning).getMinutes();
                                                                 const eventDuration = (new Date(event.end).getTime() - new Date(event.beginning).getTime()) / (1000 * 60 * 60);
-                                                                const eventWidth = 100 / eventsForHour.length;
-                                                                const eventLeft = eventWidth * eventIndex;
-                                                                const eventTop = (eventStart / 60) * 100;
                                                                 skip = eventDuration;
                                                                 return (
                                                                     <div
@@ -218,7 +239,7 @@ export default function WeeklyCal({ currentUser, setCurrentUser, cookie, own, ta
                                                             className="bg-white border-gray-300 border-l border-t h-24"
                                                             onClick={(e) => {
                                                                 hideEventDetails(setIsDetailsVisible);
-                                                                displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription, setParticipants, isPopupVisible, setIsPopupVisible, isDetailsVisible);
+                                                                displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription, setParticipants, isPopupVisible, setIsPopupVisible, isDetailsVisible, setLocation);
                                                                 setPopUpPosition(e);
                                                             }}>
                                                         </div>
