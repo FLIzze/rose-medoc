@@ -52,7 +52,7 @@ export default function Participant({
 
                 <input
                     type="text"
-                    className="py-2 text-left px-2 hover:bg-gray-100 w-full outline-none focus:border-gray-400 transition-all border-b border-white h-9 focus:bg-gray-100"
+                    className="py-2 text-left px-2 w-full outline-none transition-all h-9 bg-very-light-pink"
                     placeholder="Ajouter des participants"
                     onChange={(e) => {
                         setParticipantsInput(e.target.value);

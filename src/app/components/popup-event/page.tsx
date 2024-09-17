@@ -14,6 +14,7 @@ interface PopupEventProps {
     beginningHour: number,
     endHour: number,
     currentDayEvent: number,
+    currentMonthEvent: number,
     currentMonth: number,
     currentYear: number,
     days: string[],
@@ -33,12 +34,15 @@ interface PopupEventProps {
     participants: UserInterface[],
     setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
     setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
+    location: string,
+    setLocation: Dispatch<SetStateAction<string>>
 }
 
 export default function PopupEvent({
     beginningHour,
     endHour,
     currentDayEvent,
+    currentMonthEvent,
     currentMonth,
     currentYear,
     days,
@@ -57,7 +61,9 @@ export default function PopupEvent({
     users,
     participants,
     setParticipants,
-    setIsPopupVisible }: PopupEventProps) {
+    setIsPopupVisible,
+    location,
+    setLocation }: PopupEventProps) {
 
     const [isBeginningHoursVisible, setIsBeginningHoursVisible] = useState(false);
     const [isEndHoursVisible, setIsEndHoursVisible] = useState(false);
@@ -65,7 +71,6 @@ export default function PopupEvent({
     const endHoursRef = useRef<HTMLDivElement>(null);
 
     const [participantsInput, setParticipantsInput] = useState("");
-    const [location, setLocation] = useState("Rose Medoc");
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -91,23 +96,29 @@ export default function PopupEvent({
     return (
         <Draggable pos={pos} size={{ width: 415, height: 345 }}>
             <div
-                className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-fit pointer-events-none"
+                className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-fit pointer-events-none text-dark-pink"
                 id="eventPopup"
             >
-                <div className="flex justify-end pr-5 h-9 w-full bg-gray-100">
+                <div className="flex justify-end pr-5 h-9 w-full bg-medium-pink">
                     <button onClick={() => hideEventPopup(setIsPopupVisible)}>
-                        <img src="/cross.svg" alt="cross" className="w-8 h-8 p-2 hover:bg-gray-200 rounded-full" />
+                        <img
+                            src="/cross.png"
+                            alt="cross"
+                            className="w-7 h-7 p-1 hover:bg-dark-pink rounded-full"
+                        />
                     </button>
                 </div>
 
                 <div className='flex flex-col text-sm mt-3 text-gray-600 pl-9 pr-7 pb-5 pt-2'>
-                    <input
-                        type="text"
-                        placeholder='Ajouter un titre'
-                        className='border-b outline-none text-xl font-semibold h-9 transition-all focus:font-normal w-80 border-white focus:border-gray-500 hover:bg-gray-100 pl-2 mb-2'
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
+                    <div className="pl-10">
+                        <input
+                            type="text"
+                            placeholder='Ajouter un titre'
+                            className='border-b border-light-pink outline-none text-xl h-9 transition-all w-80 mb-2 placeholder:text-dark-pink focus:border-medium-pink focus:border-b-2'
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                    </div>
 
                     <p className="text-xs text-red-500 hidden" id="required-title">Titre obligatoire.</p>
 
@@ -117,7 +128,7 @@ export default function PopupEvent({
                         isEndHoursVisible={isEndHoursVisible}
                         isBeginningHoursVisible={isBeginningHoursVisible}
                         currentDayEvent={currentDayEvent}
-                        currentMonth={currentMonth}
+                        currentMonth={currentMonthEvent}
                         currentYear={currentYear}
                         beginningHour={beginningHour}
                         endHour={endHour}
@@ -139,7 +150,7 @@ export default function PopupEvent({
                         />
                         <textarea
                             placeholder='Ajouter une description'
-                            className='rounded-sm outline-none pl-2 pt-2 w-full resize-none hover:bg-gray-100 transition-all h-9 focus:h-40 focus:bg-gray-100 border-b border-white focus:border-gray-500'
+                            className='rounded-sm outline-none pl-2 pt-2 w-full resize-none hover:bg-gray-100 transition-all h-9 focus:h-40 focus:bg-gray-100'
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         />
@@ -155,7 +166,6 @@ export default function PopupEvent({
                     />
 
                     <Location
-                        location={location}
                         setLocation={setLocation}
                     />
 
@@ -164,7 +174,7 @@ export default function PopupEvent({
                             className='rounded-sm h-10 border border-gray-200 transition-all hover:bg-gray-100 w-2/5'
                             onClick={() => {
                                 addEvent(dates, currentDayEvent, beginningHour, endHour, currentMonth, currentYear, title, description, setEvents, currentUser, participants, location),
-                                hideEventPopup(setIsPopupVisible)
+                                    hideEventPopup(setIsPopupVisible)
                             }}>
                             Enregistrer
                         </button>

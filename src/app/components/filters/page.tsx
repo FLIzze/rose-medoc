@@ -11,7 +11,9 @@ interface FiltersProps {
 
 export default function Filters({ own, tagged, setOwn, setTagged, others, setOthers }: FiltersProps) {
     return (
-        <div className="ml-4">
+        <div className="ml-4 text-sm">
+            <hr className="mb-5" />
+
             <div className="flex gap-2">
                 <input
                     type="checkbox"

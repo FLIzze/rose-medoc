@@ -37,11 +37,21 @@ export default function MonthlyCal({ setCurrentDay, currentMonth, setCurrentMont
     }
 
     const handlePreviousMonth = () => {
-        setLocalMonth(localMonth - 1);
+        if (localMonth === 0) {
+            setLocalMonth(11);
+            setCurrentYear(currentYear - 1);
+        } else {
+            setLocalMonth(localMonth - 1);
+        }
     };
 
     const handleNextMonth = () => {
-        setLocalMonth(localMonth + 1);
+        if (localMonth === 11) {
+            setLocalMonth(0);
+            setCurrentYear(currentYear + 1);
+        } else {
+            setLocalMonth(localMonth + 1);
+        }
     };
 
     const setDate = (date: Date) => {
@@ -98,7 +108,7 @@ export default function MonthlyCal({ setCurrentDay, currentMonth, setCurrentMont
                     return (
                         <button
                             key={index}
-                            className={`p-2 text-center rounded-full hover:bg-gray-100 ${hasEvents ? 'bg-gray-100' : ''}`}
+                            className={`p-2 text-center rounded-full hover:bg-gray-100 ${hasEvents ? 'bg-gray-200' : ''}`}
                             onClick={() => setDate(date)}
                         >
                             <p className='text-xs'>

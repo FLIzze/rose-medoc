@@ -15,7 +15,6 @@ export default async function deleteEvent(id: number | undefined, setEvents: Dis
     }
 
     getEvents(setEvents);
-    hideEventDetails();
   } catch (error) {
     console.error('Error deleting event', error);
   }

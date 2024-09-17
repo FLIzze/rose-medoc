@@ -27,39 +27,43 @@ export default function CalendarHeader({ userName, currentYear, currentMonth, cu
     };
 
     return (
-        <div className='flex ml-52 justify-between'>
-            <div className='flex'>
+        <div className='flex ml-52 justify-between items-center'>
+            <div className='flex items-center'>
                 <div className='flex'>
                     <button
                         className="mr-3"
                         onClick={goToToday}>
-                        <p className='border border-gray-300 py-1 px-3 rounded-sm hover:bg-gray-100 transition-all text-sm'>Aujourd'hui</p>
+                        <img
+                            src="/home.png"
+                            alt="home"
+                            className='w-9 h-9 bg-medium-pink hover:bg-dark-pink transition-all p-2 rounded-full'
+                        />
                     </button>
                     <button
                         className="mr-3"
                         onClick={() => prevWeek(currentYear, currentMonth, currentDay, setCurrentDay, setCurrentMonth, setCurrentYear)}>
                         <img
-                            src="right_arrow_nav.png"
+                            src="left_arrow.png"
                             alt="prev Week"
-                            className='w-8 h-8 hover:bg-gray-200 p-2 rounded-full'
+                            className='w-9 h-9 bg-medium-pink hover:bg-dark-pink transition-all p-2 rounded-full'
                         />
                     </button>
                     <button
                         className="mr-3"
                         onClick={() => nextWeek(currentYear, currentMonth, currentDay, setCurrentDay, setCurrentMonth, setCurrentYear)}>
                         <img
-                            src="left_arrow_nav.png"
+                            src="right_arrow.png"
                             alt="next Week"
-                            className='w-8 h-8 hover:bg-gray-200 p-2 rounded-full'
+                            className='w-9 h-9 bg-medium-pink hover:bg-dark-pink transition-all p-2 rounded-full'
                         />
                     </button>
                 </div>
 
-                <p className='font-bold'>{months[currentMonth]} {currentYear}</p>
+                <p className='font-bold text-dark-pink'>{months[currentMonth]} {currentYear}</p>
 
             </div>
 
-            <p className='mr-10 font-bold'>{userName}</p>
+            <p className='mr-10 font-bold text-dark-pink'>{userName}</p>
         </div>
     );
 }

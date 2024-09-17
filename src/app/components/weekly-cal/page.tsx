@@ -17,12 +17,13 @@ import hideEventPopup from '@/app/event/hideEventPopup';
 
 interface WeeklyCalProps {
     currentUser: UserInterface,
-    setCurrentUser: Dispatch<SetStateAction<UserInterface>>,
+    setCurrentUser: Dispatch<SetStateAction<UserInterface | undefined>>,
     cookie: { [key: string]: string },
     own: boolean,
     tagged: boolean,
     others: boolean,
     setLocation: Dispatch<SetStateAction<string>>,
+    location: string,
     currentDay: number,
     setCurrentDay: Dispatch<SetStateAction<number>>,
     currentMonth: number,
@@ -35,14 +36,15 @@ interface WeeklyCalProps {
     setCurrentDate: Dispatch<SetStateAction<Date>>
 }
 
-export default function WeeklyCal({ 
-    currentUser, 
-    setCurrentUser, 
-    cookie, 
-    own, 
-    tagged, 
-    others, 
+export default function WeeklyCal({
+    currentUser,
+    setCurrentUser,
+    cookie,
+    own,
+    tagged,
+    others,
     setLocation,
+    location,
     currentDay,
     currentMonth,
     currentYear,
@@ -60,6 +62,7 @@ export default function WeeklyCal({
     const [events, setEvents] = useState<EventInterface[]>([]);
 
     const [currentDayEvent, setCurrentDayEvent] = useState(0);
+    const [currentMonthEvent, setCurrentMonthEvent] = useState(0);
     const [currentHour, setCurrentHour] = useState(0);
 
     const [beginningHour, setBeginningHour] = useState(0);
@@ -123,6 +126,7 @@ export default function WeeklyCal({
                     beginningHour={beginningHour}
                     endHour={endHour}
                     currentDayEvent={currentDayEvent}
+                    currentMonthEvent={currentMonthEvent}
                     currentMonth={currentMonth}
                     currentYear={currentYear}
                     days={days}
@@ -142,6 +146,8 @@ export default function WeeklyCal({
                     participants={participants}
                     setParticipants={setParticipants}
                     setIsPopupVisible={setIsPopupVisible}
+                    location={location}
+                    setLocation={setLocation}
                 />
 
                 <EventDetails
@@ -174,8 +180,8 @@ export default function WeeklyCal({
                             <div className="bg-white p-6"></div>
                         ) : (
                             <>
-                                <p className="text-gray-600 text-xs">{day}</p>
-                                <p className="text-2xl font-semibold">{dates[dayIndex]}</p>
+                                <p className="text-light-pink text-xs">{day}</p>
+                                <p className="text-2xl font-semibold text-dark-pink">{dates[dayIndex]}</p>
                             </>
                         )}
                     </div>
@@ -197,7 +203,7 @@ export default function WeeklyCal({
                                 return (
                                     <div key={hoursIndex}>
                                         {dayIndex === 0 ? (
-                                            <div className="text-xs text-right text-gray-400 pr-3 h-24">{hour}:00</div>                                        ) : (
+                                            <div className="text-xs text-right text-dark-pink pr-3 h-24">{hour}:00</div>) : (
                                             <div>
                                                 {eventsForHour.length > 0 ? (
                                                     <div className="relative">
@@ -233,10 +239,10 @@ export default function WeeklyCal({
                                                             })}
                                                     </div>
                                                 ) : (
-                                                    skip == 1 ? (
+                                                    skip === 1 ? (
                                                         <div
                                                             id={`${dayIndex}-${hoursIndex}`}
-                                                            className="bg-white border-gray-300 border-l border-t h-24"
+                                                            className="bg-white border-very-light-pink border-l border-t h-24"
                                                             onClick={(e) => {
                                                                 hideEventDetails(setIsDetailsVisible);
                                                                 displayEventPopUp(hour, dayIndex, setCurrentDayEvent, setCurrentHour, setBeginningHour, setEndHour, setTitle, setDescription, setParticipants, isPopupVisible, setIsPopupVisible, isDetailsVisible, setLocation);

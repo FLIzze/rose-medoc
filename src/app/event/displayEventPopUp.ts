@@ -40,7 +40,7 @@ export default async function displayEventPopUp(
         setParticipants([]);
         setTitle("");
         setDescription("");
-        // setLocation("");
+        setLocation("");
 
         calendarPopup.style.opacity = '1';
         calendarPopup.style.pointerEvents = 'auto';

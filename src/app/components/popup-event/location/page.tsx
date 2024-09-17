@@ -2,11 +2,10 @@ import { useEffect, useRef } from "react";
 import { Dispatch, SetStateAction } from "react";
 
 interface LocationProps {
-    location: string,
     setLocation: Dispatch<SetStateAction<string>>,
 }
 
-export default function Location({ location, setLocation }: LocationProps) {
+export default function Location({ setLocation }: LocationProps) {
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -47,7 +46,7 @@ export default function Location({ location, setLocation }: LocationProps) {
                 ref={inputRef}
                 type="text"
                 placeholder="Laisser vide pour Rose Medoc"
-                className="py-2 text-left px-2 hover:bg-gray-100 w-full outline-none focus:border-gray-400 transition-all border-b border-white h-9 focus:bg-gray-100"
+                className="py-2 text-left px-2 w-full outline-none transition-all h-9 bg-very-light-pink"
             />
         </div>
     );
