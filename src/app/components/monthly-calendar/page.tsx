@@ -3,18 +3,32 @@ import getEvents from '@/app/event/getEvents';
 import { EventInterface } from '@/app/model/event';
 
 interface MonthlyCalProps {
-    setCurrentDay: Dispatch<SetStateAction<number>>;
-    currentMonth: number;
-    setCurrentMonth: Dispatch<SetStateAction<number>>;
-    currentYear: number;
-    setCurrentYear: Dispatch<SetStateAction<number>>;
-    localMonth: number;
-    setLocalMonth: Dispatch<SetStateAction<number>>;
-    currentDate: Date;
-    setCurrentDate: Dispatch<SetStateAction<Date>>;
+    setCurrentDay: Dispatch<SetStateAction<number>>,
+    currentMonth: number,
+    setCurrentMonth: Dispatch<SetStateAction<number>>,
+    currentYear: number,
+    setCurrentYear: Dispatch<SetStateAction<number>>,
+    localMonth: number,
+    setLocalMonth: Dispatch<SetStateAction<number>>,
+    currentDate: Date,
+    setCurrentDate: Dispatch<SetStateAction<Date>>,
+    localYear: number,
+    setLocalYear: Dispatch<SetStateAction<number>>
 }
 
-export default function MonthlyCal({ setCurrentDay, currentMonth, setCurrentMonth, currentYear, setCurrentYear, localMonth, setLocalMonth, currentDate, setCurrentDate }: MonthlyCalProps) {
+export default function MonthlyCal({
+    setCurrentDay,
+    currentMonth,
+    setCurrentMonth,
+    currentYear,
+    setCurrentYear,
+    localMonth,
+    setLocalMonth,
+    currentDate,
+    setCurrentDate,
+    localYear,
+    setLocalYear }: MonthlyCalProps) {
+
     const [events, setEvents] = useState<EventInterface[]>([]);
 
     useEffect(() => {
@@ -22,8 +36,8 @@ export default function MonthlyCal({ setCurrentDay, currentMonth, setCurrentMont
     }, []);
 
     useEffect(() => {
-        setCurrentDate(new Date(currentYear, localMonth));
-    }, [localMonth, currentYear]);
+        setCurrentDate(new Date(localYear, localMonth));
+    }, [localMonth, localYear]);
 
     const currentMonthCal = currentDate.getMonth();
     const currentYearCal = currentDate.getFullYear();
@@ -39,7 +53,7 @@ export default function MonthlyCal({ setCurrentDay, currentMonth, setCurrentMont
     const handlePreviousMonth = () => {
         if (localMonth === 0) {
             setLocalMonth(11);
-            setCurrentYear(currentYear - 1);
+            setLocalYear(localYear - 1);
         } else {
             setLocalMonth(localMonth - 1);
         }
@@ -48,7 +62,7 @@ export default function MonthlyCal({ setCurrentDay, currentMonth, setCurrentMont
     const handleNextMonth = () => {
         if (localMonth === 11) {
             setLocalMonth(0);
-            setCurrentYear(currentYear + 1);
+            setLocalYear(localYear + 1);
         } else {
             setLocalMonth(localMonth + 1);
         }
@@ -68,26 +82,27 @@ export default function MonthlyCal({ setCurrentDay, currentMonth, setCurrentMont
     return (
         <div className='pl-4 pb-6'>
             <div className="flex justify-between items-center pl-2 text-sm font-bold">
-                <h2 className='w-32'>{capitalizedMonthName} {currentYearCal}</h2>
+                <h2 className='w-32 text-dark-pink'>{capitalizedMonthName} {currentYearCal}</h2>
                 <button onClick={handlePreviousMonth}>
                     <img
-                        src="right_arrow_nav.png"
+                        src="left_arrow.png"
                         alt="prev mois"
-                        className='w-5 h-5 hover:bg-gray-200 p-1 rounded-full'
+                        className='w-5 h-5 bg-medium-pink hover:bg-dark-pink p-1 rounded-full'
                     />
                 </button>
                 <button onClick={handleNextMonth}>
                     <img
-                        src="left_arrow_nav.png"
+                        src="right_arrow.png"
                         alt="next mois"
-                        className='w-5 h-5 hover:bg-gray-200 p-1 rounded-full'
+                        className='w-5 h-5 bg-medium-pink hover:bg-dark-pink p-1 rounded-full'
                     />
                 </button>
             </div>
+
             <div className="grid grid-cols-7 text-sm">
                 {daysOfWeek.map((day, index) => (
                     <div key={index} className="p-1 text-center font-bold">
-                        <p className='text-xs'>
+                        <p className='text-xs text-dark-pink'>
                             {day}
                         </p>
                     </div>
@@ -101,17 +116,16 @@ export default function MonthlyCal({ setCurrentDay, currentMonth, setCurrentMont
                     const hasEvents = events.some(event => {
                         const eventDate = new Date(event.beginning);
                         return eventDate.getDate() === date.getDate() &&
-                               eventDate.getMonth() === date.getMonth()-1 &&
-                               eventDate.getFullYear() === date.getFullYear();
+                            eventDate.getMonth() === date.getMonth()-1 &&
+                            eventDate.getFullYear() === date.getFullYear();
                     });
 
                     return (
                         <button
                             key={index}
-                            className={`p-2 text-center rounded-full hover:bg-gray-100 ${hasEvents ? 'bg-gray-200' : ''}`}
                             onClick={() => setDate(date)}
                         >
-                            <p className='text-xs'>
+                            <p className={`p-2 text-xs rounded-full transition-all ${hasEvents ? 'text-white bg-medium-pink hover:bg-dark-pink' : 'text-medium-pink hover:bg-very-light-pink'}`}>
                                 {date.getDate()}
                             </p>
                         </button>

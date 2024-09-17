@@ -11,14 +11,15 @@ interface FiltersProps {
 
 export default function Filters({ own, tagged, setOwn, setTagged, others, setOthers }: FiltersProps) {
     return (
-        <div className="ml-4 text-sm">
-            <hr className="mb-5" />
+        <div className="ml-4 text-sm text-dark-pink">
+            <hr className="mb-5 divide-dark-pink"/>
 
             <div className="flex gap-2">
                 <input
                     type="checkbox"
                     id="own"
                     onClick={() => setOwn(!own)}
+                    className="accent-dark-pink"
                     defaultChecked
                 />
                 <label htmlFor="own" className="select-none">Personnel</label>
@@ -28,6 +29,7 @@ export default function Filters({ own, tagged, setOwn, setTagged, others, setOth
                     type="checkbox"
                     id="tagged"
                     onClick={() => setTagged(!tagged)}
+                    className="accent-dark-pink"
                     defaultChecked
                 />
                 <label htmlFor="tagged" className="select-none">Tagged</label>
@@ -36,6 +38,7 @@ export default function Filters({ own, tagged, setOwn, setTagged, others, setOth
                 <input
                     type="checkbox"
                     id="others"
+                    className="accent-dark-pink"
                     onClick={() => setOthers(!others)}
                 />
                 <label htmlFor="others" className="select-none">Others</label>

@@ -17,7 +17,9 @@ interface SidebarProps {
     others: boolean,
     setOwn: Dispatch<SetStateAction<boolean>>,
     setTagged: Dispatch<SetStateAction<boolean>>,
-    setOthers: Dispatch<SetStateAction<boolean>>
+    setOthers: Dispatch<SetStateAction<boolean>>,
+    localYear: number,
+    setLocalYear: Dispatch<SetStateAction<number>>
 }
 
 export default function Sidebar({
@@ -35,7 +37,9 @@ export default function Sidebar({
     others,
     setOwn,
     setTagged,
-    setOthers }: SidebarProps) {
+    setOthers,
+    localYear,
+    setLocalYear }: SidebarProps) {
 
     return (
         <div>
@@ -49,6 +53,8 @@ export default function Sidebar({
                 setLocalMonth={setLocalMonth}
                 currentDate={currentDate}
                 setCurrentDate={setCurrentDate}
+                localYear={localYear}
+                setLocalYear={setLocalYear}
             />
 
             <Filters
@@ -65,8 +71,6 @@ export default function Sidebar({
                 src="Logo sans fond Asso Patientes.png"
                 alt="logo Rose Medoc"
             />
-
-            {/* <p className="text-pink">test</p> */}
         </div>
     )
 }

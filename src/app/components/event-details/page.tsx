@@ -28,7 +28,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
         <Draggable pos={pos} size={{ width: 170, height: 120 }}>
             <div
                 id="eventDetails"
-                className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-96 pointer-events-none text-dark-pink text-sm"
+                className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-96 pointer-events-none text-dark-pink text-base"
             >
                 <div className="flex justify-end pr-5 h-9 w-full bg-medium-pink">
                     {event!.by == currentUser.id && (

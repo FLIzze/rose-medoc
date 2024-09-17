@@ -13,6 +13,8 @@ export default function Home() {
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
 
     const [localMonth, setLocalMonth] = useState(currentMonth);
+    const [localYear, setLocalYear] = useState(currentYear);
+
     const [currentDate, setCurrentDate] = useState(new Date(currentYear, localMonth));
 
     const [location, setLocation] = useState("Rose Medoc");
@@ -52,6 +54,8 @@ export default function Home() {
                                 setOwn={setOwn}
                                 setTagged={setTagged}
                                 setOthers={setOthers}
+                                localYear={localYear}
+                                setLocalYear={setLocalYear}
                             />
                         </div>
 
@@ -75,6 +79,8 @@ export default function Home() {
                                 localMonth={localMonth}
                                 setLocation={setLocation}
                                 location={location}
+                                localYear={localYear}
+                                setLocalYear={setLocalYear}
                             />
                         </div>
                     </div>

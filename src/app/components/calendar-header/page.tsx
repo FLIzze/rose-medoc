@@ -13,10 +13,23 @@ interface CalendarHeaderProps {
     setCurrentYear: Dispatch<SetStateAction<number>>,
     months: string[],
     setLocalMonth: Dispatch<SetStateAction<number>>,
-    setCurrentDate: Dispatch<SetStateAction<Date>>
+    setCurrentDate: Dispatch<SetStateAction<Date>>,
+    setLocalYear: Dispatch<SetStateAction<number>>
 }
 
-export default function CalendarHeader({ userName, currentYear, currentMonth, currentDay, setCurrentDay, setCurrentMonth, setCurrentYear, months, setLocalMonth, setCurrentDate }: CalendarHeaderProps) {
+export default function CalendarHeader({ 
+    userName, 
+    currentYear, 
+    currentMonth, 
+    currentDay, 
+    setCurrentDay,
+    setCurrentMonth, 
+    setCurrentYear, 
+    months, 
+    setLocalMonth, 
+    setCurrentDate,
+    setLocalYear }: CalendarHeaderProps) {
+
     const goToToday = () => {
         const today = new Date();
         setCurrentDay(today.getDate());
@@ -24,6 +37,7 @@ export default function CalendarHeader({ userName, currentYear, currentMonth, cu
         setCurrentYear(today.getFullYear());
         setLocalMonth(today.getMonth());
         setCurrentDate(today);
+        setLocalYear(today.getFullYear());
     };
 
     return (

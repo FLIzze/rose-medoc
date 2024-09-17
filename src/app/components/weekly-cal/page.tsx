@@ -33,7 +33,9 @@ interface WeeklyCalProps {
     localMonth: number,
     setLocalMonth: Dispatch<SetStateAction<number>>,
     currentDate: Date,
-    setCurrentDate: Dispatch<SetStateAction<Date>>
+    setCurrentDate: Dispatch<SetStateAction<Date>>,
+    localYear: number,
+    setLocalYear: Dispatch<SetStateAction<number>>
 }
 
 export default function WeeklyCal({
@@ -52,7 +54,9 @@ export default function WeeklyCal({
     setCurrentMonth,
     setCurrentYear,
     setLocalMonth,
-    setCurrentDate }: WeeklyCalProps) {
+    setCurrentDate,
+    localYear,
+    setLocalYear }: WeeklyCalProps) {
 
     const days = ["Empty", "LUN", "MAR", "MER", "JEU", "VEN", "SAM", "DIM"];
     const hours = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
@@ -171,6 +175,7 @@ export default function WeeklyCal({
                 months={months}
                 setLocalMonth={setLocalMonth}
                 setCurrentDate={setCurrentDate}
+                setLocalYear={setLocalYear}
             />
 
             <div className="flex-none grid grid-cols-8 w-full pt-6">
