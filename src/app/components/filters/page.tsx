@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction } from "react";
 
 interface FiltersProps {
     own: boolean,
@@ -18,7 +18,7 @@ export default function Filters({ own, tagged, setOwn, setTagged, others, setOth
                     id="own"
                     onClick={() => setOwn(!own)}
                     className="accent-dark-pink"
-                    defaultChecked
+                    checked={own}
                 />
                 <label htmlFor="own" className="select-none">Personnel</label>
             </div>
@@ -28,7 +28,7 @@ export default function Filters({ own, tagged, setOwn, setTagged, others, setOth
                     id="tagged"
                     onClick={() => setTagged(!tagged)}
                     className="accent-dark-pink"
-                    defaultChecked
+                    checked={tagged}
                 />
                 <label htmlFor="tagged" className="select-none">Tagged</label>
             </div>
@@ -38,9 +38,10 @@ export default function Filters({ own, tagged, setOwn, setTagged, others, setOth
                     id="others"
                     className="accent-dark-pink"
                     onClick={() => setOthers(!others)}
+                    checked={others}
                 />
                 <label htmlFor="others" className="select-none">Others</label>
             </div>
         </div>
-    )
+    );
 }

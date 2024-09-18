@@ -61,7 +61,7 @@ export default function Home() {
 
     useEffect(() => {
         setFilteredEvents(filterEvent(events, currentUser, own, tagged, others));
-    }, [own, tagged, others, []]);
+    }, [events, own, tagged, others]);
 
     return (
         <div className="h-screen w-screen flex items-center justify-center bg-gray-100">
@@ -85,7 +85,7 @@ export default function Home() {
                                 setOthers={setOthers}
                                 localYear={localYear}
                                 setLocalYear={setLocalYear}
-                                currentUser={currentUser}
+                                filteredEvents={filteredEvents}
                             />
                         </div>
 
@@ -106,6 +106,9 @@ export default function Home() {
                                 users={users}
                                 filteredEvents={filteredEvents}
                                 setEvents={setEvents}
+                                setOwn={setOwn}
+                                setTagged={setTagged}
+                                setOthers={setOthers}
                             />
                         </div>
                     </div>

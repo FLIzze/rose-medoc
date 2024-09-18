@@ -24,20 +24,5 @@ const config: Config = {
     },
   },
   plugins: [],
-  safelist: [
-    {
-      pattern: /bg-(red|blue|green|yellow|purple|pink|indigo|gray)-700/,
-      variants: ['bg-opacity-10', 'hover:bg-opacity-15'],
-    },
-    {
-      pattern: /border-l-(red|blue|green|yellow|purple|pink|indigo|gray)-700/,
-    },
-    {
-      pattern: /text-(red|blue|green|yellow|purple|pink|indigo|gray)-700/,
-    },
-    {
-      pattern: /h-\d+/,
-    },
-  ],
 };
 export default config;

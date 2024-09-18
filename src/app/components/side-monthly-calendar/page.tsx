@@ -1,8 +1,7 @@
-import React, { Dispatch, SetStateAction, useState, useEffect } from 'react';
-import getEvents from '@/app/event/getEvents';
+"use client";
+
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { EventInterface } from '@/app/model/event';
-import filterEvent from '@/app/event/filterEvents';
-import { UserInterface } from '@/app/model/user';
 
 interface SideMonthlyCalProps {
     setCurrentDay: Dispatch<SetStateAction<number>>,
@@ -17,7 +16,7 @@ interface SideMonthlyCalProps {
     own: boolean,
     tagged: boolean,
     others: boolean,
-    currentUser: UserInterface
+    filteredEvents: EventInterface[]
 }
 
 export default function SideMonthlyCal({
@@ -30,25 +29,13 @@ export default function SideMonthlyCal({
     setCurrentDate,
     localYear,
     setLocalYear,
-    own,
-    tagged,
-    others,
-    currentUser }: SideMonthlyCalProps) {
+    filteredEvents }: SideMonthlyCalProps) {
 
-    const [events, setEvents] = useState<EventInterface[]>([]);
-    const [filteredEVents, setFilteredEvents] = useState<EventInterface[]>([]);
-
-    useEffect(() => {
-        getEvents(setEvents);
-    }, []);
 
     useEffect(() => {
         setCurrentDate(new Date(localYear, localMonth));
     }, [localMonth, localYear]);
 
-    useEffect(() => {
-        setFilteredEvents(filterEvent(events, currentUser, own, tagged, others));
-    }, [own, tagged, others]);
 
     const currentMonthCal = currentDate.getMonth();
     const currentYearCal = currentDate.getFullYear();
@@ -125,7 +112,7 @@ export default function SideMonthlyCal({
                 ))}
 
                 {daysArray.map((date, index) => {
-                    const hasEvents = filteredEVents.some(event => {
+                    const hasEvents = filteredEvents.some(event => {
                         const eventDate = new Date(event.beginning);
                         return eventDate.getDate() === date.getDate() &&
                             eventDate.getMonth() === date.getMonth()-1 &&

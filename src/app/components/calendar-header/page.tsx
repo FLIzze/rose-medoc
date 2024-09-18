@@ -19,7 +19,10 @@ interface CalendarHeaderProps {
     setLocalYear: Dispatch<SetStateAction<number>>,
     setCalendarMode: Dispatch<SetStateAction<string>>,
     calendarMode: string,
-    currentUser: UserInterface
+    currentUser: UserInterface,
+    setOwn: Dispatch<SetStateAction<boolean>>,
+    setTagged: Dispatch<SetStateAction<boolean>>,
+    setOthers: Dispatch<SetStateAction<boolean>>,
 }
 
 export default function CalendarHeader({
@@ -35,7 +38,10 @@ export default function CalendarHeader({
     setLocalYear,
     setCalendarMode,
     calendarMode,
-    currentUser }: CalendarHeaderProps) {
+    currentUser,
+    setOwn,
+    setTagged,
+    setOthers }: CalendarHeaderProps) {
 
     const [isCalendarModeVisible, setIsCalendarModeVisible] = useState(false);
 
@@ -47,6 +53,9 @@ export default function CalendarHeader({
         setLocalMonth(today.getMonth());
         setCurrentDate(today);
         setLocalYear(today.getFullYear());
+        setOwn(true);
+        setTagged(true);
+        setOthers(false);
     };
 
     function setCalendar(mode: string) {

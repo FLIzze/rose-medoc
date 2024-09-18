@@ -1,8 +1,7 @@
-import MonthlyCal from "../side-monthly-calendar/page"
 import Filters from "../filters/page"
 import { Dispatch, SetStateAction } from "react"
 import SideMonthlyCal from "../side-monthly-calendar/page"
-import { UserInterface } from "@/app/model/user"
+import { EventInterface } from "@/app/model/event"
 
 interface SidebarProps {
     setCurrentDay: Dispatch<SetStateAction<number>>,
@@ -20,7 +19,7 @@ interface SidebarProps {
     setOthers: Dispatch<SetStateAction<boolean>>,
     localYear: number,
     setLocalYear: Dispatch<SetStateAction<number>>,
-    currentUser: UserInterface
+    filteredEvents: EventInterface[]
 }
 
 export default function Sidebar({
@@ -39,7 +38,7 @@ export default function Sidebar({
     setOthers,
     localYear,
     setLocalYear,
-    currentUser }: SidebarProps) {
+    filteredEvents }: SidebarProps) {
 
     return (
         <div className="pl-4">
@@ -56,7 +55,7 @@ export default function Sidebar({
                 own={own}
                 tagged={tagged}
                 others={others}
-                currentUser={currentUser}
+                filteredEvents={filteredEvents}
             />
 
             <hr className="mb-5 border border-dark-pink"/>

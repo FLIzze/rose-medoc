@@ -1,3 +1,5 @@
+"use client";
+
 import { UserInterface } from "@/app/model/user"
 import { Dispatch, SetStateAction, useState } from "react"
 import WeeklyCal from "../weekly-cal/page"
@@ -23,6 +25,9 @@ interface MainCalProps {
     users: UserInterface[],
     filteredEvents: EventInterface[],
     setEvents: Dispatch<SetStateAction<EventInterface[]>>,
+    setOwn: Dispatch<SetStateAction<boolean>>,
+    setTagged: Dispatch<SetStateAction<boolean>>,
+    setOthers: Dispatch<SetStateAction<boolean>>
 }
 
 export default function MainCal({
@@ -40,7 +45,10 @@ export default function MainCal({
     calendarMode,
     users,
     filteredEvents,
-    setEvents }: MainCalProps) {
+    setEvents,
+    setOwn,
+    setTagged,
+    setOthers }: MainCalProps) {
 
     const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
 
@@ -126,6 +134,9 @@ export default function MainCal({
                 setCalendarMode={setCalendarMode}
                 calendarMode={calendarMode}
                 currentUser={currentUser}
+                setOwn={setOwn}
+                setTagged={setTagged}
+                setOthers={setOthers}
             />
 
             {calendarMode == 'weekly' && (

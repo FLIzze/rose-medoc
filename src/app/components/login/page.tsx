@@ -1,3 +1,5 @@
+"use client";
+
 import { UserInterface } from "@/app/model/user";
 import { Dispatch, SetStateAction, useState } from "react";
 import login from "@/app/user/login";

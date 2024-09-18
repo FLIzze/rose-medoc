@@ -26,7 +26,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
     const eventCreator = users.find(user => user.id === event!.by);
 
     return (
-        <Draggable pos={pos} size={{ width: 170, height: 120 }}>
+        <Draggable pos={pos} size={{ width: 380, height: 220 }}>
             <div
                 id="eventDetails"
                 className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-96 pointer-events-none text-dark-pink text-base rounded-lg    "
