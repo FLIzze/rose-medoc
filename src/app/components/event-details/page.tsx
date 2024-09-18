@@ -5,6 +5,7 @@ import Draggable from "../draggable/page";
 import { UserInterface } from "@/app/model/user";
 import returnFormattedDate from "@/app/date/returnFormattedDate";
 import hideEventDetails from "@/app/event/hideEventDetails";
+import downloadEvent from "@/app/event/downloadEvent";
 
 interface EventDetailsProps {
     event: EventInterface,
@@ -28,9 +29,9 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
         <Draggable pos={pos} size={{ width: 170, height: 120 }}>
             <div
                 id="eventDetails"
-                className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-96 pointer-events-none text-dark-pink text-base"
+                className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-96 pointer-events-none text-dark-pink text-base rounded-lg    "
             >
-                <div className="flex justify-end pr-5 h-9 w-full bg-medium-pink">
+                <div className="flex justify-end pr-5 h-9 w-full bg-medium-pink items-center rounded-t-lg">
                     {event!.by == currentUser.id && (
                         <button onClick={() => {
                             hideEventDetails(setIsDetailsVisible)
@@ -43,6 +44,13 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                             />
                         </button>
                     )}
+                    <button onClick={() => downloadEvent(event, users)}>
+                        <img
+                            src="/download.png"
+                            alt="download"
+                            className="w-7 h-7 p-1 hover:bg-dark-pink rounded-full"
+                        />
+                    </button>
                     <button onClick={() => hideEventDetails(setIsDetailsVisible)}>
                         <img
                             src="/cross.png"
@@ -85,6 +93,29 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                         </>
                     )}
 
+                    {event.participants && event.participants.length > 0 && (
+                        <>
+                            <div className="bg-light-pink flex items-center justify-center p-2 pb-4">
+                                <img
+                                    src="person.png"
+                                    alt="participants"
+                                    className='w-5 h-5 mx-3'
+                                />
+                            </div>
+                            <div className="flex flex-col pb-4 p-2">
+                                <p>{event.participants.length} participants</p>
+                                {event.participants.map((participantId, index) => {
+                                    const participant = users.find(user => user.id === participantId);
+                                    return (
+                                        <p key={index}>
+                                            {participant?.name} {participant?.firstName}
+                                        </p>
+                                    );
+                                })}
+                            </div>
+                        </>
+                    )}
+
                     {event.location && (
                         <>
                             <div className="bg-light-pink flex items-center justify-center p-2 pb-4">
@@ -106,30 +137,6 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                                         {event.location}
                                     </a>
                                 )}
-                            </div>
-                        </>
-                    )}
-
-                    {event.participants && event.participants.length > 0 && (
-                        <>
-                            <div className="bg-light-pink flex items-center justify-center p-2 pb-4">
-                                <img
-                                    src="person.png"
-                                    alt="participants"
-                                    className='w-5 h-5 mx-3'
-                                />
-                            </div>
-                            <div className="flex flex-col pb-4 p-2">
-                                <p>{event.participants.length + 1} participants</p>
-                                <p className="font-bold">{eventCreator?.name} {eventCreator?.firstName}</p>
-                                {event.participants.map((participantId, index) => {
-                                    const participant = users.find(user => user.id === participantId);
-                                    return (
-                                        <p key={index}>
-                                            {participant?.name} {participant?.firstName}
-                                        </p>
-                                    );
-                                })}
                             </div>
                         </>
                     )}

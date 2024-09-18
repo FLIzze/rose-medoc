@@ -2,10 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import WeeklyCal from './components/weekly-cal/page';
 import { UserInterface } from './model/user';
 import Sidebar from './components/sidebar/page';
 import Login from './components/login/page';
+import MainCal from './components/main-calendar/page';
+import axios from 'axios';
+import { EventInterface } from './model/event';
+import filterEvent from './event/filterEvents';
+import getEvents from './event/getEvents';
 
 export default function Home() {
     const [currentDay, setCurrentDay] = useState(new Date().getDate());
@@ -17,20 +21,47 @@ export default function Home() {
 
     const [currentDate, setCurrentDate] = useState(new Date(currentYear, localMonth));
 
-    const [location, setLocation] = useState("Rose Medoc");
-
     const [currentUser, setCurrentUser] = useState<UserInterface>();
 
     const [own, setOwn] = useState(true);
     const [tagged, setTagged] = useState(true);
     const [others, setOthers] = useState(false);
 
+    const [calendarMode, setCalendarMode] = useState('weekly');
+
+    const [users, setUsers] = useState<UserInterface[]>([]);
+    const cookie = Cookies.get();
+
+    const [events, setEvents] = useState<EventInterface[]>([]);
+    const [filteredEvents, setFilteredEvents] = useState<EventInterface[]>([]);
+
+    useEffect(() => {
+        getEvents(setEvents);
+    }, []);
+    
     useEffect(() => {
         const userId = Cookies.get('userId');
         if (userId) {
             setCurrentUser({ id: userId } as unknown as UserInterface);
         }
+        
+        axios.get('http://localhost:5000/api/users')
+        .then((response) => {
+            setUsers(response.data)
+            for (const user of response.data as UserInterface[]) {
+                if (user.id == +cookie['userId']) {
+                    setCurrentUser(user);
+                }
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching users', error);
+        });
     }, []);
+
+    useEffect(() => {
+        setFilteredEvents(filterEvent(events, currentUser, own, tagged, others));
+    }, [own, tagged, others, []]);
 
     return (
         <div className="h-screen w-screen flex items-center justify-center bg-gray-100">
@@ -40,9 +71,7 @@ export default function Home() {
                         <div>
                             <Sidebar
                                 setCurrentDay={setCurrentDay}
-                                currentMonth={currentMonth}
                                 setCurrentMonth={setCurrentMonth}
-                                currentYear={currentYear}
                                 setCurrentYear={setCurrentYear}
                                 localMonth={localMonth}
                                 setLocalMonth={setLocalMonth}
@@ -56,17 +85,13 @@ export default function Home() {
                                 setOthers={setOthers}
                                 localYear={localYear}
                                 setLocalYear={setLocalYear}
+                                currentUser={currentUser}
                             />
                         </div>
 
                         <div className="w-screen">
-                            <WeeklyCal
+                            <MainCal
                                 currentUser={currentUser}
-                                setCurrentUser={setCurrentUser}
-                                cookie={Cookies.get()}
-                                own={own}
-                                tagged={tagged}
-                                others={others}
                                 currentDay={currentDay}
                                 currentMonth={currentMonth}
                                 currentYear={currentYear}
@@ -75,12 +100,12 @@ export default function Home() {
                                 setCurrentYear={setCurrentYear}
                                 setLocalMonth={setLocalMonth}
                                 setCurrentDate={setCurrentDate}
-                                currentDate={currentDate}
-                                localMonth={localMonth}
-                                setLocation={setLocation}
-                                location={location}
-                                localYear={localYear}
                                 setLocalYear={setLocalYear}
+                                setCalendarMode={setCalendarMode}
+                                calendarMode={calendarMode}
+                                users={users}
+                                filteredEvents={filteredEvents}
+                                setEvents={setEvents}
                             />
                         </div>
                     </div>

@@ -1,12 +1,12 @@
-import MonthlyCal from "../monthly-calendar/page"
+import MonthlyCal from "../side-monthly-calendar/page"
 import Filters from "../filters/page"
 import { Dispatch, SetStateAction } from "react"
+import SideMonthlyCal from "../side-monthly-calendar/page"
+import { UserInterface } from "@/app/model/user"
 
 interface SidebarProps {
     setCurrentDay: Dispatch<SetStateAction<number>>,
-    currentMonth: number,
     setCurrentMonth: Dispatch<SetStateAction<number>>,
-    currentYear: number,
     setCurrentYear: Dispatch<SetStateAction<number>>,
     localMonth: number,
     setLocalMonth: Dispatch<SetStateAction<number>>,
@@ -19,14 +19,13 @@ interface SidebarProps {
     setTagged: Dispatch<SetStateAction<boolean>>,
     setOthers: Dispatch<SetStateAction<boolean>>,
     localYear: number,
-    setLocalYear: Dispatch<SetStateAction<number>>
+    setLocalYear: Dispatch<SetStateAction<number>>,
+    currentUser: UserInterface
 }
 
 export default function Sidebar({
     setCurrentDay,
-    currentMonth,
     setCurrentMonth,
-    currentYear,
     setCurrentYear,
     localMonth,
     setLocalMonth,
@@ -39,15 +38,14 @@ export default function Sidebar({
     setTagged,
     setOthers,
     localYear,
-    setLocalYear }: SidebarProps) {
+    setLocalYear,
+    currentUser }: SidebarProps) {
 
     return (
-        <div>
-            <MonthlyCal
+        <div className="pl-4">
+            <SideMonthlyCal
                 setCurrentDay={setCurrentDay}
-                currentMonth={currentMonth}
                 setCurrentMonth={setCurrentMonth}
-                currentYear={currentYear}
                 setCurrentYear={setCurrentYear}
                 localMonth={localMonth}
                 setLocalMonth={setLocalMonth}
@@ -55,7 +53,13 @@ export default function Sidebar({
                 setCurrentDate={setCurrentDate}
                 localYear={localYear}
                 setLocalYear={setLocalYear}
+                own={own}
+                tagged={tagged}
+                others={others}
+                currentUser={currentUser}
             />
+
+            <hr className="mb-5 border border-dark-pink"/>
 
             <Filters
                 own={own}

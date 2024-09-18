@@ -1,10 +1,12 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import prevWeek from '@/app/date/prevWeek';
 import nextWeek from '@/app/date/nextWeek';
+import hideCalendarMode from '@/app/event/hideCalendarMode';
+import displayCalendarMode from '@/app/event/displayCalendarMode';
+import { UserInterface } from '@/app/model/user';
 
 interface CalendarHeaderProps {
-    userName: string,
     currentYear: number,
     currentMonth: number,
     currentDay: number,
@@ -14,23 +16,30 @@ interface CalendarHeaderProps {
     months: string[],
     setLocalMonth: Dispatch<SetStateAction<number>>,
     setCurrentDate: Dispatch<SetStateAction<Date>>,
-    setLocalYear: Dispatch<SetStateAction<number>>
+    setLocalYear: Dispatch<SetStateAction<number>>,
+    setCalendarMode: Dispatch<SetStateAction<string>>,
+    calendarMode: string,
+    currentUser: UserInterface
 }
 
-export default function CalendarHeader({ 
-    userName, 
-    currentYear, 
-    currentMonth, 
-    currentDay, 
+export default function CalendarHeader({
+    currentYear,
+    currentMonth,
+    currentDay,
     setCurrentDay,
-    setCurrentMonth, 
-    setCurrentYear, 
-    months, 
-    setLocalMonth, 
+    setCurrentMonth,
+    setCurrentYear,
+    months,
+    setLocalMonth,
     setCurrentDate,
-    setLocalYear }: CalendarHeaderProps) {
+    setLocalYear,
+    setCalendarMode,
+    calendarMode,
+    currentUser }: CalendarHeaderProps) {
 
-    const goToToday = () => {
+    const [isCalendarModeVisible, setIsCalendarModeVisible] = useState(false);
+
+    function goToToday() {
         const today = new Date();
         setCurrentDay(today.getDate());
         setCurrentMonth(today.getMonth());
@@ -39,6 +48,11 @@ export default function CalendarHeader({
         setCurrentDate(today);
         setLocalYear(today.getFullYear());
     };
+
+    function setCalendar(mode: string) {
+        setCalendarMode(mode);
+        hideCalendarMode(setIsCalendarModeVisible);
+    }
 
     return (
         <div className='flex ml-52 justify-between items-center'>
@@ -77,7 +91,40 @@ export default function CalendarHeader({
 
             </div>
 
-            <p className='mr-10 font-bold text-dark-pink'>{userName}</p>
+            <div className='flex justify-end items-center'>
+                <div>
+                    <button
+                        className='mr-5 text-white bg-medium-pink px-3 py-2 rounded-full transition-all hover:bg-dark-pink flex items-center text-sm w-32'
+                        onClick={() => displayCalendarMode(setIsCalendarModeVisible, isCalendarModeVisible)}
+                    >
+                        {calendarMode}
+                        <img
+                            src="down_arrow.png"
+                            alt="derouler"
+                            className='w-3 h-3 ml-4 mr-2'
+                        />
+                    </button>
+
+                    <div
+                        className='absolute text-sm flex flex-col bg-medium-pink rounded-lg shadow-2xl items-start pl-2 py-3 text-white mt-2 pr-4 opacity-0 pointer-events-none'
+                        id='calMode'
+                    >
+                        <button
+                            onClick={() => setCalendar('weekly')}
+                            className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
+                        >
+                            Semaine
+                        </button>
+                        <button
+                            onClick={() => setCalendar('monthly')}
+                            className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
+                        >
+                            Mois
+                        </button>
+                    </div>
+                </div>
+                <p className='mr-10 font-bold text-dark-pink'>{currentUser.firstName} {currentUser.name}</p>
+            </div>
         </div>
     );
 }

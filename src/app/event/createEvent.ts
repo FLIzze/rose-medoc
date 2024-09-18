@@ -20,6 +20,11 @@ export default async function createEvent(
       location = 'Rose Medoc';
     }
 
+    const participantIds = participants.map(participant => participant.id);
+    if (user?.id) {
+      participantIds.push(user.id);
+    }
+
     const response = await fetch('http://localhost:5000/api/events', {
       method: 'POST',
       headers: {
@@ -32,7 +37,7 @@ export default async function createEvent(
         end: end.toISOString(),
         by: user?.id,
         location: location,
-        participants: participants.map(participant => participant.id)
+        participants: participantIds
       })
     });
 

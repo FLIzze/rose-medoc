@@ -1,183 +1,83 @@
 'use client';
 
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import CalEvent from "../event/page";
 import { EventInterface } from '@/app/model/event';
-import getEvents from '@/app/event/getEvents';
 import displayEventPopUp from '@/app/event/displayEventPopUp';
-import PopupEvent from '../popup-event/page';
-import updateWeekDates from '@/app/date/updateWeekDates';
-import EventDetails from '../event-details/page';
 import displayEventDetails from '@/app/event/displayEventDetails';
-import axios from 'axios';
-import { UserInterface } from '@/app/model/user';
-import CalendarHeader from '../calendar-header/page';
 import hideEventDetails from '@/app/event/hideEventDetails';
 import hideEventPopup from '@/app/event/hideEventPopup';
+import setCurrentEventDetails from '@/app/event/setCurrentEventDetails';
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { UserInterface } from "@/app/model/user";
+import updateWeekDates from "@/app/date/updateWeekDates";
 
 interface WeeklyCalProps {
-    currentUser: UserInterface,
-    setCurrentUser: Dispatch<SetStateAction<UserInterface | undefined>>,
-    cookie: { [key: string]: string },
-    own: boolean,
-    tagged: boolean,
-    others: boolean,
-    setLocation: Dispatch<SetStateAction<string>>,
-    location: string,
-    currentDay: number,
-    setCurrentDay: Dispatch<SetStateAction<number>>,
+    days: string[],
+    hours: number[],
+    dates: string[],
+    filteredEvents: EventInterface[],
     currentMonth: number,
-    setCurrentMonth: Dispatch<SetStateAction<number>>,
     currentYear: number,
-    setCurrentYear: Dispatch<SetStateAction<number>>,
-    localMonth: number,
-    setLocalMonth: Dispatch<SetStateAction<number>>,
-    currentDate: Date,
-    setCurrentDate: Dispatch<SetStateAction<Date>>,
-    localYear: number,
-    setLocalYear: Dispatch<SetStateAction<number>>
+    setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
+    setIsDetailsVisible: Dispatch<SetStateAction<boolean>>,
+    isDetailsVisible: boolean,
+    isPopupVisible: boolean,
+    setEvent: Dispatch<SetStateAction<EventInterface>>,
+    setPosition: Dispatch<SetStateAction<{ x: number, y: number }>>,
+    setCurrentDayEvent: Dispatch<SetStateAction<number>>,
+    setCurrentHour: Dispatch<SetStateAction<number>>,
+    setBeginningHour: Dispatch<SetStateAction<number>>,
+    setEndHour: Dispatch<SetStateAction<number>>,
+    setTitle: Dispatch<SetStateAction<string>>,
+    setDescription: Dispatch<SetStateAction<string>>,
+    setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
+    setLocation: Dispatch<SetStateAction<string>>,
+    currentDay: number,
+    setDates: Dispatch<SetStateAction<string[]>>
 }
 
 export default function WeeklyCal({
-    currentUser,
-    setCurrentUser,
-    cookie,
-    own,
-    tagged,
-    others,
-    setLocation,
-    location,
-    currentDay,
+    days,
+    hours,
+    dates,
+    filteredEvents,
     currentMonth,
     currentYear,
-    setCurrentDay,
-    setCurrentMonth,
-    setCurrentYear,
-    setLocalMonth,
-    setCurrentDate,
-    localYear,
-    setLocalYear }: WeeklyCalProps) {
-
-    const days = ["Empty", "LUN", "MAR", "MER", "JEU", "VEN", "SAM", "DIM"];
-    const hours = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-    const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
-
-    const [dates, setDates] = useState<string[]>([]);
-    const [events, setEvents] = useState<EventInterface[]>([]);
-
-    const [currentDayEvent, setCurrentDayEvent] = useState(0);
-    const [currentMonthEvent, setCurrentMonthEvent] = useState(0);
-    const [currentHour, setCurrentHour] = useState(0);
-
-    const [beginningHour, setBeginningHour] = useState(0);
-    const [endHour, setEndHour] = useState(0);
-
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-
-    const [event, setEvent] = useState<EventInterface>({} as EventInterface);
-
-    const [users, setUsers] = useState<UserInterface[]>([]);
-    const [participants, setParticipants] = useState<UserInterface[]>([]);
-
-    const [isPopupVisible, setIsPopupVisible] = useState(false);
-    const [isDetailsVisible, setIsDetailsVisible] = useState(false);
+    setIsPopupVisible,
+    setIsDetailsVisible,
+    isDetailsVisible,
+    isPopupVisible,
+    setEvent,
+    setPosition,
+    setCurrentDayEvent,
+    setCurrentHour,
+    setBeginningHour,
+    setEndHour,
+    setTitle,
+    setDescription,
+    setParticipants,
+    setLocation,
+    currentDay,
+    setDates
+}: WeeklyCalProps) {
 
     let skip = 1;
-
-    useEffect(() => {
-        axios.get('http://localhost:5000/api/users')
-            .then((response) => {
-                setUsers(response.data)
-                for (const user of response.data as UserInterface[]) {
-                    if (user.id == +cookie['userId']) {
-                        setCurrentUser(user);
-                    }
-                }
-            })
-            .catch((error) => {
-                console.error('Error fetching users', error);
-            });
-    }, []);
-
-    useEffect(() => {
-        getEvents(setEvents);
-    }, []);
 
     useEffect(() => {
         updateWeekDates(currentYear, currentMonth, currentDay, setDates);
     }, [currentDay, currentMonth, currentYear]);
 
-    function setPopUpPosition(e: React.MouseEvent<HTMLDivElement>) {
+    const setPopUpPosition = (e: React.MouseEvent<HTMLDivElement>) => {
         const { clientX, clientY } = e;
         setPosition({ x: clientX, y: clientY });
     }
 
-    function setCurrentEvent(event: EventInterface) {
-        setEvent(event);
-    }
-
-    function decrementSkip() {
+    const decrementSkip = () => {
         skip--;
     }
 
     return (
         <div className="h-screen flex flex-col pb-6">
-            <div className="flex-none">
-                <PopupEvent
-                    beginningHour={beginningHour}
-                    endHour={endHour}
-                    currentDayEvent={currentDayEvent}
-                    currentMonthEvent={currentMonthEvent}
-                    currentMonth={currentMonth}
-                    currentYear={currentYear}
-                    days={days}
-                    dates={dates}
-                    months={months}
-                    hours={hours}
-                    setEvents={setEvents}
-                    pos={position}
-                    title={title}
-                    setTitle={setTitle}
-                    description={description}
-                    setDescription={setDescription}
-                    setBeginningHour={setBeginningHour}
-                    setEndHour={setEndHour}
-                    currentUser={currentUser}
-                    users={users}
-                    participants={participants}
-                    setParticipants={setParticipants}
-                    setIsPopupVisible={setIsPopupVisible}
-                    location={location}
-                    setLocation={setLocation}
-                />
-
-                <EventDetails
-                    event={event}
-                    setEvents={setEvents}
-                    pos={position}
-                    currentUser={currentUser}
-                    users={users}
-                    setIsDetailsVisible={setIsDetailsVisible}
-                />
-            </div>
-
-            <CalendarHeader
-                userName={`${currentUser.name} ${currentUser.firstName}`}
-                currentYear={currentYear}
-                currentMonth={currentMonth}
-                currentDay={currentDay}
-                setCurrentDay={setCurrentDay}
-                setCurrentMonth={setCurrentMonth}
-                setCurrentYear={setCurrentYear}
-                months={months}
-                setLocalMonth={setLocalMonth}
-                setCurrentDate={setCurrentDate}
-                setLocalYear={setLocalYear}
-            />
-
             <div className="flex-none grid grid-cols-8 w-full pt-6">
                 {days.map((day, dayIndex) => (
                     <div key={dayIndex} className="bg-white">
@@ -193,31 +93,27 @@ export default function WeeklyCal({
                 ))}
             </div>
 
+
             <div className="flex-grow overflow-y-scroll">
                 <div className="grid grid-cols-8 w-full">
                     {days.map((_, dayIndex) => (
                         <div key={dayIndex} className="bg-white">
                             {hours.slice(0, -1).map((hour, hoursIndex) => {
-                                const eventsForHour = events.filter(event =>
-                                    new Date(event.beginning).getHours() + 2 === hour &&
-                                    new Date(event.beginning).getMonth() === currentMonth - 1 &&
-                                    new Date(event.beginning).getDate() === Number(dates[dayIndex]) &&
-                                    new Date(event.beginning).getFullYear() === currentYear
+                                const eventsForHour = filteredEvents.filter(event =>
+                                    new Date(event.beginning).getHours() + 2 == hour &&
+                                    new Date(event.beginning).getMonth() == currentMonth - 1 &&
+                                    new Date(event.beginning).getDate() == Number(dates[dayIndex]) &&
+                                    new Date(event.beginning).getFullYear() == currentYear
                                 );
 
                                 return (
                                     <div key={hoursIndex}>
-                                        {dayIndex === 0 ? (
+                                        {dayIndex == 0 ? (
                                             <div className="text-xs text-right text-dark-pink pr-3 h-24">{hour}:00</div>) : (
                                             <div>
                                                 {eventsForHour.length > 0 ? (
                                                     <div className="relative">
                                                         {eventsForHour
-                                                            .filter(event =>
-                                                                (own && currentUser.id === event.by) ||
-                                                                (tagged && event.participants.includes(currentUser.id)) ||
-                                                                (others && !event.participants.includes(currentUser.id) && event.by !== currentUser.id)
-                                                            )
                                                             .map((event, eventIndex) => {
                                                                 const eventDuration = (new Date(event.end).getTime() - new Date(event.beginning).getTime()) / (1000 * 60 * 60);
                                                                 skip = eventDuration;
@@ -227,7 +123,7 @@ export default function WeeklyCal({
                                                                         onClick={(e) => {
                                                                             hideEventPopup(setIsPopupVisible);
                                                                             displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
-                                                                            setCurrentEvent(event);
+                                                                            setCurrentEventDetails(event, setEvent);
                                                                             setPopUpPosition(e);
                                                                         }}
                                                                     >
@@ -244,7 +140,7 @@ export default function WeeklyCal({
                                                             })}
                                                     </div>
                                                 ) : (
-                                                    skip === 1 ? (
+                                                    skip == 1 ? (
                                                         <div
                                                             id={`${dayIndex}-${hoursIndex}`}
                                                             className="bg-white border-very-light-pink border-l border-t h-24"
