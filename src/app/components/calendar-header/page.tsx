@@ -1,3 +1,5 @@
+"use client";
+
 import { Dispatch, SetStateAction, useState } from 'react';
 
 import prevWeek from '@/app/date/prevWeek';
@@ -7,55 +9,40 @@ import displayCalendarMode from '@/app/event/displayCalendarMode';
 import { UserInterface } from '@/app/model/user';
 
 interface CalendarHeaderProps {
-    currentYear: number,
-    currentMonth: number,
-    currentDay: number,
-    setCurrentDay: Dispatch<SetStateAction<number>>,
-    setCurrentMonth: Dispatch<SetStateAction<number>>,
-    setCurrentYear: Dispatch<SetStateAction<number>>,
     months: string[],
-    setLocalMonth: Dispatch<SetStateAction<number>>,
-    setCurrentDate: Dispatch<SetStateAction<Date>>,
-    setLocalYear: Dispatch<SetStateAction<number>>,
+    setDate: Dispatch<SetStateAction<Date>>,
+    setSidebarDate: Dispatch<SetStateAction<Date>>,
     setCalendarMode: Dispatch<SetStateAction<string>>,
     calendarMode: string,
     currentUser: UserInterface,
     setOwn: Dispatch<SetStateAction<boolean>>,
     setTagged: Dispatch<SetStateAction<boolean>>,
     setOthers: Dispatch<SetStateAction<boolean>>,
+    date: Date
 }
 
 export default function CalendarHeader({
-    currentYear,
-    currentMonth,
-    currentDay,
-    setCurrentDay,
-    setCurrentMonth,
-    setCurrentYear,
     months,
-    setLocalMonth,
-    setCurrentDate,
-    setLocalYear,
+    setDate,
+    setSidebarDate,
     setCalendarMode,
     calendarMode,
     currentUser,
     setOwn,
     setTagged,
-    setOthers }: CalendarHeaderProps) {
+    setOthers,
+    date }: CalendarHeaderProps) {
 
     const [isCalendarModeVisible, setIsCalendarModeVisible] = useState(false);
 
     function goToToday() {
         const today = new Date();
-        setCurrentDay(today.getDate());
-        setCurrentMonth(today.getMonth());
-        setCurrentYear(today.getFullYear());
-        setLocalMonth(today.getMonth());
-        setCurrentDate(today);
-        setLocalYear(today.getFullYear());
+        setDate(today);
+        setSidebarDate(today);
         setOwn(true);
         setTagged(true);
         setOthers(false);
+        setCalendarMode('weekly');
     };
 
     function setCalendar(mode: string) {
@@ -64,12 +51,13 @@ export default function CalendarHeader({
     }
 
     return (
-        <div className='flex ml-52 justify-between items-center'>
+        <div className='flex ml-16 justify-between items-center'>
             <div className='flex items-center'>
                 <div className='flex'>
                     <button
                         className="mr-3"
-                        onClick={goToToday}>
+                    onClick={goToToday}
+                    >
                         <img
                             src="/home.png"
                             alt="home"
@@ -78,7 +66,8 @@ export default function CalendarHeader({
                     </button>
                     <button
                         className="mr-3"
-                        onClick={() => prevWeek(currentYear, currentMonth, currentDay, setCurrentDay, setCurrentMonth, setCurrentYear)}>
+                        onClick={() => prevWeek(date, setDate, calendarMode)}
+                    >
                         <img
                             src="left_arrow.png"
                             alt="prev Week"
@@ -87,7 +76,8 @@ export default function CalendarHeader({
                     </button>
                     <button
                         className="mr-3"
-                        onClick={() => nextWeek(currentYear, currentMonth, currentDay, setCurrentDay, setCurrentMonth, setCurrentYear)}>
+                        onClick={() => nextWeek(date, setDate, calendarMode)}
+                    >
                         <img
                             src="right_arrow.png"
                             alt="next Week"
@@ -96,7 +86,7 @@ export default function CalendarHeader({
                     </button>
                 </div>
 
-                <p className='font-bold text-dark-pink'>{months[currentMonth]} {currentYear}</p>
+                <p className='font-bold text-dark-pink'>{months[date.getMonth()]} {date.getFullYear()}</p>
 
             </div>
 

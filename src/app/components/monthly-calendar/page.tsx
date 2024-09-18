@@ -1,7 +1,11 @@
-export default function MonthlyCal() {
+interface MainMonthlyCalProps {
+    date: Date
+}
+
+export default function MainMonthlyCal({ date }: MainMonthlyCalProps) {
     return (
-        <div>
-            <p>Monthly</p>
+        <div className="flex gap-x-52">
+            {date.getMonth()}
         </div>
     )
 }

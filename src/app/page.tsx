@@ -12,14 +12,9 @@ import filterEvent from './event/filterEvents';
 import getEvents from './event/getEvents';
 
 export default function Home() {
-    const [currentDay, setCurrentDay] = useState(new Date().getDate());
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-
-    const [localMonth, setLocalMonth] = useState(currentMonth);
-    const [localYear, setLocalYear] = useState(currentYear);
-
-    const [currentDate, setCurrentDate] = useState(new Date(currentYear, localMonth));
+    const [date, setDate] = useState(new Date());
+    const [sidebarDate, setSidebarDate] = useState(new Date());
+    const [eventPopUpDate, setEventPopUpDate] = useState(new Date());
 
     const [currentUser, setCurrentUser] = useState<UserInterface>();
 
@@ -70,21 +65,15 @@ export default function Home() {
                     <div className="flex mt-5">
                         <div>
                             <Sidebar
-                                setCurrentDay={setCurrentDay}
-                                setCurrentMonth={setCurrentMonth}
-                                setCurrentYear={setCurrentYear}
-                                localMonth={localMonth}
-                                setLocalMonth={setLocalMonth}
-                                currentDate={currentDate}
-                                setCurrentDate={setCurrentDate}
+                                sidebarDate={sidebarDate}
+                                setSidebarDate={setSidebarDate}
+                                setDate={setDate}
                                 own={own}
                                 tagged={tagged}
                                 others={others}
                                 setOwn={setOwn}
                                 setTagged={setTagged}
                                 setOthers={setOthers}
-                                localYear={localYear}
-                                setLocalYear={setLocalYear}
                                 filteredEvents={filteredEvents}
                             />
                         </div>
@@ -92,15 +81,8 @@ export default function Home() {
                         <div className="w-screen">
                             <MainCal
                                 currentUser={currentUser}
-                                currentDay={currentDay}
-                                currentMonth={currentMonth}
-                                currentYear={currentYear}
-                                setCurrentDay={setCurrentDay}
-                                setCurrentMonth={setCurrentMonth}
-                                setCurrentYear={setCurrentYear}
-                                setLocalMonth={setLocalMonth}
-                                setCurrentDate={setCurrentDate}
-                                setLocalYear={setLocalYear}
+                                setDate={setDate}
+                                setSidebarDate={setSidebarDate}
                                 setCalendarMode={setCalendarMode}
                                 calendarMode={calendarMode}
                                 users={users}
@@ -109,6 +91,9 @@ export default function Home() {
                                 setOwn={setOwn}
                                 setTagged={setTagged}
                                 setOthers={setOthers}
+                                date={date}
+                                eventPopUpDate={eventPopUpDate}
+                                setEventPopUpDate={setEventPopUpDate}
                             />
                         </div>
                     </div>

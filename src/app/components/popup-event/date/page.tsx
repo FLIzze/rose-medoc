@@ -1,43 +1,25 @@
 import { Dispatch, SetStateAction } from 'react';
 
 interface DateProps {
-    days: string[],
-    hours: number[],
     isEndHoursVisible: boolean,
     isBeginningHoursVisible: boolean,
-    currentDayEvent: number,
-    currentMonth: number,
-    currentYear: number,
-    beginningHour: number,
-    endHour: number,
-    setBeginningHour: Dispatch<SetStateAction<number>>,
-    setEndHour: Dispatch<SetStateAction<number>>,
-    setIsEndHoursVisible: Dispatch<SetStateAction<boolean>>,
     setIsBeginningHoursVisible: Dispatch<SetStateAction<boolean>>,
-    dates: string[],
-    months: string[],
+    setIsEndHoursVisible: Dispatch<SetStateAction<boolean>>,
     beginningHoursRef: React.RefObject<HTMLDivElement>,
     endHoursRef: React.RefObject<HTMLDivElement>,
+    eventPopUpDate: Date,
+    months: string[]
 }
 
 export default function Date({
-    days,
-    hours,
     isEndHoursVisible,
     isBeginningHoursVisible,
-    currentDayEvent,
-    currentMonth,
-    currentYear,
-    beginningHour,
-    endHour,
-    setBeginningHour,
-    setEndHour,
     setIsBeginningHoursVisible,
     setIsEndHoursVisible,
-    dates,
-    months,
     beginningHoursRef,
-    endHoursRef }: DateProps) {
+    endHoursRef,
+    eventPopUpDate,
+    months }: DateProps) {
 
     function toggleBeginningHours() {
         if (isEndHoursVisible) {
@@ -55,20 +37,20 @@ export default function Date({
         setIsEndHoursVisible(prevState => !prevState);
     }
 
-    function handleBeginningHourClick(hour: number) {
-        setBeginningHour(hour);
-        if (hour >= endHour) {
-            setEndHour(hour + 1);
-        } else if (hour < endHour - 4) {
-            setEndHour(hour + 1);
-        }
-        setIsBeginningHoursVisible(false);
-    }
+    // function handleBeginningHourClick(hour: number) {
+    //     setBeginningHour(hour);
+    //     if (hour >= endHour) {
+    //         setEndHour(hour + 1);
+    //     } else if (hour < endHour - 4) {
+    //         setEndHour(hour + 1);
+    //     }
+    //     setIsBeginningHoursVisible(false);
+    // }
 
-    function handleEndHourClick(hour: number) {
-        setEndHour(hour);
-        setIsEndHoursVisible(false);
-    }
+    // function handleEndHourClick(hour: number) {
+    //     setEndHour(hour);
+    //     setIsEndHoursVisible(false);
+    // }
 
     return (
         <div className="flex items-center">
@@ -81,7 +63,7 @@ export default function Date({
             <button
                 className="hover:bg-gray-100 transition-all py-2 px-2 text-left flex-wrap whitespace-nowrap"
             >
-                {days[currentDayEvent]} {dates[currentDayEvent]} {months[currentMonth]} {currentYear}
+                {eventPopUpDate.getDay()} {eventPopUpDate.getDate()} {months[eventPopUpDate.getMonth()]} {eventPopUpDate.getFullYear()}
             </button>
 
             <div>
@@ -89,7 +71,7 @@ export default function Date({
                     className='py-2 text-left hover:bg-gray-100 px-2'
                     onClick={toggleBeginningHours}
                 >
-                    {beginningHour}:00
+                    {eventPopUpDate.getHours()}:00
                 </button>
 
                 <div
@@ -98,7 +80,7 @@ export default function Date({
                     id="beginningHours"
                     style={{ zIndex: 10 }}
                 >
-                    {hours.map((hour, index) => (
+                    {/* {hours.map((hour, index) => (
                         <button
                             key={index}
                             className="hover:bg-gray-100 text-left p-2 w-32"
@@ -106,7 +88,7 @@ export default function Date({
                         >
                             {hour}:00
                         </button>
-                    ))}
+                    ))} */}
                 </div>
             </div>
 
@@ -117,7 +99,7 @@ export default function Date({
                     className='py-2 text-left px-2 hover:bg-gray-100'
                     onClick={toggleEndHours}
                 >
-                    {endHour}:00
+                    {eventPopUpDate.getHours() + 1}:00
                 </button>
 
                 <div
@@ -126,7 +108,7 @@ export default function Date({
                     id="endHours"
                     style={{ zIndex: 10 }}
                 >
-                    {hours.map((hour, index) => (
+                    {/* {hours.map((hour, index) => (
                         (hour > beginningHour && hour <= beginningHour + 4 && (
                             <button
                                 key={index}
@@ -136,7 +118,7 @@ export default function Date({
                                 {hour}:00
                             </button>
                         ))
-                    ))}
+                    ))} */}
                 </div>
             </div>
         </div>

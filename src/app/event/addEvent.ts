@@ -6,12 +6,6 @@ import getEvents from "./getEvents";
 import { UserInterface } from "../model/user";
 
 export default async function addEvent(
-    dates: string[],
-    currentDayMeeting: number,
-    begginingHour: number,
-    endHour: number,
-    currentMonth: number,
-    currentYear: number,
     title: string,
     description: string,
     setEvents: Dispatch<SetStateAction<EventInterface[]>>,
@@ -32,7 +26,7 @@ export default async function addEvent(
         }
     }
 
-    await createEvent(dates[currentDayMeeting], begginingHour, endHour, currentMonth, currentYear, title, description, user, participants, location);
+    // await createEvent(dates[currentDayMeeting], begginingHour, endHour, currentMonth, currentYear, title, description, user, participants, location);
     setEvents([]);
     getEvents(setEvents);
 

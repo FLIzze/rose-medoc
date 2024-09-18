@@ -3,19 +3,17 @@ import { UserInterface } from "../model/user";
 import hideEventPopup from "./hideEventPopup";
 
 export default async function displayEventPopUp(
-    hour: number,
-    day: number,
-    setCurrentDayEvent: Dispatch<SetStateAction<number>>,
-    setCurrentHour: Dispatch<SetStateAction<number>>,
-    setBeginningHour: Dispatch<SetStateAction<number>>,
-    setEndHour: Dispatch<SetStateAction<number>>,
     setTitle: Dispatch<SetStateAction<string>>,
     setDescription: Dispatch<SetStateAction<string>>,
     setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
     isPopupVisible: boolean,
     setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
     isDetailsVisible: boolean,
-    setLocation: Dispatch<SetStateAction<string>>
+    setLocation: Dispatch<SetStateAction<string>>,
+    hour: number,
+    dayIndex: number,
+    eventPopupDate: Date,
+    setEventPopUpDate: Dispatch<SetStateAction<Date>>
 ) {
     const calendarPopup = document.getElementById("eventPopup");
 
@@ -33,10 +31,9 @@ export default async function displayEventPopUp(
             titleInput.style.display = "none";
         }
 
-        setCurrentDayEvent(day);
-        setCurrentHour(hour);
-        setBeginningHour(hour);
-        setEndHour(hour + 1);
+        setEventPopUpDate(new Date(eventPopupDate.setDate(eventPopupDate.getDate())));
+        setEventPopUpDate(new Date(eventPopupDate.setHours(hour, 0, 0, 0)));
+
         setParticipants([]);
         setTitle("");
         setDescription("");

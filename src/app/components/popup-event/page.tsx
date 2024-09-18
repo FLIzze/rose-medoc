@@ -11,59 +11,39 @@ import Date from "./date/page";
 import hideEventPopup from "@/app/event/hideEventPopup";
 
 interface PopupEventProps {
-    beginningHour: number,
-    endHour: number,
-    currentDayEvent: number,
-    currentMonthEvent: number,
-    currentMonth: number,
-    currentYear: number,
-    days: string[],
-    dates: string[],
-    months: string[],
-    hours: number[],
     setEvents: Dispatch<SetStateAction<EventInterface[]>>
     pos: { x: number, y: number },
     title: string,
     setTitle: Dispatch<SetStateAction<string>>,
     description: string,
     setDescription: Dispatch<SetStateAction<string>>,
-    setBeginningHour: Dispatch<SetStateAction<number>>,
-    setEndHour: Dispatch<SetStateAction<number>>,
     currentUser: UserInterface | undefined,
     users: UserInterface[],
     participants: UserInterface[],
     setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
     setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
     location: string,
-    setLocation: Dispatch<SetStateAction<string>>
+    setLocation: Dispatch<SetStateAction<string>>,
+    eventPopUpDate: Date,
+    months: string[]
 }
 
 export default function PopupEvent({
-    beginningHour,
-    endHour,
-    currentDayEvent,
-    currentMonthEvent,
-    currentMonth,
-    currentYear,
-    days,
-    dates,
-    months,
-    hours,
     setEvents,
     pos,
     title,
     setTitle,
     description,
     setDescription,
-    setBeginningHour,
-    setEndHour,
     currentUser,
     users,
     participants,
     setParticipants,
     setIsPopupVisible,
     location,
-    setLocation }: PopupEventProps) {
+    setLocation,
+    eventPopUpDate,
+    months }: PopupEventProps) {
 
     const [isBeginningHoursVisible, setIsBeginningHoursVisible] = useState(false);
     const [isEndHoursVisible, setIsEndHoursVisible] = useState(false);
@@ -123,23 +103,14 @@ export default function PopupEvent({
                     <p className="text-xs text-red-500 hidden" id="required-title">Titre obligatoire.</p>
 
                     <Date
-                        days={days}
-                        hours={hours}
                         isEndHoursVisible={isEndHoursVisible}
                         isBeginningHoursVisible={isBeginningHoursVisible}
-                        currentDayEvent={currentDayEvent}
-                        currentMonth={currentMonthEvent}
-                        currentYear={currentYear}
-                        beginningHour={beginningHour}
-                        endHour={endHour}
-                        setBeginningHour={setBeginningHour}
-                        setEndHour={setEndHour}
-                        setIsEndHoursVisible={setIsEndHoursVisible}
                         setIsBeginningHoursVisible={setIsBeginningHoursVisible}
-                        dates={dates}
-                        months={months}
+                        setIsEndHoursVisible={setIsEndHoursVisible}
                         beginningHoursRef={beginningHoursRef}
                         endHoursRef={endHoursRef}
+                        eventPopUpDate={eventPopUpDate}
+                        months={months}
                     />
 
                     <div className="flex items-center">
@@ -173,8 +144,8 @@ export default function PopupEvent({
                         <button
                             className='rounded-sm h-10 border border-gray-200 transition-all hover:bg-gray-100 w-2/5'
                             onClick={() => {
-                                addEvent(dates, currentDayEvent, beginningHour, endHour, currentMonth, currentYear, title, description, setEvents, currentUser, participants, location),
-                                    hideEventPopup(setIsPopupVisible)
+                                addEvent(title, description, setEvents, currentUser, participants, location);
+                                hideEventPopup(setIsPopupVisible)
                             }}>
                             Enregistrer
                         </button>

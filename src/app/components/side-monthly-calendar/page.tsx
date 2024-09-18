@@ -4,15 +4,9 @@ import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { EventInterface } from '@/app/model/event';
 
 interface SideMonthlyCalProps {
-    setCurrentDay: Dispatch<SetStateAction<number>>,
-    setCurrentMonth: Dispatch<SetStateAction<number>>,
-    setCurrentYear: Dispatch<SetStateAction<number>>,
-    localMonth: number,
-    setLocalMonth: Dispatch<SetStateAction<number>>,
-    currentDate: Date,
-    setCurrentDate: Dispatch<SetStateAction<Date>>,
-    localYear: number,
-    setLocalYear: Dispatch<SetStateAction<number>>,
+    sidebarDate: Date,
+    setSidebarDate: Dispatch<SetStateAction<Date>>,
+    setDate: Dispatch<SetStateAction<Date>>,
     own: boolean,
     tagged: boolean,
     others: boolean,
@@ -20,25 +14,13 @@ interface SideMonthlyCalProps {
 }
 
 export default function SideMonthlyCal({
-    setCurrentDay,
-    setCurrentMonth,
-    setCurrentYear,
-    localMonth,
-    setLocalMonth,
-    currentDate,
-    setCurrentDate,
-    localYear,
-    setLocalYear,
+    sidebarDate,
+    setSidebarDate,
+    setDate,
     filteredEvents }: SideMonthlyCalProps) {
 
-
-    useEffect(() => {
-        setCurrentDate(new Date(localYear, localMonth));
-    }, [localMonth, localYear]);
-
-
-    const currentMonthCal = currentDate.getMonth();
-    const currentYearCal = currentDate.getFullYear();
+    const currentMonthCal = sidebarDate.getMonth();
+    const currentYearCal = sidebarDate.getFullYear();
 
     const daysInMonth = new Date(currentYearCal, currentMonthCal + 1, 0).getDate();
     const firstDayOfMonth = (new Date(currentYearCal, currentMonthCal, 1).getDay() + 6) % 7;
@@ -50,32 +32,20 @@ export default function SideMonthlyCal({
     }
 
     const handlePreviousMonth = () => {
-        if (localMonth === 0) {
-            setLocalMonth(11);
-            setLocalYear(localYear - 1);
-        } else {
-            setLocalMonth(localMonth - 1);
-        }
+        setSidebarDate(new Date(sidebarDate.getFullYear(), sidebarDate.getMonth() - 1, 1));
     };
 
     const handleNextMonth = () => {
-        if (localMonth === 11) {
-            setLocalMonth(0);
-            setLocalYear(localYear + 1);
-        } else {
-            setLocalMonth(localMonth + 1);
-        }
+        setSidebarDate(new Date(sidebarDate.getFullYear(), sidebarDate.getMonth() + 1, 1));
     };
 
-    const setDate = (date: Date) => {
-        setCurrentDay(date.getDate());
-        setCurrentMonth(date.getMonth());
-        setCurrentYear(date.getFullYear());
+    const setDateFunc = (date: Date) => {
+        setDate(date);
     };
 
     const daysOfWeek = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
 
-    const monthName = currentDate.toLocaleString('default', { month: 'long' });
+    const monthName = sidebarDate.toLocaleString('default', { month: 'long' });
     const capitalizedMonthName = monthName.charAt(0).toUpperCase() + monthName.slice(1);
 
     return (
@@ -115,14 +85,14 @@ export default function SideMonthlyCal({
                     const hasEvents = filteredEvents.some(event => {
                         const eventDate = new Date(event.beginning);
                         return eventDate.getDate() === date.getDate() &&
-                            eventDate.getMonth() === date.getMonth()-1 &&
+                            eventDate.getMonth() === date.getMonth() - 1 &&
                             eventDate.getFullYear() === date.getFullYear();
                     });
 
                     return (
                         <button
                             key={index}
-                            onClick={() => setDate(date)}
+                            onClick={() => setDateFunc(date)}
                         >
                             <p className={`p-2 text-xs rounded-full transition-all ${hasEvents ? 'text-white bg-medium-pink hover:bg-dark-pink' : 'text-medium-pink hover:bg-very-light-pink'}`}>
                                 {date.getDate()}
