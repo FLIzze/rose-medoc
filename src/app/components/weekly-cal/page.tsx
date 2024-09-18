@@ -58,6 +58,12 @@ export default function WeeklyCal({
         skip--;
     }
 
+    // Calculate the start of the week (Monday)
+    const startOfWeek = new Date(date);
+    const dayOfWeek = startOfWeek.getDay();
+    const diffToMonday = (dayOfWeek === 0 ? -6 : 1) - dayOfWeek;
+    startOfWeek.setDate(startOfWeek.getDate() + diffToMonday);
+
     return (
         <div className="h-screen flex flex-col pb-24">
             <div className="flex-none grid grid-cols-9 w-full pt-6" style={{ gridTemplateColumns: '4rem repeat(8, 1fr)' }}>
@@ -66,8 +72,8 @@ export default function WeeklyCal({
                 </div>
                 {days.map((_, dayIndex) => (
                     <div key={dayIndex} className="bg-white">
-                        <p className="text-light-pink text-xs">{days[(date.getDay() + dayIndex - 1) % days.length]}</p>
-                        <p className="text-2xl font-semibold text-dark-pink">{date.getDate() + dayIndex}</p>
+                        <p className="text-light-pink text-xs">{days[(dayIndex) % days.length]}</p>
+                        <p className="text-2xl font-semibold text-dark-pink">{new Date(startOfWeek).getDate() + dayIndex}</p>
                     </div>
                 ))}
             </div>
@@ -87,7 +93,7 @@ export default function WeeklyCal({
                                 const eventsForHour = filteredEvents.filter(event =>
                                     new Date(event.beginning).getHours() + 2 == hour &&
                                     new Date(event.beginning).getMonth() == date.getMonth() - 1 &&
-                                    new Date(event.beginning).getDate() == date.getDate() + dayIndex &&
+                                    new Date(event.beginning).getDate() == new Date(startOfWeek).getDate() + dayIndex &&
                                     new Date(event.beginning).getFullYear() == date.getFullYear()
                                 );
 
