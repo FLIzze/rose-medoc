@@ -84,7 +84,7 @@ export default function PopupEvent({
                         date={date}
                     />
 
-                    <div className="bg-light-pink flex items-center justify-center p-2">
+                    <div className="bg-light-pink flex items-center justify-center p-4">
                         <img
                             src="/description.png"
                             alt="description"

@@ -52,7 +52,7 @@ export default function Participants({ setParticipants, participants, users, cur
 
             {participantsInput !== "" && (
                 <div
-                    className="absolute border border-gray-200 mt-1 rounded-sm w-72 max-h-48 h-fit bg-white overflow-scroll"
+                    className="absolute border border-dark-pink mt-1 rounded-sm w-72 max-h-48 h-fit bg-white overflow-scroll"
                     id="participantsPopUp"
                 >
                     {users
@@ -62,7 +62,7 @@ export default function Participants({ setParticipants, participants, users, cur
                             user.id !== currentUser?.id &&
                             !participants.some(participant => participant.id === user.id)
                         ).length === 0 ? (
-                        <div className="p-2 text-center text-gray-500">
+                        <div className="p-2 text-center">
                             <p>
                                 Aucun participant éligible
                             </p>
@@ -82,7 +82,7 @@ export default function Participants({ setParticipants, participants, users, cur
                                             setParticipants([...participants, user]);
                                             hideParticipantsPopUp();
                                         }}
-                                        className="hover:bg-gray-100 w-full h-full p-2 text-left">
+                                        className="hover:bg-very-light-pink w-full h-full p-2 text-left">
                                         {user.name} {user.firstName}
                                     </button>
                                 </div>

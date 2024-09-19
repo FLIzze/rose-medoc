@@ -37,7 +37,7 @@ export default function WeeklyEvent({ event }: WeeklyEventProps) {
             }}
             className={`rounded-l-md pl-3 text-sm py-1 hover:cursor-pointer pb-3 select-none h-${eventHeight} hover:opacity-100 opacity-75 transition-all w-48`}
         >
-            <p className="overflow-hidden whitespace-nowrap text-ellipsis">{new Date(event.beginning).getHours()}:00 - {new Date(event.end).getHours()}:00</p>
+            <p className="overflow-hidden whitespace-nowrap text-ellipsis">{new Date(event.beginning).getHours()+2}:00 - {new Date(event.end).getHours()+2}:00</p>
             <p className="font-bold overflow-hidden whitespace-nowrap mr-2 text-ellipsis">{event.title}</p>
             <p className="overflow-hidden whitespace-nowrap text-ellipsis">par {eventCreator.firstName} {eventCreator.name}</p>
             <p className="overflow-hidden whitespace-nowrap text-ellipsis">{event.location}</p>

@@ -36,7 +36,7 @@ export default function MonthlyEvent({ event }: MonthlyEventProps) {
             }}
             className={`rounded-l-md pl-3 text-sm hover:cursor-pointer select-none hover:opacity-100 opacity-75 transition-all w-48 h-7 items-center flex`}
         >
-            <p className="overflow-hidden whitespace-nowrap text-ellipsis">{new Date(event.beginning).getHours()}:00 {event.title}</p>
+            <p className="overflow-hidden whitespace-nowrap text-ellipsis">{new Date(event.beginning).getHours()+2}:00 {event.title}</p>
         </div>
     )
 }
