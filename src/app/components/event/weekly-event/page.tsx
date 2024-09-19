@@ -1,0 +1,46 @@
+"use client";
+
+import { UserInterface } from "@/app/model/user";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { EventInterface } from "@/app/model/event";
+
+interface WeeklyEventProps {
+    event: EventInterface
+}
+
+export default function WeeklyEvent({ event }: WeeklyEventProps) {
+    const [eventCreator, setEventCreator] = useState<UserInterface>({} as UserInterface);
+    const eventHeight = 24 * (new Date(event.end).getHours() - new Date(event.beginning).getHours());
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/users')
+            .then((response) => {
+                for (const user of response.data as UserInterface[]) {
+                    if (user.id == +event.by) {
+                        setEventCreator(user);
+                        return;
+                    } 
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching events', error);
+            });
+    }, []);
+
+    return (
+        <div 
+            style={{
+                backgroundColor: `${eventCreator.color}1A`,
+                borderLeft: `4px solid ${eventCreator.color}`,
+                color: eventCreator.color,
+            }}
+            className={`rounded-l-md pl-3 text-sm py-1 hover:cursor-pointer pb-3 select-none h-${eventHeight} hover:opacity-100 opacity-75 transition-all w-48`}
+        >
+            <p className="overflow-hidden whitespace-nowrap text-ellipsis">{new Date(event.beginning).getHours()}:00 - {new Date(event.end).getHours()}:00</p>
+            <p className="font-bold overflow-hidden whitespace-nowrap mr-2 text-ellipsis">{event.title}</p>
+            <p className="overflow-hidden whitespace-nowrap text-ellipsis">par {eventCreator.firstName} {eventCreator.name}</p>
+            <p className="overflow-hidden whitespace-nowrap text-ellipsis">{event.location}</p>
+        </div>
+    )
+}

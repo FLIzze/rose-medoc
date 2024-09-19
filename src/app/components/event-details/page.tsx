@@ -3,7 +3,6 @@ import { EventInterface } from "@/app/model/event";
 import deleteEvent from "@/app/event/deleteEvent";
 import Draggable from "../draggable/page";
 import { UserInterface } from "@/app/model/user";
-import returnFormattedDate from "@/app/date/returnFormattedDate";
 import hideEventDetails from "@/app/event/hideEventDetails";
 import downloadEvent from "@/app/event/downloadEvent";
 
@@ -17,14 +16,6 @@ interface EventDetailsProps {
 }
 
 export default function EventDetails({ event, setEvents, pos, currentUser, users, setIsDetailsVisible }: EventDetailsProps) {
-
-    let beginningDate = new Date(event.beginning);
-    let endDate = new Date(event.end);
-
-    const formattedDate = returnFormattedDate(beginningDate, endDate);
-
-    const eventCreator = users.find(user => user.id === event!.by);
-
     return (
         <Draggable pos={pos} size={{ width: 380, height: 220 }}>
             <div
@@ -32,6 +23,13 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                 className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-96 pointer-events-none text-dark-pink text-base rounded-lg    "
             >
                 <div className="flex justify-end pr-5 h-9 w-full bg-medium-pink items-center rounded-t-lg">
+                    <button onClick={() => downloadEvent(event, users)}>
+                        <img
+                            src="/download.png"
+                            alt="download"
+                            className="w-7 h-7 p-1 hover:bg-dark-pink rounded-full"
+                        />
+                    </button>
                     {event!.by == currentUser.id && (
                         <button onClick={() => {
                             hideEventDetails(setIsDetailsVisible)
@@ -40,17 +38,10 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                             <img
                                 src="/bin.png"
                                 alt="supprimer"
-                                className="w-8 h-8 p-2 hover:bg-dark-pink rounded-full"
+                                className="w-8 h-8 p-2 hover:bg-dark-pink rounded-full mx-1"
                             />
                         </button>
                     )}
-                    <button onClick={() => downloadEvent(event, users)}>
-                        <img
-                            src="/download.png"
-                            alt="download"
-                            className="w-7 h-7 p-1 hover:bg-dark-pink rounded-full"
-                        />
-                    </button>
                     <button onClick={() => hideEventDetails(setIsDetailsVisible)}>
                         <img
                             src="/cross.png"
@@ -72,7 +63,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                             </div>
                             <div className="pb-4 p-2">
                                 <h1 className="font-bold text-lg">{event.title}
-                                    <p className="text-xs">{formattedDate}</p>
+                                    <p className="text-xs">{ }</p>
                                 </h1>
                             </div>
                         </>
@@ -93,7 +84,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                         </>
                     )}
 
-                    {event.participants && event.participants.length > 0 && (
+                    {event.participants && event.participants.length > 1 && (
                         <>
                             <div className="bg-light-pink flex items-center justify-center p-2 pb-4">
                                 <img

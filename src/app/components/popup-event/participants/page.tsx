@@ -1,22 +1,17 @@
-import { UserInterface } from "@/app/model/user";
-import { Dispatch, SetStateAction } from "react";
+"use client";
 
-interface ParticipantProps {
-    users: UserInterface[],
-    participants: UserInterface[],
+import { UserInterface } from "@/app/model/user";
+import { Dispatch, SetStateAction, useState } from "react";
+
+interface ParticipantsProps {
     setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
-    participantsInput: string,
-    setParticipantsInput: Dispatch<SetStateAction<string>>,
+    participants: UserInterface[],
+    users: UserInterface[],
     currentUser: UserInterface | undefined,
 }
 
-export default function Participant({
-    users,
-    participants,
-    setParticipants,
-    participantsInput,
-    setParticipantsInput,
-    currentUser }: ParticipantProps) {
+export default function Participants({ setParticipants, participants, users, currentUser } : ParticipantsProps) {
+    const [participantsInput, setParticipantsInput] = useState("");
 
     function removeParticipant(participantId: number) {
         setParticipants(participants.filter(participant => participant.id !== participantId));
@@ -40,16 +35,9 @@ export default function Participant({
             participantsPopUp.style.display = "block";
         }
     }
-
     return (
         <div>
             <div className="flex items-center">
-                <img
-                    src="person.png"
-                    alt="participant"
-                    className='w-4 h-4 mr-5'
-                />
-
                 <input
                     type="text"
                     className="py-2 text-left px-2 w-full outline-none transition-all h-9 bg-very-light-pink"

@@ -14,7 +14,6 @@ interface SidebarProps {
     setTagged: Dispatch<SetStateAction<boolean>>,
     setOthers: Dispatch<SetStateAction<boolean>>,
     filteredEvents: EventInterface[],
-    setCalendarMode: Dispatch<SetStateAction<string>>
 }
 
 export default function Sidebar({
@@ -27,8 +26,7 @@ export default function Sidebar({
     setOwn,
     setTagged,
     setOthers,
-    filteredEvents,
-    setCalendarMode }: SidebarProps) {
+    filteredEvents }: SidebarProps) {
 
     return (
         <div className="pl-4">
@@ -40,7 +38,6 @@ export default function Sidebar({
                 tagged={tagged}
                 others={others}
                 filteredEvents={filteredEvents}
-                setCalendarMode={setCalendarMode}
             />
 
             <hr className="mb-5 border border-dark-pink"/>

@@ -22,6 +22,7 @@ interface MainCalProps {
     setTagged: Dispatch<SetStateAction<boolean>>,
     setOthers: Dispatch<SetStateAction<boolean>>,
     date: Date,
+    sidebarDate: Date
 }
 
 export default function MainCal({
@@ -36,11 +37,9 @@ export default function MainCal({
     setOwn,
     setTagged,
     setOthers,
-    date }: MainCalProps) {
+    date,
+    sidebarDate }: MainCalProps) {
 
-    const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
-
-    const days = ["LUN", "MAR", "MER", "JEU", "VEN", "SAM", "DIM"];
     const hours = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
     const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -56,6 +55,12 @@ export default function MainCal({
     const [event, setEvent] = useState<EventInterface>({} as EventInterface);
 
     const [location, setLocation] = useState("Rose Medoc");
+
+    // Calculate the start of the week (Monday)
+    const startOfWeek = new Date(date);
+    const dayOfWeek = startOfWeek.getDay();
+    const diffToMonday = (dayOfWeek === 0 ? -6 : 1) - dayOfWeek;
+    startOfWeek.setDate(startOfWeek.getDate() + diffToMonday);
 
     return (
         <div>
@@ -74,7 +79,6 @@ export default function MainCal({
                     setIsPopupVisible={setIsPopupVisible}
                     location={location}
                     setLocation={setLocation}
-                    months={months}
                     date={date}
                 />
 
@@ -89,7 +93,6 @@ export default function MainCal({
             </div>
 
             <CalendarHeader
-                months={months}
                 setDate={setDate}
                 setSidebarDate={setSidebarDate}
                 setCalendarMode={setCalendarMode}
@@ -101,31 +104,44 @@ export default function MainCal({
                 date={date}
             />
 
-            {calendarMode == 'weekly' && (
-                <WeeklyCal
-                    date={date}
-                    days={days}
-                    hours={hours}
-                    filteredEvents={filteredEvents}
-                    setIsPopupVisible={setIsPopupVisible}
-                    setIsDetailsVisible={setIsDetailsVisible}
-                    isDetailsVisible={isDetailsVisible}
-                    isPopupVisible={isPopupVisible}
-                    setEvent={setEvent}
-                    setPosition={setPosition}
-                    setTitle={setTitle}
-                    setDescription={setDescription}
-                    setParticipants={setParticipants}
-                    setLocation={setLocation}
-                    setDate={setDate}
-                />
-            )}
+            <div className="mt-6 ml-3">
+                {calendarMode == 'weekly' && (
+                    <WeeklyCal
+                        date={startOfWeek}
+                        hours={hours}
+                        filteredEvents={filteredEvents}
+                        setIsPopupVisible={setIsPopupVisible}
+                        setIsDetailsVisible={setIsDetailsVisible}
+                        isDetailsVisible={isDetailsVisible}
+                        isPopupVisible={isPopupVisible}
+                        setEvent={setEvent}
+                        setPosition={setPosition}
+                        setTitle={setTitle}
+                        setDescription={setDescription}
+                        setParticipants={setParticipants}
+                        setLocation={setLocation}
+                        setDate={setDate}
+                    />
+                )}
 
-            {calendarMode == 'monthly' && (
-                <MonthlyCal
-                    date={date}
-                />
-            )}
+                {calendarMode == 'monthly' && (
+                    <MonthlyCal
+                        date={date}
+                        filteredEvents={filteredEvents}
+                        setIsPopupVisible={setIsPopupVisible}
+                        setIsDetailsVisible={setIsDetailsVisible}
+                        isDetailsVisible={isDetailsVisible}
+                        isPopupVisible={isPopupVisible}
+                        setEvent={setEvent}
+                        setPosition={setPosition}
+                        setTitle={setTitle}
+                        setDescription={setDescription}
+                        setParticipants={setParticipants}
+                        setLocation={setLocation}
+                        setDate={setDate}
+                    />
+                )}
+            </div>
         </div>
     )
 }

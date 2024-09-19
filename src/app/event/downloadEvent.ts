@@ -1,6 +1,5 @@
 import { EventInterface } from "../model/event";
 import { jsPDF } from "jspdf";
-import returnFormattedDate from "../date/returnFormattedDate";
 import { UserInterface } from "../model/user";
 
 export default function downloadEvent(event: EventInterface, users: UserInterface[]) {
@@ -20,10 +19,8 @@ export default function downloadEvent(event: EventInterface, users: UserInterfac
     // Add formatted date
     const beginningDate = new Date(event.beginning);
     const endDate = new Date(event.end);
-    const formattedDate = returnFormattedDate(beginningDate, endDate);
     doc.setFontSize(12);
     doc.setTextColor(0, 0, 0); // Black color
-    doc.text(`Date: ${formattedDate}`, 10, 70);
 
     // Add description with background color
     doc.setFillColor(240, 248, 255); // Alice blue color

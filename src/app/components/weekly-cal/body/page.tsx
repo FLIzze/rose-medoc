@@ -3,14 +3,13 @@ import hideEventPopup from "@/app/event/hideEventPopup";
 import setCurrentEventDetails from "@/app/event/setCurrentEventDetails";
 import { UserInterface } from "@/app/model/user";
 import { Dispatch, SetStateAction, MouseEvent } from "react";
-import CalEvent from "../../event/page";
 import { EventInterface } from "@/app/model/event";
 import hideEventDetails from "@/app/event/hideEventDetails";
 import displayEventPopUp from "@/app/event/displayEventPopUp";
+import WeeklyEvent from "../../event/weekly-event/page";
 
 interface BodyProps {
     hours: number[],
-    days: string[],
     startOfWeek: Date,
     filteredEvents: EventInterface[],
     setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
@@ -28,7 +27,6 @@ interface BodyProps {
 
 export default function Body({
     hours,
-    days,
     startOfWeek,
     filteredEvents,
     setIsPopupVisible,
@@ -49,7 +47,7 @@ export default function Body({
         skip--;
     }
 
-    function setPopUpPosition(e: React.MouseEvent<HTMLDivElement>) {
+    function setPopUpPosition(e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<HTMLDivElement>) {
         const { clientX, clientY } = e;
         setPosition({ x: clientX, y: clientY });
     }
@@ -65,80 +63,74 @@ export default function Body({
                     ))}
                 </div>
 
-                {days.map((_, dayIndex) => (
-                    <div key={dayIndex} className="bg-white">
-                        {hours.slice(0, -1).map((hour, hoursIndex) => {
-                            const currentDate = new Date(startOfWeek);
-                            currentDate.setDate(startOfWeek.getDate() + dayIndex);
-                            const eventsForHour = filteredEvents.filter(event =>
-                                new Date(event.beginning).getHours() == hour - 2 &&
-                                new Date(event.beginning).getMonth() == currentDate.getMonth() &&
-                                new Date(event.beginning).getDate() == currentDate.getDate() &&
-                                new Date(event.beginning).getFullYear() == currentDate.getFullYear()
-                            );
-                            return (
-                                <div key={hoursIndex}>
-                                    <div>
-                                        {eventsForHour.length > 0 ? (
-                                            <div className="relative">
-                                                {eventsForHour.map((event, eventIndex) => {
-                                                    const eventDuration = (new Date(event.end).getTime() - new Date(event.beginning).getTime()) / (1000 * 60 * 60);
-                                                    skip = eventDuration;
-                                                    return (
-                                                        <div
-                                                            key={eventIndex}
-                                                            onClick={(e) => {
-                                                                hideEventPopup(setIsPopupVisible);
-                                                                displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
-                                                                setCurrentEventDetails(event, setEvent);
-                                                                setPopUpPosition(e);
-                                                            }}
-                                                        >
-                                                            <CalEvent
-                                                                beginningHour={new Date(event.beginning).getHours() + 2}
-                                                                endHour={new Date(event.end).getHours() + 2}
-                                                                title={event.title}
-                                                                duration={eventDuration}
-                                                                id={event.by}
-                                                                location={event.location}
-                                                            />
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                        ) : (
-                                            skip == 1 ? (
-                                                <div
-                                                    id={`${dayIndex}-${hoursIndex}`}
-                                                    className="bg-white border-very-light-pink border-l border-t h-24"
-                                                    onClick={(e) => {
-                                                        hideEventDetails(setIsDetailsVisible);
-                                                        displayEventPopUp(setTitle,
-                                                            setDescription,
-                                                            setParticipants,
-                                                            isPopupVisible,
-                                                            setIsPopupVisible,
-                                                            isDetailsVisible,
-                                                            setLocation,
-                                                            hour,
-                                                            currentDate,
-                                                            setDate,
-                                                            currentDate.getDate()
+                {Array.from({ length: 7 }).map((_, dayIndex) => {
+                    const date = new Date(startOfWeek);
+                    date.setDate(startOfWeek.getDate() + dayIndex);
+                    return (
+                        <div key={dayIndex} className="bg-white">
+                            {hours.slice(0, -1).map((hour, hoursIndex) => {
+                                const eventsForHour = filteredEvents.filter(event =>
+                                    new Date(event.beginning).getHours() == hour - 2 &&
+                                    new Date(event.beginning).getMonth() == date.getMonth() &&
+                                    new Date(event.beginning).getDate() == date.getDate() &&
+                                    new Date(event.beginning).getFullYear() == date.getFullYear()
+                                );
+                                return (
+                                    <div key={hoursIndex}>
+                                        <div>
+                                            {eventsForHour.length > 0 ? (
+                                                <div className="relative">
+                                                    {eventsForHour.map((event, eventIndex) => {
+                                                        return (
+                                                            <button
+                                                                key={eventIndex}
+                                                                onClick={(e) => {
+                                                                    hideEventPopup(setIsPopupVisible);
+                                                                    displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
+                                                                    setCurrentEventDetails(event, setEvent);
+                                                                    setPopUpPosition(e);
+                                                                }}
+                                                                className="text-left w-full"
+                                                            >
+                                                                <WeeklyEvent
+                                                                    event={event}
+                                                                />
+                                                            </button>
                                                         );
-                                                        setPopUpPosition(e);
-                                                    }}
-                                                >
+                                                    })}
                                                 </div>
                                             ) : (
-                                                <>{decrementSkip()}</>
-                                            )
-                                        )}
+                                                skip == 1 ? (
+                                                    <div
+                                                        className="bg-white border-very-light-pink border-l border-t h-24"
+                                                        onClick={(e) => {
+                                                            hideEventDetails(setIsDetailsVisible);
+                                                            displayEventPopUp(setTitle,
+                                                                setDescription,
+                                                                setParticipants,
+                                                                isPopupVisible,
+                                                                setIsPopupVisible,
+                                                                isDetailsVisible,
+                                                                setLocation,
+                                                                hour,
+                                                                date,
+                                                                setDate,
+                                                            );
+                                                            setPopUpPosition(e);
+                                                        }}
+                                                    >
+                                                    </div>
+                                                ) : (
+                                                    <>{decrementSkip()}</>
+                                                )
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                ))}
+                                );
+                            })}
+                        </div>
+                    );
+                })}
             </div>
         </div>
     )

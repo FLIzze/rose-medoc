@@ -74,7 +74,6 @@ export default function Home() {
                                 setTagged={setTagged}
                                 setOthers={setOthers}
                                 filteredEvents={filteredEvents}
-                                setCalendarMode={setCalendarMode}
                             />
                         </div>
 
@@ -92,6 +91,7 @@ export default function Home() {
                                 setTagged={setTagged}
                                 setOthers={setOthers}
                                 date={date}
+                                sidebarDate={sidebarDate}
                             />
                         </div>
                     </div>

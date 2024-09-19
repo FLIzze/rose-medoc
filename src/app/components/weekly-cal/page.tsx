@@ -7,7 +7,6 @@ import Header from "./header/page";
 import Body from "./body/page";
 
 interface WeeklyCalProps {
-    days: string[],
     hours: number[],
     filteredEvents: EventInterface[],
     setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
@@ -21,11 +20,10 @@ interface WeeklyCalProps {
     setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
     setLocation: Dispatch<SetStateAction<string>>,
     date: Date,
-    setDate: Dispatch<SetStateAction<Date>>
+    setDate: Dispatch<SetStateAction<Date>>,
 }
 
 export default function WeeklyCal({
-    days,
     hours,
     filteredEvents,
     setIsPopupVisible,
@@ -41,23 +39,15 @@ export default function WeeklyCal({
     date,
     setDate }: WeeklyCalProps) {
 
-    // Calculate the start of the week (Monday)
-    const startOfWeek = new Date(date);
-    const dayOfWeek = startOfWeek.getDay();
-    const diffToMonday = (dayOfWeek === 0 ? -6 : 1) - dayOfWeek;
-    startOfWeek.setDate(startOfWeek.getDate() + diffToMonday);
-
     return (
         <div className="h-screen flex flex-col pb-24">
             <Header
-                days={days}
-                startOfWeek={startOfWeek}
+                date={date}
             />
 
             <Body
                 hours={hours}
-                days={days}
-                startOfWeek={startOfWeek}
+                startOfWeek={date}
                 filteredEvents={filteredEvents}
                 setIsPopupVisible={setIsPopupVisible}
                 setIsDetailsVisible={setIsDetailsVisible}

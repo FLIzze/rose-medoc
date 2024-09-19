@@ -11,15 +11,13 @@ interface SideMonthlyCalProps {
     tagged: boolean,
     others: boolean,
     filteredEvents: EventInterface[],
-    setCalendarMode: Dispatch<SetStateAction<string>>
 }
 
 export default function SideMonthlyCal({
     sidebarDate,
     setSidebarDate,
     setDate,
-    filteredEvents,
-    setCalendarMode }: SideMonthlyCalProps) {
+    filteredEvents }: SideMonthlyCalProps) {
 
     const currentMonthCal = sidebarDate.getMonth();
     const currentYearCal = sidebarDate.getFullYear();
@@ -48,30 +46,33 @@ export default function SideMonthlyCal({
         mondayDate.setDate(date.getDate() + diffToMonday);
 
         setDate(mondayDate);
-        setCalendarMode('weekly');
     };
 
-    const daysOfWeek = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
-
-    const monthName = sidebarDate.toLocaleString('default', { month: 'long' });
+    const monthName = sidebarDate.toLocaleString('fr-FR', { month: 'long' });
     const capitalizedMonthName = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+
+    const daysOfWeek = Array.from({ length: 7 }).map((_, index) => {
+        const date = new Date(sidebarDate);
+        date.setDate(sidebarDate.getDate() - sidebarDate.getDay() + index + 1);
+        return date.toLocaleDateString('fr-FR', { weekday: 'short' }).toUpperCase().charAt(0);
+    });
 
     return (
         <div className='pb-6'>
             <div className="flex justify-between items-center pl-2 text-sm font-bold">
-                <h2 className='w-32 text-dark-pink'>{capitalizedMonthName} {currentYearCal}</h2>
+                <h2 className='w-full text-dark-pink'>{capitalizedMonthName} {currentYearCal}</h2>
                 <button onClick={handlePreviousMonth}>
                     <img
                         src="left_arrow.png"
                         alt="prev mois"
-                        className='w-5 h-5 bg-medium-pink hover:bg-dark-pink p-1 rounded-full'
+                        className='w-5 h-5 mr-3 bg-medium-pink hover:bg-dark-pink p-1 rounded-full'
                     />
                 </button>
                 <button onClick={handleNextMonth}>
                     <img
                         src="right_arrow.png"
                         alt="next mois"
-                        className='w-5 h-5 bg-medium-pink hover:bg-dark-pink p-1 rounded-full'
+                        className='w-5 h-5 mr-6 bg-medium-pink hover:bg-dark-pink p-1 rounded-full'
                     />
                 </button>
             </div>

@@ -1,20 +1,20 @@
 interface HeaderProps {
-    days: string[],
-    startOfWeek: Date,
+    date: Date,
 }
 
-export default function Header({ days, startOfWeek } : HeaderProps) {
+export default function Header({ date } : HeaderProps) {
     return (
-        <div className="flex-none grid grid-cols-9 w-full pt-6" style={{ gridTemplateColumns: '4rem repeat(8, 1fr)' }}>
+        <div className="flex-none grid grid-cols-9 w-full" style={{ gridTemplateColumns: '4rem repeat(8, 1fr)' }}>
             <div className="bg-white">
                 {/* Empty cell for the top-left corner */}
             </div>
-            {days.map((_, dayIndex) => {
-                const currentDate = new Date(startOfWeek);
-                currentDate.setDate(startOfWeek.getDate() + dayIndex);
+            {Array.from({ length: 7 }).map((_, dayIndex) => {
+                const currentDate = new Date(date);
+                currentDate.setDate(date.getDate() + dayIndex);
+                const dayName = currentDate.toLocaleDateString('fr-FR', { weekday: 'short' }).toUpperCase();
                 return (
                     <div key={dayIndex} className="bg-white">
-                        <p className="text-light-pink text-xs">{days[(dayIndex) % days.length]}</p>
+                        <p className="text-light-pink text-xs">{dayName}</p>
                         <p className="text-2xl font-semibold text-dark-pink">{currentDate.getDate()}</p>
                     </div>
                 );

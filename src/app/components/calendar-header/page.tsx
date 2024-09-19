@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import prevWeek from '@/app/date/prevWeek';
 import nextWeek from '@/app/date/nextWeek';
@@ -9,7 +9,6 @@ import displayCalendarMode from '@/app/event/displayCalendarMode';
 import { UserInterface } from '@/app/model/user';
 
 interface CalendarHeaderProps {
-    months: string[],
     setDate: Dispatch<SetStateAction<Date>>,
     setSidebarDate: Dispatch<SetStateAction<Date>>,
     setCalendarMode: Dispatch<SetStateAction<string>>,
@@ -22,7 +21,6 @@ interface CalendarHeaderProps {
 }
 
 export default function CalendarHeader({
-    months,
     setDate,
     setSidebarDate,
     setCalendarMode,
@@ -38,12 +36,14 @@ export default function CalendarHeader({
     function goToToday() {
         const today = new Date();
         setDate(today);
-        setSidebarDate(today);
         setOwn(true);
         setTagged(true);
         setOthers(false);
-        setCalendarMode('weekly');
     };
+
+    useEffect(() => {
+        setSidebarDate(date);
+    }, [date]);
 
     function setCalendar(mode: string) {
         setCalendarMode(mode);
@@ -60,9 +60,14 @@ export default function CalendarHeader({
     const endOfWeek = new Date(startOfWeek);
     endOfWeek.setDate(startOfWeek.getDate() + 6);
 
+    // Function to capitalize the first letter of a string
+    const capitalizeFirstLetter = (string: string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
     // Determine the month display
-    const startMonth = months[startOfWeek.getMonth()];
-    const endMonth = months[endOfWeek.getMonth()];
+    const startMonth = capitalizeFirstLetter(startOfWeek.toLocaleDateString('fr-FR', { month: 'long' }));
+    const endMonth = capitalizeFirstLetter(endOfWeek.toLocaleDateString('fr-FR', { month: 'long' }));
     const monthDisplay = startMonth === endMonth ? startMonth : `${startMonth} - ${endMonth}`;
 
     return (
@@ -101,7 +106,11 @@ export default function CalendarHeader({
                     </button>
                 </div>
 
-                <p className='font-bold text-dark-pink'>{monthDisplay} {date.getFullYear()}</p>
+                {calendarMode == "weekly" ? (
+                    <p className='font-bold text-dark-pink'>{monthDisplay} {date.getFullYear()}</p>
+                ) : (
+                    <p className='font-bold text-dark-pink'>{startMonth} {date.getFullYear()}</p>
+                )}
 
             </div>
 
@@ -119,25 +128,23 @@ export default function CalendarHeader({
                         />
                     </button>
 
-                    {isCalendarModeVisible && (
-                        <div
-                            className='absolute text-sm flex flex-col bg-medium-pink rounded-lg shadow-2xl items-start pl-2 py-3 text-white mt-2 pr-4'
-                            id='calMode'
+                    <div
+                        className='absolute text-sm flex flex-col bg-medium-pink rounded-lg shadow-2xl items-start pl-2 py-3 text-white mt-2 pr-4'
+                        id='calMode'
+                    >
+                        <button
+                            onClick={() => setCalendar('weekly')}
+                            className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
                         >
-                            <button
-                                onClick={() => setCalendar('weekly')}
-                                className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
-                            >
-                                Semaine
-                            </button>
-                            <button
-                                onClick={() => setCalendar('monthly')}
-                                className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
-                            >
-                                Mois
-                            </button>
-                        </div>
-                    )}
+                            Semaine
+                        </button>
+                        <button
+                            onClick={() => setCalendar('monthly')}
+                            className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
+                        >
+                            Mois
+                        </button>
+                    </div>
                 </div>
                 <p className='mr-10 font-bold text-dark-pink'>{currentUser.firstName} {currentUser.name}</p>
             </div>

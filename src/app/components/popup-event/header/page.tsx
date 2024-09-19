@@ -7,7 +7,7 @@ interface Header {
 
 export default function Header({ setIsPopupVisible }: Header) {
     return (
-        <div className="flex justify-end pr-5 h-9 w-full bg-medium-pink">
+        <div className="flex justify-end pr-5 h-9 w-full bg-medium-pink rounded-t-lg">
             <button onClick={() => hideEventPopup(setIsPopupVisible)}>
                 <img
                     src="/cross.png"

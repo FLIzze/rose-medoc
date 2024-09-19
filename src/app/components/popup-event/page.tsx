@@ -1,16 +1,15 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import { EventInterface } from "@/app/model/event";
 import Draggable from "../draggable/page";
 import { UserInterface } from "@/app/model/user";
-import Participant from "./participant/page";
-import Location from "./location/page";
-import Date from "./date/page";
 import Header from "./header/page";
-import Title from "./title/page";
-import Description from "./description/page";
-import Save from "./save/page";
+import addEvent from "@/app/event/addEvent";
+import hideEventPopup from "@/app/event/hideEventPopup";
+import Participants from "./participants/page";
+import Date from "./date/page";
+import Location from "./location/page";
 
 interface PopupEventProps {
     setEvents: Dispatch<SetStateAction<EventInterface[]>>
@@ -26,7 +25,6 @@ interface PopupEventProps {
     setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
     location: string,
     setLocation: Dispatch<SetStateAction<string>>,
-    months: string[],
     date: Date
 }
 
@@ -44,93 +42,97 @@ export default function PopupEvent({
     setIsPopupVisible,
     location,
     setLocation,
-    months,
     date }: PopupEventProps) {
 
-    const [isBeginningHoursVisible, setIsBeginningHoursVisible] = useState(false);
-    const [isEndHoursVisible, setIsEndHoursVisible] = useState(false);
-    const beginningHoursRef = useRef<HTMLDivElement>(null);
-    const endHoursRef = useRef<HTMLDivElement>(null);
-
-    const [participantsInput, setParticipantsInput] = useState("");
-
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (beginningHoursRef.current && !beginningHoursRef.current.contains(event.target as Node)) {
-                setIsBeginningHoursVisible(false);
-            }
-            if (endHoursRef.current && !endHoursRef.current.contains(event.target as Node)) {
-                setIsEndHoursVisible(false);
-            }
-        }
-
-        if (isBeginningHoursVisible || isEndHoursVisible) {
-            document.addEventListener('click', handleClickOutside);
-        } else {
-            document.removeEventListener('click', handleClickOutside);
-        }
-
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
-        };
-    }, [isBeginningHoursVisible, isEndHoursVisible]);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     return (
         <Draggable pos={pos} size={{ width: 415, height: 345 }}>
             <div
-                className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-fit pointer-events-none text-dark-pink"
+                className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-fit pointer-events-none text-dark-pink rounded-br-lg"
                 id="eventPopup"
             >
-  
                 <Header
                     setIsPopupVisible={setIsPopupVisible}
                 />
 
-                <div className='flex flex-col text-sm mt-3 text-gray-600 pl-9 pr-7 pb-5 pt-2'>
-                    <Title
-                        title={title}
-                        setTitle={setTitle}
+                <div className="grid grid-cols-[auto,2fr] gap-x-6 mr-6">
+                    <div className="bg-light-pink flex items-center justify-center p-2">
+                        <img
+                            src="/title.png"
+                            alt="title"
+                            className='w-5 h-5 mx-3'
+                        />
+                    </div>
+                    <input
+                        type="text"
+                        placeholder='Ajouter un titre'
+                        className='border-b border-light-pink outline-none text-xl h-9 transition-all w-80 mb-2 placeholder:text-dark-pink focus:border-medium-pink focus:border-b-2'
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                     />
+                    <p className="text-xs text-red-500 hidden" id="required-title">Titre obligatoire.</p>
 
+                    <div className="bg-light-pink flex items-center justify-center p-2">
+                        <img
+                            src="/clock.png"
+                            alt="date"
+                            className='w-5 h-5 mx-3'
+                        />
+                    </div>
                     <Date
-                        isEndHoursVisible={isEndHoursVisible}
-                        isBeginningHoursVisible={isBeginningHoursVisible}
-                        setIsBeginningHoursVisible={setIsBeginningHoursVisible}
-                        setIsEndHoursVisible={setIsEndHoursVisible}
-                        beginningHoursRef={beginningHoursRef}
-                        endHoursRef={endHoursRef}
-                        months={months}
                         date={date}
                     />
 
-                    <Description
-                        description={description}
-                        setDescription={setDescription}
+                    <div className="bg-light-pink flex items-center justify-center p-2">
+                        <img
+                            src="/description.png"
+                            alt="description"
+                            className='w-5 h-5 mx-3'
+                        />
+                    </div>
+                    <textarea
+                        placeholder='Ajouter une description'
+                        className='rounded-sm outline-none pl-2 pt-2 w-full resize-none hover:bg-gray-100 transition-all h-9 focus:h-40 focus:bg-very-light-pink'
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
                     />
 
-                    <Participant
-                        users={users}
-                        participants={participants}
+                    <div className="bg-light-pink flex items-center justify-center p-2">
+                        <img
+                            src="/person.png"
+                            alt="participants"
+                            className='w-5 h-5 mx-3'
+                        />
+                    </div>
+                    <Participants
                         setParticipants={setParticipants}
-                        participantsInput={participantsInput}
-                        setParticipantsInput={setParticipantsInput}
+                        participants={participants}
+                        users={users}
                         currentUser={currentUser}
                     />
 
+                    <div className="bg-light-pink flex items-center justify-center p-2">
+                        <img
+                            src="/pin.png"
+                            alt="location"
+                            className='w-5 h-5 mx-3'
+                        />
+                    </div>
                     <Location
                         setLocation={setLocation}
                     />
 
-                    <Save
-                        title={title}
-                        description={description}
-                        setEvents={setEvents}
-                        currentUser={currentUser}
-                        participants={participants}
-                        location={location}
-                        setIsPopupVisible={setIsPopupVisible}
-                        date={date}
-                    />
+                    <div className="col-span-2 flex justify-end">
+                        <button
+                            className='rounded-lg text-white bg-medium-pink hover:bg-dark-pink transition-all px-4 py-2 mt-7 mb-4 w-44'
+                            onClick={() => {
+                                addEvent(title, description, setEvents, currentUser, participants, location, date);
+                                hideEventPopup(setIsPopupVisible)
+                            }}>
+                            Enregistrer
+                        </button>
+                    </div>
                 </div>
             </div>
         </Draggable>

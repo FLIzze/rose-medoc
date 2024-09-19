@@ -9,9 +9,6 @@ export default async function   createEvent(
   date: Date) {
 
   try {
-    // const beginning = new Date(meetingYear, meetingMonth - 1, Number(day), begginingHour);
-    // const end = new Date(meetingYear, meetingMonth - 1, Number(day), endHour);
-
     if (location == '') {
       location = 'Rose Medoc';
     }
