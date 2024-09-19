@@ -11,9 +11,9 @@ export default async function displayEventPopUp(
     isDetailsVisible: boolean,
     setLocation: Dispatch<SetStateAction<string>>,
     hour: number,
-    dayIndex: number,
     eventPopupDate: Date,
-    setEventPopUpDate: Dispatch<SetStateAction<Date>>
+    setDate: Dispatch<SetStateAction<Date>>,
+    dayIndex: number
 ) {
     const calendarPopup = document.getElementById("eventPopup");
 
@@ -31,8 +31,8 @@ export default async function displayEventPopUp(
             titleInput.style.display = "none";
         }
 
-        setEventPopUpDate(new Date(eventPopupDate.setDate(eventPopupDate.getDate())));
-        setEventPopUpDate(new Date(eventPopupDate.setHours(hour, 0, 0, 0)));
+        setDate(new Date(eventPopupDate.setHours(hour, 0, 0, 0)));
+        setDate(new Date(eventPopupDate.setDate(dayIndex)))
 
         setParticipants([]);
         setTitle("");

@@ -7,8 +7,8 @@ interface DateProps {
     setIsEndHoursVisible: Dispatch<SetStateAction<boolean>>,
     beginningHoursRef: React.RefObject<HTMLDivElement>,
     endHoursRef: React.RefObject<HTMLDivElement>,
-    eventPopUpDate: Date,
-    months: string[]
+    months: string[],
+    date: Date
 }
 
 export default function Date({
@@ -18,8 +18,8 @@ export default function Date({
     setIsEndHoursVisible,
     beginningHoursRef,
     endHoursRef,
-    eventPopUpDate,
-    months }: DateProps) {
+    months,
+    date }: DateProps) {
 
     function toggleBeginningHours() {
         if (isEndHoursVisible) {
@@ -63,7 +63,7 @@ export default function Date({
             <button
                 className="hover:bg-gray-100 transition-all py-2 px-2 text-left flex-wrap whitespace-nowrap"
             >
-                {eventPopUpDate.getDay()} {eventPopUpDate.getDate()} {months[eventPopUpDate.getMonth()]} {eventPopUpDate.getFullYear()}
+                {date.getDate()} {months[date.getMonth()]} {date.getFullYear()}
             </button>
 
             <div>
@@ -71,7 +71,7 @@ export default function Date({
                     className='py-2 text-left hover:bg-gray-100 px-2'
                     onClick={toggleBeginningHours}
                 >
-                    {eventPopUpDate.getHours()}:00
+                    {date.getHours()}:00
                 </button>
 
                 <div
@@ -99,7 +99,7 @@ export default function Date({
                     className='py-2 text-left px-2 hover:bg-gray-100'
                     onClick={toggleEndHours}
                 >
-                    {eventPopUpDate.getHours() + 1}:00
+                    {date.getHours() + 1}:00
                 </button>
 
                 <div

@@ -14,7 +14,6 @@ import getEvents from './event/getEvents';
 export default function Home() {
     const [date, setDate] = useState(new Date());
     const [sidebarDate, setSidebarDate] = useState(new Date());
-    const [eventPopUpDate, setEventPopUpDate] = useState(new Date());
 
     const [currentUser, setCurrentUser] = useState<UserInterface>();
 
@@ -75,6 +74,7 @@ export default function Home() {
                                 setTagged={setTagged}
                                 setOthers={setOthers}
                                 filteredEvents={filteredEvents}
+                                setCalendarMode={setCalendarMode}
                             />
                         </div>
 
@@ -92,8 +92,6 @@ export default function Home() {
                                 setTagged={setTagged}
                                 setOthers={setOthers}
                                 date={date}
-                                eventPopUpDate={eventPopUpDate}
-                                setEventPopUpDate={setEventPopUpDate}
                             />
                         </div>
                     </div>

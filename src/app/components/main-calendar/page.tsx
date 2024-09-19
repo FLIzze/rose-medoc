@@ -22,8 +22,6 @@ interface MainCalProps {
     setTagged: Dispatch<SetStateAction<boolean>>,
     setOthers: Dispatch<SetStateAction<boolean>>,
     date: Date,
-    eventPopUpDate: Date,
-    setEventPopUpDate: Dispatch<SetStateAction<Date>>
 }
 
 export default function MainCal({
@@ -38,9 +36,7 @@ export default function MainCal({
     setOwn,
     setTagged,
     setOthers,
-    date,
-    eventPopUpDate,
-    setEventPopUpDate }: MainCalProps) {
+    date }: MainCalProps) {
 
     const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
 
@@ -78,8 +74,8 @@ export default function MainCal({
                     setIsPopupVisible={setIsPopupVisible}
                     location={location}
                     setLocation={setLocation}
-                    eventPopUpDate={eventPopUpDate}
                     months={months}
+                    date={date}
                 />
 
                 <EventDetails
@@ -121,8 +117,7 @@ export default function MainCal({
                     setDescription={setDescription}
                     setParticipants={setParticipants}
                     setLocation={setLocation}
-                    eventPopUpDate={eventPopUpDate}
-                    setEventPopUpDate={setEventPopUpDate}
+                    setDate={setDate}
                 />
             )}
 

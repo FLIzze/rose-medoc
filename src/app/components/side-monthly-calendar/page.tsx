@@ -10,14 +10,16 @@ interface SideMonthlyCalProps {
     own: boolean,
     tagged: boolean,
     others: boolean,
-    filteredEvents: EventInterface[]
+    filteredEvents: EventInterface[],
+    setCalendarMode: Dispatch<SetStateAction<string>>
 }
 
 export default function SideMonthlyCal({
     sidebarDate,
     setSidebarDate,
     setDate,
-    filteredEvents }: SideMonthlyCalProps) {
+    filteredEvents,
+    setCalendarMode }: SideMonthlyCalProps) {
 
     const currentMonthCal = sidebarDate.getMonth();
     const currentYearCal = sidebarDate.getFullYear();
@@ -40,7 +42,13 @@ export default function SideMonthlyCal({
     };
 
     const setDateFunc = (date: Date) => {
-        setDate(date);
+        const dayOfWeek = date.getDay();
+        const diffToMonday = (dayOfWeek === 0 ? -6 : 1) - dayOfWeek;
+        const mondayDate = new Date(date);
+        mondayDate.setDate(date.getDate() + diffToMonday);
+
+        setDate(mondayDate);
+        setCalendarMode('weekly');
     };
 
     const daysOfWeek = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
@@ -85,7 +93,7 @@ export default function SideMonthlyCal({
                     const hasEvents = filteredEvents.some(event => {
                         const eventDate = new Date(event.beginning);
                         return eventDate.getDate() === date.getDate() &&
-                            eventDate.getMonth() === date.getMonth() - 1 &&
+                            eventDate.getMonth() === date.getMonth() &&
                             eventDate.getFullYear() === date.getFullYear();
                     });
 

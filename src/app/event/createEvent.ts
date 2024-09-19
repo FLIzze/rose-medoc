@@ -1,20 +1,16 @@
 import { UserInterface } from "../model/user";
 
-export default async function createEvent(
-  day: string,
-  begginingHour: number,
-  endHour: number,
-  meetingMonth: number,
-  meetingYear: number,
+export default async function   createEvent(
   title: string,
   description: string,
   user: UserInterface | undefined,
   participants: UserInterface[],
-  location: string) {
+  location: string,
+  date: Date) {
 
   try {
-    const beginning = new Date(meetingYear, meetingMonth - 1, Number(day), begginingHour);
-    const end = new Date(meetingYear, meetingMonth - 1, Number(day), endHour);
+    // const beginning = new Date(meetingYear, meetingMonth - 1, Number(day), begginingHour);
+    // const end = new Date(meetingYear, meetingMonth - 1, Number(day), endHour);
 
     if (location == '') {
       location = 'Rose Medoc';
@@ -25,6 +21,9 @@ export default async function createEvent(
       participantIds.push(user.id);
     }
 
+    let eventPopUpEnd = new Date(date);
+    eventPopUpEnd.setHours(date.getHours() + 1);
+
     const response = await fetch('http://localhost:5000/api/events', {
       method: 'POST',
       headers: {
@@ -33,8 +32,8 @@ export default async function createEvent(
       body: JSON.stringify({
         title: title,
         description: description,
-        beginning: beginning.toISOString(),
-        end: end.toISOString(),
+        beginning: date,
+        end: eventPopUpEnd,
         by: user?.id,
         location: location,
         participants: participantIds

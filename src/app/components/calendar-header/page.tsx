@@ -50,13 +50,28 @@ export default function CalendarHeader({
         hideCalendarMode(setIsCalendarModeVisible);
     }
 
+    // Calculate the start of the week (Monday)
+    const startOfWeek = new Date(date);
+    const dayOfWeek = startOfWeek.getDay();
+    const diffToMonday = (dayOfWeek === 0 ? -6 : 1) - dayOfWeek;
+    startOfWeek.setDate(startOfWeek.getDate() + diffToMonday);
+
+    // Calculate the end of the week (Sunday)
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+    // Determine the month display
+    const startMonth = months[startOfWeek.getMonth()];
+    const endMonth = months[endOfWeek.getMonth()];
+    const monthDisplay = startMonth === endMonth ? startMonth : `${startMonth} - ${endMonth}`;
+
     return (
         <div className='flex ml-16 justify-between items-center'>
             <div className='flex items-center'>
                 <div className='flex'>
                     <button
                         className="mr-3"
-                    onClick={goToToday}
+                        onClick={goToToday}
                     >
                         <img
                             src="/home.png"
@@ -86,12 +101,12 @@ export default function CalendarHeader({
                     </button>
                 </div>
 
-                <p className='font-bold text-dark-pink'>{months[date.getMonth()]} {date.getFullYear()}</p>
+                <p className='font-bold text-dark-pink'>{monthDisplay} {date.getFullYear()}</p>
 
             </div>
 
             <div className='flex justify-end items-center'>
-                <div>
+                <div className='relative'>
                     <button
                         className='mr-5 text-white bg-medium-pink px-3 py-2 rounded-full transition-all hover:bg-dark-pink flex items-center text-sm w-32'
                         onClick={() => displayCalendarMode(setIsCalendarModeVisible, isCalendarModeVisible)}
@@ -104,23 +119,25 @@ export default function CalendarHeader({
                         />
                     </button>
 
-                    <div
-                        className='absolute text-sm flex flex-col bg-medium-pink rounded-lg shadow-2xl items-start pl-2 py-3 text-white mt-2 pr-4 opacity-0 pointer-events-none'
-                        id='calMode'
-                    >
-                        <button
-                            onClick={() => setCalendar('weekly')}
-                            className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
+                    {isCalendarModeVisible && (
+                        <div
+                            className='absolute text-sm flex flex-col bg-medium-pink rounded-lg shadow-2xl items-start pl-2 py-3 text-white mt-2 pr-4'
+                            id='calMode'
                         >
-                            Semaine
-                        </button>
-                        <button
-                            onClick={() => setCalendar('monthly')}
-                            className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
-                        >
-                            Mois
-                        </button>
-                    </div>
+                            <button
+                                onClick={() => setCalendar('weekly')}
+                                className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
+                            >
+                                Semaine
+                            </button>
+                            <button
+                                onClick={() => setCalendar('monthly')}
+                                className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
+                            >
+                                Mois
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <p className='mr-10 font-bold text-dark-pink'>{currentUser.firstName} {currentUser.name}</p>
             </div>
