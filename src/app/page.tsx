@@ -87,11 +87,7 @@ export default function Home() {
                                 users={users}
                                 filteredEvents={filteredEvents}
                                 setEvents={setEvents}
-                                setOwn={setOwn}
-                                setTagged={setTagged}
-                                setOthers={setOthers}
                                 date={date}
-                                sidebarDate={sidebarDate}
                             />
                         </div>
                     </div>

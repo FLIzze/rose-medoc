@@ -30,7 +30,7 @@ export default function Filters({ own, tagged, setOwn, setTagged, others, setOth
                     className="accent-dark-pink"
                     checked={tagged}
                 />
-                <label htmlFor="tagged" className="select-none">Tagged</label>
+                <label htmlFor="tagged" className="select-none">Participante</label>
             </div>
             <div className="flex gap-2">
                 <input
@@ -40,7 +40,7 @@ export default function Filters({ own, tagged, setOwn, setTagged, others, setOth
                     onClick={() => setOthers(!others)}
                     checked={others}
                 />
-                <label htmlFor="others" className="select-none">Others</label>
+                <label htmlFor="others" className="select-none">Autre</label>
             </div>
         </div>
     );

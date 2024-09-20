@@ -21,6 +21,7 @@ interface WeeklyCalProps {
     setLocation: Dispatch<SetStateAction<string>>,
     date: Date,
     setDate: Dispatch<SetStateAction<Date>>,
+    setCalendarMode: Dispatch<SetStateAction<string>>,
 }
 
 export default function WeeklyCal({
@@ -37,12 +38,15 @@ export default function WeeklyCal({
     setParticipants,
     setLocation,
     date,
-    setDate }: WeeklyCalProps) {
+    setDate,
+    setCalendarMode }: WeeklyCalProps) {
 
     return (
         <div className="h-screen flex flex-col pb-24">
             <Header
                 date={date}
+                setDate={setDate}
+                setCalendarMode={setCalendarMode}
             />
 
             <Body

@@ -8,6 +8,7 @@ import MonthlyCal from "../monthly-calendar/page"
 import { EventInterface } from "@/app/model/event"
 import PopupEvent from "../popup-event/page"
 import EventDetails from "../event-details/page"
+import DailyCal from "../daily-calendar/page";
 
 interface MainCalProps {
     currentUser: UserInterface,
@@ -18,11 +19,7 @@ interface MainCalProps {
     users: UserInterface[],
     filteredEvents: EventInterface[],
     setEvents: Dispatch<SetStateAction<EventInterface[]>>,
-    setOwn: Dispatch<SetStateAction<boolean>>,
-    setTagged: Dispatch<SetStateAction<boolean>>,
-    setOthers: Dispatch<SetStateAction<boolean>>,
     date: Date,
-    sidebarDate: Date
 }
 
 export default function MainCal({
@@ -34,11 +31,7 @@ export default function MainCal({
     users,
     filteredEvents,
     setEvents,
-    setOwn,
-    setTagged,
-    setOthers,
-    date,
-    sidebarDate }: MainCalProps) {
+    date }: MainCalProps) {
 
     const hours = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
@@ -98,9 +91,6 @@ export default function MainCal({
                 setCalendarMode={setCalendarMode}
                 calendarMode={calendarMode}
                 currentUser={currentUser}
-                setOwn={setOwn}
-                setTagged={setTagged}
-                setOthers={setOthers}
                 date={date}
             />
 
@@ -121,6 +111,7 @@ export default function MainCal({
                         setParticipants={setParticipants}
                         setLocation={setLocation}
                         setDate={setDate}
+                        setCalendarMode={setCalendarMode}
                     />
                 )}
 
@@ -139,7 +130,26 @@ export default function MainCal({
                         setParticipants={setParticipants}
                         setLocation={setLocation}
                         setDate={setDate}
+                        setCalendarMode={setCalendarMode}
                     />
+                )}
+
+                {calendarMode == 'daily' && (
+                    <DailyCal
+                        date={date}
+                        filteredEvents={filteredEvents}
+                        setPosition={setPosition}
+                        setIsPopupVisible={setIsPopupVisible}
+                        setIsDetailsVisible={setIsDetailsVisible}
+                        isPopupVisible={isPopupVisible}
+                        isDetailsVisible={isDetailsVisible}
+                        setEvent={setEvent}
+                        setTitle={setTitle}
+                        setDescription={setDescription}
+                        setParticipants={setParticipants}
+                        setLocation={setLocation}
+                        setDate={setDate}
+                        />
                 )}
             </div>
         </div>

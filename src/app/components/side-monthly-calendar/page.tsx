@@ -40,12 +40,7 @@ export default function SideMonthlyCal({
     };
 
     const setDateFunc = (date: Date) => {
-        const dayOfWeek = date.getDay();
-        const diffToMonday = (dayOfWeek === 0 ? -6 : 1) - dayOfWeek;
-        const mondayDate = new Date(date);
-        mondayDate.setDate(date.getDate() + diffToMonday);
-
-        setDate(mondayDate);
+        setDate(date);
     };
 
     const monthName = sidebarDate.toLocaleString('fr-FR', { month: 'long' });

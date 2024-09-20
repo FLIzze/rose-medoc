@@ -1,17 +1,21 @@
 "use client";
 
 import capitalizeFirstLetter from "@/app/capitalizeFirstLetter";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 interface DateProps {
-    date: Date
+    date: Date,
+    setDate: Dispatch<SetStateAction<Date>>
 }
 
-export default function Date({ date }: DateProps) {
+export default function Date({ date, setDate }: DateProps) {
     const [isBeginningHoursVisible, setIsBeginningHoursVisible] = useState(false);
     const [isEndHoursVisible, setIsEndHoursVisible] = useState(false);
     const beginningHoursRef = useRef<HTMLDivElement>(null);
     const endHoursRef = useRef<HTMLDivElement>(null);
+
+    const [beginningHour, setBeginningHour] = useState(date.getHours());
+    const endHour = date.getHours() + 1;
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -51,13 +55,8 @@ export default function Date({ date }: DateProps) {
     }
 
     // function handleBeginningHourClick(hour: number) {
-    //     setBeginningHour(hour);
-    //     if (hour >= endHour) {
-    //         setEndHour(hour + 1);
-    //     } else if (hour < endHour - 4) {
-    //         setEndHour(hour + 1);
-    //     }
-    //     setIsBeginningHoursVisible(false);
+    //     date.setHours(hour);
+    //     setDate(date);
     // }
 
     // function handleEndHourClick(hour: number) {
@@ -69,14 +68,14 @@ export default function Date({ date }: DateProps) {
         <div>
             <div className="flex items-center">
                 <button
-                    className="hover:bg-gray-100 transition-all py-2 px-2 text-left flex-wrap whitespace-nowrap"
+                    className="hover:bg-very-light-pink py-2 px-2 text-left flex-wrap whitespace-nowrap"
                 >
                     {capitalizeFirstLetter(date.toLocaleDateString('fr-FR', { weekday: 'long' }))}, {date.getDate()} {capitalizeFirstLetter(date.toLocaleDateString('fr-FR', { month: 'long' }))} {date.getFullYear()}
                 </button>
 
                 <div>
                     <button
-                        className='py-2 text-left hover:bg-gray-100 px-2'
+                        className='py-2 text-left hover:bg-very-light-pink px-2'
                         onClick={toggleBeginningHours}
                     >
                         {date.getHours()}:00
@@ -88,15 +87,15 @@ export default function Date({ date }: DateProps) {
                         id="beginningHours"
                         style={{ zIndex: 10 }}
                     >
-                        {/* {hours.map((hour, index) => (
-                        <button
-                            key={index}
-                            className="hover:bg-gray-100 text-left p-2 w-32"
-                            onClick={() => handleBeginningHourClick(hour)}
-                        >
-                            {hour}:00
-                        </button>
-                    ))} */}
+                        {Array.from({ length: 18 - beginningHour }, (_, i) => i + beginningHour + 1).map((hour, index) => (
+                            <button
+                                key={index}
+                                className="hover:bg-gray-100 p-2 text-left w-32 hover:bg-very-light-pink"
+                            // onClick={() => handleBeginningHourClick(hour)}
+                            >
+                                {hour}:00
+                            </button>
+                        ))}
                     </div>
                 </div>
 
@@ -104,7 +103,7 @@ export default function Date({ date }: DateProps) {
 
                 <div className="w-full">
                     <button
-                        className='py-2 text-left px-2 hover:bg-gray-100'
+                        className='py-2 text-left hover:bg-very-light-pink px-2'
                         onClick={toggleEndHours}
                     >
                         {date.getHours() + 1}:00
@@ -116,17 +115,15 @@ export default function Date({ date }: DateProps) {
                         id="endHours"
                         style={{ zIndex: 10 }}
                     >
-                        {/* {hours.map((hour, index) => (
-                        (hour > beginningHour && hour <= beginningHour + 4 && (
+                        {Array.from({ length: 4 }, (feafea, i) => i + 2 + date.getHours()).map((hour, index) => (
                             <button
                                 key={index}
-                                className="hover:bg-gray-100 p-2 text-left w-32"
-                                onClick={() => handleEndHourClick(hour)}
+                                className="hover:bg-gray-100 p-2 text-left w-32 hover:bg-very-light-pink"
+                            // onClick={() => handleBeginningHourClick(hour)}
                             >
                                 {hour}:00
                             </button>
-                        ))
-                    ))} */}
+                        ))}
                     </div>
                 </div>
             </div>

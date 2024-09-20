@@ -14,9 +14,6 @@ interface CalendarHeaderProps {
     setCalendarMode: Dispatch<SetStateAction<string>>,
     calendarMode: string,
     currentUser: UserInterface,
-    setOwn: Dispatch<SetStateAction<boolean>>,
-    setTagged: Dispatch<SetStateAction<boolean>>,
-    setOthers: Dispatch<SetStateAction<boolean>>,
     date: Date
 }
 
@@ -26,9 +23,6 @@ export default function CalendarHeader({
     setCalendarMode,
     calendarMode,
     currentUser,
-    setOwn,
-    setTagged,
-    setOthers,
     date }: CalendarHeaderProps) {
 
     const [isCalendarModeVisible, setIsCalendarModeVisible] = useState(false);
@@ -36,9 +30,6 @@ export default function CalendarHeader({
     function goToToday() {
         const today = new Date();
         setDate(today);
-        setOwn(true);
-        setTagged(true);
-        setOthers(false);
     };
 
     useEffect(() => {
@@ -129,9 +120,15 @@ export default function CalendarHeader({
                     </button>
 
                     <div
-                        className='absolute text-sm flex flex-col bg-medium-pink rounded-lg shadow-2xl items-start pl-2 py-3 text-white mt-2 pr-4'
+                        className='absolute text-sm flex flex-col bg-medium-pink rounded-lg shadow-2xl items-start pl-2 py-3 text-white mt-2 pr-4 opacity-0 pointer-events-none z-10'
                         id='calMode'
                     >
+                        <button
+                            onClick={() => setCalendar('daily')}
+                            className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
+                        >
+                            Jour
+                        </button>
                         <button
                             onClick={() => setCalendar('weekly')}
                             className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'

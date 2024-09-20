@@ -7,6 +7,7 @@ import MonthlyEvent from "../event/monthly-event/page";
 import hideEventDetails from "@/app/event/hideEventDetails";
 import displayEventPopUp from "@/app/event/displayEventPopUp";
 import { UserInterface } from "@/app/model/user";
+import goToDailyCalendar from "@/app/date/goToDailyCalendar";
 
 interface MainMonthlyCalProps {
     date: Date,
@@ -22,6 +23,7 @@ interface MainMonthlyCalProps {
     setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
     setLocation: Dispatch<SetStateAction<string>>,
     setDate: Dispatch<SetStateAction<Date>>,
+    setCalendarMode: Dispatch<SetStateAction<string>>,
 }
 
 export default function MainMonthlyCal({
@@ -37,7 +39,8 @@ export default function MainMonthlyCal({
     setDescription,
     setParticipants,
     setLocation,
-    setDate }: MainMonthlyCalProps) {
+    setDate,
+    setCalendarMode }: MainMonthlyCalProps) {
 
     const currentMonth = date.getMonth();
     const currentYear = date.getFullYear();
@@ -55,59 +58,96 @@ export default function MainMonthlyCal({
     }
 
     return (
-        <div className="grid grid-cols-7 text-dark-pink text-sm">
-            {daysArray.map((day, index) => (
-                <div
-                    className="flex items-start flex-col border-l border-t border-dark-pink p-14"
-                    key={index}
-                    onClick={(e) => {
-                        hideEventDetails(setIsDetailsVisible);
-                        displayEventPopUp(setTitle,
-                            setDescription,
-                            setParticipants,
-                            isPopupVisible,
-                            setIsPopupVisible,
-                            isDetailsVisible,
-                            setLocation,
-                            9,
-                            date,
-                            setDate,
-                        );
-                        setPopUpPosition(e);
-                    }}
-                >
-                    {index < 7 && (
-                        <p>{day.toLocaleDateString('fr-FR', { weekday: 'short' }).toUpperCase()}</p>
-                    )}
-                    <p>{day.getDate()}</p>
+        <div className="grid grid-cols-7 text-dark-pink text-sm gap-0">
+            {daysArray.map((day, index) => {
+                const dayEvents = filteredEvents.filter(event => {
+                    const eventDate = new Date(event.beginning);
+                    return eventDate.getDate() === day.getDate() &&
+                        eventDate.getMonth() === day.getMonth() &&
+                        eventDate.getFullYear() === day.getFullYear();
+                });
 
-                    {filteredEvents
-                        .filter(event => {
-                            const eventDate = new Date(event.beginning);
-                            return eventDate.getDate() === day.getDate() &&
-                                eventDate.getMonth() === day.getMonth() &&
-                                eventDate.getFullYear() === day.getFullYear();
-                        })
-                        .map((event, eventIndex) => (
-                            <button
-                                key={eventIndex}
-                                onClick={(e) => {
-                                    e.stopPropagation(); 
-                                    hideEventPopup(setIsPopupVisible);
-                                    displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
-                                    setCurrentEventDetails(event, setEvent);
-                                    setPopUpPosition(e);
-                                }}
-                                className="text-left"
+                return (
+                    <div
+                        className={`flex items-center flex-col border-r border-b border-dark-pink h-44 w-full ${index % 7 == 6 ? 'border-r-0' : ''} ${index >= daysArray.length - 7 ? 'border-b-0' : ''}`}
+                        key={index}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            hideEventDetails(setIsDetailsVisible);
+                            displayEventPopUp(setTitle,
+                                setDescription,
+                                setParticipants,
+                                isPopupVisible,
+                                setIsPopupVisible,
+                                isDetailsVisible,
+                                setLocation,
+                                9,
+                                date,
+                                setDate,
+                            );
+                            setPopUpPosition(e);
+                        }}
+                    >
+                        {index < 7 && (
+                            <p
+                                className="font-bold select-none"
+                                onClick={(e) => e.stopPropagation()}
                             >
-                                <MonthlyEvent
-                                    event={event}
-                                />
-                            </button>
-                        ))
-                    }
-                </div>
-            ))}
+                                {day.toLocaleDateString('fr-FR', { weekday: 'short' }).toUpperCase()}
+                            </p>
+                        )}
+
+                        <button
+                            className="text-medium-pink hover:bg-very-light-pink p-2 rounded-full mt-1 transition-all"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                goToDailyCalendar(day, setDate, setCalendarMode);
+                            }}
+                        >
+                            {day.getDate()}
+                        </button>
+
+                        <div className="mt-1 ml-3">
+                            {dayEvents.slice(0, 4).map((event, eventIndex) => (
+                                <button
+                                    key={eventIndex}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        hideEventPopup(setIsPopupVisible);
+                                        displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
+                                        setCurrentEventDetails(event, setEvent);
+                                        setPopUpPosition(e);
+                                    }}
+                                    className="text-left"
+                                >
+                                    <MonthlyEvent
+                                        event={event}
+                                    />
+                                </button>
+                            ))}
+
+                            {dayEvents.length > 4 && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        goToDailyCalendar(day, setDate, setCalendarMode);
+                                    }}
+                                >
+                                    {dayEvents.length > 5 ? (
+                                        <div>
+                                            {`${dayEvents.length - 4} autres événements`}
+                                        </div>
+                                    ) : (
+                                        <MonthlyEvent
+                                            event={dayEvents[4]}
+                                        />
+                                    )}
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                );
+            })}
         </div>
-    )
+    );
 }

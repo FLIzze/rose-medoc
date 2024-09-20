@@ -11,6 +11,8 @@ export default function nextWeek(
         newDate.setDate(newDate.getDate() + 7);
     } else if (calendarMode == "monthly") {
         newDate.setMonth(newDate.getMonth() + 1);
+    } else if (calendarMode == "daily") {
+        newDate.setDate(newDate.getDate() + 1);
     }
 
     setCurrentDate(newDate);
