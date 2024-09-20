@@ -53,7 +53,7 @@ export default function Sidebar({
 
             <img
                 className="w-96 h-96 object-cover pointer-events-none"
-                src="Logo sans fond Asso Patientes.png"
+                src="logo.png"
                 alt="logo Rose Medoc"
             />
         </div>

@@ -98,7 +98,7 @@ export default function MainMonthlyCal({
                         )}
 
                         <button
-                            className="text-medium-pink hover:bg-very-light-pink p-2 rounded-full mt-1 transition-all"
+                            className="text-medium-pink hover:bg-very-light-pink py-1 px-2  rounded-full mt-1 transition-all"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 goToDailyCalendar(day, setDate, setCalendarMode);
@@ -134,7 +134,7 @@ export default function MainMonthlyCal({
                                     }}
                                 >
                                     {dayEvents.length > 5 ? (
-                                        <div>
+                                        <div className="hover:bg-very-light-pink w-full rounded-lg p-1 transition-all">
                                             {`${dayEvents.length - 4} autres événements`}
                                         </div>
                                     ) : (

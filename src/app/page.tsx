@@ -15,7 +15,16 @@ export default function Home() {
     const [date, setDate] = useState(new Date());
     const [sidebarDate, setSidebarDate] = useState(new Date());
 
-    const [currentUser, setCurrentUser] = useState<UserInterface>();
+    const defaultUser: UserInterface = {
+        id: 0,
+        name: '',
+        firstName: '',
+        email: '',
+        password: '',
+        color: ''
+    }
+
+    const [currentUser, setCurrentUser] = useState<UserInterface>(defaultUser);
 
     const [own, setOwn] = useState(true);
     const [tagged, setTagged] = useState(true);
@@ -58,8 +67,8 @@ export default function Home() {
     }, [events, own, tagged, others]);
 
     return (
-        <div className="h-screen w-screen flex items-center justify-center bg-gray-100">
-            {(currentUser) ? (
+        <div className="h-screen w-screen flex items-center justify-center bg-gray-100 bg-logo bg-contain">
+            {(currentUser.name != "") ? (
                 <div className="bg-white h-screen overflow-hidden">
                     <div className="flex mt-5">
                         <div>

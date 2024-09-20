@@ -6,7 +6,7 @@ import login from "@/app/user/login";
 import Cookies from "js-cookie";
 
 interface LoginProps {
-    setCurrentUser: Dispatch<SetStateAction<UserInterface | undefined>>
+    setCurrentUser: Dispatch<SetStateAction<UserInterface>>
 }
 
 export default function Login({ setCurrentUser }: LoginProps) {
@@ -53,9 +53,8 @@ export default function Login({ setCurrentUser }: LoginProps) {
         return emailRegex.test(email);
     };
 
-
     return (
-        <div className="bg-white p-8 rounded shadow-md w-96">
+        <div className="p-8 rounded shadow-md w-96 text-dark-pink bg-white">
             <h2 className="text-2xl font-bold mb-6">Login</h2>
             <form onSubmit={handleLogin}>
                 <div className="mb-4">
