@@ -73,6 +73,7 @@ export default function MainCal({
                     location={location}
                     setLocation={setLocation}
                     date={date}
+                    setDate={setDate}
                 />
 
                 <EventDetails

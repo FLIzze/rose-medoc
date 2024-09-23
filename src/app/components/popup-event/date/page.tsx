@@ -3,19 +3,18 @@
 import capitalizeFirstLetter from "@/app/capitalizeFirstLetter";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
-interface DateProps {
+interface DateFieldProps {
     date: Date,
-    setDate: Dispatch<SetStateAction<Date>>
+    setDate: Dispatch<SetStateAction<Date>>,
+    endHour: number,
+    setEndHour: Dispatch<SetStateAction<number>>
 }
 
-export default function Date({ date, setDate }: DateProps) {
+export default function DateField({ date, setDate, endHour, setEndHour }: DateFieldProps) {
     const [isBeginningHoursVisible, setIsBeginningHoursVisible] = useState(false);
     const [isEndHoursVisible, setIsEndHoursVisible] = useState(false);
     const beginningHoursRef = useRef<HTMLDivElement>(null);
     const endHoursRef = useRef<HTMLDivElement>(null);
-
-    const [beginningHour, setBeginningHour] = useState(date.getHours());
-    const endHour = date.getHours() + 1;
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -54,15 +53,16 @@ export default function Date({ date, setDate }: DateProps) {
         setIsEndHoursVisible(prevState => !prevState);
     }
 
-    // function handleBeginningHourClick(hour: number) {
-    //     date.setHours(hour);
-    //     setDate(date);
-    // }
+    function handleBeginningHourClick(hour: number) {
+        setEndHour(hour + 1);
+        setDate(new Date(date.setHours(hour)));
+        setIsBeginningHoursVisible(false);
+    }
 
-    // function handleEndHourClick(hour: number) {
-    //     setEndHour(hour);
-    //     setIsEndHoursVisible(false);
-    // }
+    function handleEndHourClick(hour: number) {
+        setEndHour(hour);
+        setIsEndHoursVisible(false);
+    }
 
     return (
         <div>
@@ -83,15 +83,15 @@ export default function Date({ date, setDate }: DateProps) {
 
                     <div
                         ref={beginningHoursRef}
-                        className={`absolute border border-gray-200 rounded-sm h-52 overflow-scroll flex-col bg-white mt-1 ${isBeginningHoursVisible ? 'flex' : 'hidden'}`}
+                        className={`absolute border border-gray-200 rounded-lg h-52 overflow-scroll flex-col bg-white mt-1 ${isBeginningHoursVisible ? 'flex' : 'hidden'}`}
                         id="beginningHours"
                         style={{ zIndex: 10 }}
                     >
-                        {Array.from({ length: 18 - beginningHour }, (_, i) => i + beginningHour + 1).map((hour, index) => (
+                        {Array.from({ length: 12 }, (_, i) => i + 7).map((hour, index) => (
                             <button
                                 key={index}
                                 className="hover:bg-gray-100 p-2 text-left w-32 hover:bg-very-light-pink"
-                            // onClick={() => handleBeginningHourClick(hour)}
+                                onClick={() => handleBeginningHourClick(hour)}
                             >
                                 {hour}:00
                             </button>
@@ -106,20 +106,20 @@ export default function Date({ date, setDate }: DateProps) {
                         className='py-2 text-left hover:bg-very-light-pink px-2'
                         onClick={toggleEndHours}
                     >
-                        {date.getHours() + 1}:00
+                        {endHour}:00
                     </button>
 
                     <div
                         ref={endHoursRef}
-                        className={`absolute border border-gray-200 rounded-sm h-fit flex-col bg-white mt-1 ${isEndHoursVisible ? 'flex' : 'hidden'}`}
+                        className={`absolute border border-gray-200 rounded-lg max-h-52 overflow-scroll flex-col bg-white mt-1 ${isEndHoursVisible ? 'flex' : 'hidden'}`}
                         id="endHours"
                         style={{ zIndex: 10 }}
                     >
-                        {Array.from({ length: 4 }, (feafea, i) => i + 2 + date.getHours()).map((hour, index) => (
+                        {Array.from({ length: Math.min(14, 20 - date.getHours() - 1) }, (_, i) => i + date.getHours() + 1).map((hour, index) => (
                             <button
                                 key={index}
                                 className="hover:bg-gray-100 p-2 text-left w-32 hover:bg-very-light-pink"
-                            // onClick={() => handleBeginningHourClick(hour)}
+                                onClick={() => handleEndHourClick(hour)}
                             >
                                 {hour}:00
                             </button>

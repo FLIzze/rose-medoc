@@ -24,7 +24,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
         <Draggable pos={pos} size={{ width: 380, height: 220 }}>
             <div
                 id="eventDetails"
-                className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-96 pointer-events-none text-dark-pink text-base rounded-lg    "
+                className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-fit pointer-events-none text-dark-pink text-base rounded-lg    "
             >
                 <div className="flex justify-end pr-5 h-9 w-full bg-medium-pink items-center rounded-t-lg">
                     <button onClick={() => downloadEvent(event, users)}>
@@ -63,7 +63,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                             className='w-5 h-5 mx-3'
                         />
                     </div>
-                    <div className="pb-4">
+                    <div className="pb-4 mt-4">
                         <h1 className="font-bold text-lg">{event.title}</h1>
                     </div>
 
@@ -75,7 +75,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                         />
                     </div>
                     <div className="pb-4">
-                        <p>{capitalizeFirstLetter(eventBeginning.toLocaleDateString('fr-FR', { weekday: 'long' }))}, {eventBeginning.getDate()} {capitalizeFirstLetter(eventBeginning.toLocaleDateString('fr-FR', { month: 'long' }))} {eventBeginning.getHours()+2}:00 - {eventEnd.getHours()+2}:00</p>
+                        <p className="flex whitespace-nowrap">{capitalizeFirstLetter(eventBeginning.toLocaleDateString('fr-FR', { weekday: 'long' }))}, {eventBeginning.getDate()} {capitalizeFirstLetter(eventBeginning.toLocaleDateString('fr-FR', { month: 'long' }))} {eventBeginning.getHours()+2}:00 - {eventEnd.getHours()+2}:00</p>
                     </div>
 
                     {event.description && (
@@ -125,7 +125,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                                     className='w-5 h-5 mx-3'
                                 />
                             </div>
-                            <div className="flex items-center pb-4 p-2">
+                            <div className="flex items-center pb-4">
                                 {event.location == 'Rose Medoc' ? (
                                     <p>Rose Medoc</p>
                                 ) : (

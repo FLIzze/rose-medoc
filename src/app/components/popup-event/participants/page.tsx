@@ -40,7 +40,7 @@ export default function Participants({ setParticipants, participants, users, cur
             <div className="flex items-center">
                 <input
                     type="text"
-                    className="py-2 text-left px-2 w-full outline-none transition-all h-9 bg-very-light-pink"
+                    className="py-2 text-left px-2 w-full outline-none transition-all h-9 hover:bg-very-light-pink rounded-lg focus:bg-very-light-pink"
                     placeholder="Ajouter des participants"
                     onChange={(e) => {
                         setParticipantsInput(e.target.value);
@@ -52,7 +52,7 @@ export default function Participants({ setParticipants, participants, users, cur
 
             {participantsInput !== "" && (
                 <div
-                    className="absolute border border-dark-pink mt-1 rounded-sm w-72 max-h-48 h-fit bg-white overflow-scroll"
+                    className="absolute mt-1 rounded-lg w-72 max-h-48 h-fit bg-white overflow-scroll border border-dark-pink"
                     id="participantsPopUp"
                 >
                     {users
@@ -82,7 +82,7 @@ export default function Participants({ setParticipants, participants, users, cur
                                             setParticipants([...participants, user]);
                                             hideParticipantsPopUp();
                                         }}
-                                        className="hover:bg-very-light-pink w-full h-full p-2 text-left">
+                                        className="hover:bg-very-light-pink w-full h-full p-1 pl-3 text-left">
                                         {user.name} {user.firstName}
                                     </button>
                                 </div>
@@ -94,8 +94,8 @@ export default function Participants({ setParticipants, participants, users, cur
             <div className="ml-7">
                 {participants.map((participant, index) => (
                     <div key={index}>
-                        <div className="flex justify-between hover:bg-gray-100 rounded-sm">
-                            <p className="p-1">{participant.name}</p>
+                        <div className="flex justify-between hover:bg-very-light-pink rounded-lg pl-2">
+                            <p>{participant.name}</p>
                             <button
                                 onClick={() => removeParticipant(participant.id)}
                                 className="mr-3">

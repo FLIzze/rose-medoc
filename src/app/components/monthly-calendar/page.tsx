@@ -98,7 +98,7 @@ export default function MainMonthlyCal({
                         )}
 
                         <button
-                            className="text-medium-pink hover:bg-very-light-pink py-1 px-2  rounded-full mt-1 transition-all"
+                            className="text-medium-pink hover:bg-very-light-pink py-1 px-2 rounded-full mt-1 transition-all"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 goToDailyCalendar(day, setDate, setCalendarMode);

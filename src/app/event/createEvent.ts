@@ -6,7 +6,8 @@ export default async function   createEvent(
   user: UserInterface | undefined,
   participants: UserInterface[],
   location: string,
-  date: Date) {
+  date: Date,
+  endHour: number ) {
 
   try {
     if (location == '') {
@@ -18,8 +19,8 @@ export default async function   createEvent(
       participantIds.push(user.id);
     }
 
-    let eventPopUpEnd = new Date(date);
-    eventPopUpEnd.setHours(date.getHours() + 1);
+    let eventEndHour = new Date(date);
+    eventEndHour.setHours(endHour);
 
     const response = await fetch('http://localhost:5000/api/events', {
       method: 'POST',
@@ -30,7 +31,7 @@ export default async function   createEvent(
         title: title,
         description: description,
         beginning: date,
-        end: eventPopUpEnd,
+        end: eventEndHour,
         by: user?.id,
         location: location,
         participants: participantIds

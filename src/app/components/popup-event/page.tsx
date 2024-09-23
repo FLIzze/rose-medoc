@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { EventInterface } from "@/app/model/event";
 import Draggable from "../draggable/page";
 import { UserInterface } from "@/app/model/user";
@@ -25,7 +25,8 @@ interface PopupEventProps {
     setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
     location: string,
     setLocation: Dispatch<SetStateAction<string>>,
-    date: Date
+    date: Date,
+    setDate: Dispatch<SetStateAction<Date>>
 }
 
 export default function PopupEvent({
@@ -42,11 +43,17 @@ export default function PopupEvent({
     setIsPopupVisible,
     location,
     setLocation,
-    date }: PopupEventProps) {
+    date,
+    setDate }: PopupEventProps) {
 
-    const inputRef = useRef<HTMLInputElement>(null);
+    const [endHour, setEndHour] = useState(date.getHours() + 1);
+
+    useEffect(() => {
+        setEndHour(date.getHours() + 1);
+    }, [date])
 
     return (
+
         <Draggable pos={pos} size={{ width: 415, height: 345 }}>
             <div
                 className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-fit pointer-events-none text-dark-pink rounded-br-lg"
@@ -67,7 +74,7 @@ export default function PopupEvent({
                     <input
                         type="text"
                         placeholder='Ajouter un titre'
-                        className='border-b border-light-pink outline-none text-xl h-9 transition-all w-80 mb-2 placeholder:text-dark-pink focus:border-medium-pink focus:border-b-2'
+                        className='outline-none text-xl h-9 transition-all my-2 hover:bg-very-light-pink w-full rounded-lg pl-2 focus:bg-very-light-pink'
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
@@ -82,6 +89,9 @@ export default function PopupEvent({
                     </div>
                     <Date
                         date={date}
+                        setDate={setDate}
+                        endHour={endHour}
+                        setEndHour={setEndHour}
                     />
 
                     <div className="bg-light-pink flex items-center justify-center p-4">
@@ -93,7 +103,7 @@ export default function PopupEvent({
                     </div>
                     <textarea
                         placeholder='Ajouter une description'
-                        className='rounded-sm outline-none pl-2 pt-2 w-full resize-none hover:bg-gray-100 transition-all h-9 focus:h-40 focus:bg-very-light-pink'
+                        className='rounded-lg outline-none pl-2 mt-2 w-full resize-none hover:bg-gray-100 transition-all focus:h-40 focus:bg-very-light-pink hover:bg-very-light-pink'
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
@@ -121,13 +131,14 @@ export default function PopupEvent({
                     </div>
                     <Location
                         setLocation={setLocation}
+                        location={location}
                     />
 
                     <div className="col-span-2 flex justify-end">
                         <button
                             className='rounded-lg text-white bg-medium-pink hover:bg-dark-pink transition-all px-4 py-2 mt-7 mb-4 w-44'
                             onClick={() => {
-                                addEvent(title, description, setEvents, currentUser, participants, location, date);
+                                addEvent(title, description, setEvents, currentUser, participants, location, date, endHour);
                                 hideEventPopup(setIsPopupVisible)
                             }}>
                             Enregistrer

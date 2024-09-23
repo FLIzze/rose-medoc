@@ -7,6 +7,7 @@ import nextWeek from '@/app/date/nextWeek';
 import hideCalendarMode from '@/app/event/hideCalendarMode';
 import displayCalendarMode from '@/app/event/displayCalendarMode';
 import { UserInterface } from '@/app/model/user';
+import capitalizeFirstLetter from '@/app/capitalizeFirstLetter';
 
 interface CalendarHeaderProps {
     setDate: Dispatch<SetStateAction<Date>>,
@@ -50,11 +51,6 @@ export default function CalendarHeader({
     // Calculate the end of the week (Sunday)
     const endOfWeek = new Date(startOfWeek);
     endOfWeek.setDate(startOfWeek.getDate() + 6);
-
-    // Function to capitalize the first letter of a string
-    const capitalizeFirstLetter = (string: string) => {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    };
 
     // Determine the month display
     const startMonth = capitalizeFirstLetter(startOfWeek.toLocaleDateString('fr-FR', { month: 'long' }));

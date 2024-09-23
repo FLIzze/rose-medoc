@@ -1,10 +1,11 @@
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
 interface LocationProps {
-    setLocation: Dispatch<SetStateAction<string>>
+    setLocation: Dispatch<SetStateAction<string>>,
+    location: string
 }
 
-export default function Location({ setLocation }: LocationProps) {
+export default function Location({ setLocation, location }: LocationProps) {
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -33,13 +34,15 @@ export default function Location({ setLocation }: LocationProps) {
             document.head.removeChild(script);
         };
     }, [setLocation]);
-    
+
     return (
         <input
             ref={inputRef}
             type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
             placeholder="Laisser vide pour Rose Medoc"
-            className="py-2 text-left px-2 w-full outline-none transition-all h-9 bg-very-light-pink"
+            className="py-2 text-left px-2 w-full outline-none transition-all h-9 hover:bg-very-light-pink rounded-lg focus:bg-very-light-pink"
         />
     )
 }

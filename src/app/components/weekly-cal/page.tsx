@@ -42,7 +42,7 @@ export default function WeeklyCal({
     setCalendarMode }: WeeklyCalProps) {
 
     return (
-        <div className="h-screen flex flex-col pb-24">
+        <div className="h-screen flex flex-col pb-7">
             <Header
                 date={date}
                 setDate={setDate}

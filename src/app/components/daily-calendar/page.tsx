@@ -38,6 +38,11 @@ export default function DailyCal({
     setDate }: DailyCalProps) {
 
     const hours = Array.from({ length: 12 }, (_, i) => i + 7);
+    let skip = 0;
+
+    const decrementSkip = () => {
+        skip--;
+    }
 
     return (
         <div>
@@ -46,13 +51,16 @@ export default function DailyCal({
                 <p className="text-2xl font-semibold text-dark-pink">{date.getDate()}</p>
             </div>
 
-            <div className="grid grid-cols-2 w-full overflow-y-scroll h-screen pb-36" style={{ gridTemplateColumns: '4rem 1fr' }}>
+            <div className="grid grid-cols-2 w-full overflow-y-scroll h-screen pb-20" style={{ gridTemplateColumns: '4rem 1fr' }}>
                 <div className="bg-white">
                     {hours.map((hour, hoursIndex) => (
                         <div key={hoursIndex} className="text-xs text-right text-dark-pink pr-3 h-24">
                             {hour}:00
                         </div>
                     ))}
+                    <div className="text-xs text-right text-dark-pink pr-3 h-24">
+                        19:00
+                    </div>
                 </div>
 
                 <div className="bg-white">
@@ -63,12 +71,19 @@ export default function DailyCal({
                             new Date(event.beginning).getDate() == date.getDate() &&
                             new Date(event.beginning).getFullYear() == date.getFullYear()
                         );
+
+                        if (skip > 0) {
+                            decrementSkip();
+                        }
+
                         return (
                             <div key={hoursIndex}>
                                 <div>
                                     {eventsForHour.length > 0 ? (
                                         <div className="relative">
                                             {eventsForHour.map((event, eventIndex) => {
+                                                const eventDuration = (new Date(event.end).getHours() - new Date(event.beginning).getHours());
+                                                skip = eventDuration;
                                                 return (
                                                     <button
                                                         key={eventIndex}
@@ -89,25 +104,27 @@ export default function DailyCal({
                                             })}
                                         </div>
                                     ) : (
-                                        <div
-                                            className="bg-white border-very-light-pink border-l border-t h-24"
-                                            onClick={(e) => {
-                                                hideEventDetails(setIsDetailsVisible);
-                                                displayEventPopUp(setTitle,
-                                                    setDescription,
-                                                    setParticipants,
-                                                    isPopupVisible,
-                                                    setIsPopupVisible,
-                                                    isDetailsVisible,
-                                                    setLocation,
-                                                    hour,
-                                                    date,
-                                                    setDate,
-                                                );
-                                                setPopUpPosition(e, setPosition);
-                                            }}
-                                        >
-                                        </div>
+                                        skip == 0 && (
+                                            <div
+                                                className="bg-white border-very-light-pink border-l border-t h-24"
+                                                onClick={(e) => {
+                                                    hideEventDetails(setIsDetailsVisible);
+                                                    displayEventPopUp(setTitle,
+                                                        setDescription,
+                                                        setParticipants,
+                                                        isPopupVisible,
+                                                        setIsPopupVisible,
+                                                        isDetailsVisible,
+                                                        setLocation,
+                                                        hour,
+                                                        date,
+                                                        setDate,
+                                                    );
+                                                    setPopUpPosition(e, setPosition);
+                                                }}
+                                            >
+                                            </div>
+                                        )
                                     )}
                                 </div>
                             </div>

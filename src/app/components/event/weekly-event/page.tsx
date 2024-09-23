@@ -54,6 +54,7 @@ export default function WeeklyEvent({
                 backgroundColor: `${eventCreator.color}1A`,
                 borderLeft: `4px solid ${eventCreator.color}`,
                 color: eventCreator.color,
+                height: `${eventHeight * 4}px`
             }}
             onClick={(e) => {
                 hideEventPopup(setIsPopupVisible);
@@ -61,7 +62,7 @@ export default function WeeklyEvent({
                 setCurrentEventDetails(event, setEvent);
                 setPopUpPosition(e, setPosition);
             }}
-            className={`rounded-l-md pl-3 text-sm py-1 hover:cursor-pointer pb-3 select-none h-${eventHeight} hover:opacity-100 opacity-75 transition-all ${daily ? 'w-full' : 'w-48'}`}
+            className={`rounded-l-md pl-3 text-sm py-1 hover:cursor-pointer pb-3 select-none hover:opacity-100 opacity-75 transition-all ${daily ? 'w-full' : 'w-48'}`}
         >
             <p className="overflow-hidden whitespace-nowrap text-ellipsis">{new Date(event.beginning).getHours() + 2}:00 - {new Date(event.end).getHours() + 2}:00</p>
             <p className="font-bold overflow-hidden whitespace-nowrap mr-2 text-ellipsis">{event.title}</p>

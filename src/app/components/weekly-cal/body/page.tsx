@@ -39,7 +39,7 @@ export default function Body({
     setPosition,
     setDate }: BodyProps) {
 
-    let skip = 1;
+    let skip = 0;
 
     const decrementSkip = () => {
         skip--;
@@ -53,6 +53,9 @@ export default function Body({
                         {hour}:00
                     </div>
                 ))}
+                <div className="text-xs text-right text-dark-pink pr-3 h-24">
+                    19:00
+                </div>
             </div>
 
             {Array.from({ length: 7 }).map((_, dayIndex) => {
@@ -67,12 +70,19 @@ export default function Body({
                                 new Date(event.beginning).getDate() == date.getDate() &&
                                 new Date(event.beginning).getFullYear() == date.getFullYear()
                             );
+
+                            if (skip > 0) {
+                                decrementSkip();
+                            }
+
                             return (
                                 <div key={hoursIndex}>
                                     <div>
                                         {eventsForHour.length > 0 ? (
                                             <div className="relative">
                                                 {eventsForHour.map((event, eventIndex) => {
+                                                    const eventDuration = (new Date(event.end).getHours() - new Date(event.beginning).getHours());
+                                                    skip = eventDuration;
                                                     return (
                                                         <button
                                                             key={eventIndex}
@@ -93,7 +103,7 @@ export default function Body({
                                                 })}
                                             </div>
                                         ) : (
-                                            skip == 1 ? (
+                                            skip == 0 && (
                                                 <div
                                                     className="bg-white border-very-light-pink border-l border-t h-24"
                                                     onClick={(e) => {
@@ -113,8 +123,6 @@ export default function Body({
                                                     }}
                                                 >
                                                 </div>
-                                            ) : (
-                                                <>{decrementSkip()}</>
                                             )
                                         )}
                                     </div>

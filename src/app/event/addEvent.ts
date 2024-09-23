@@ -12,7 +12,8 @@ export default async function addEvent(
     user: UserInterface | undefined,
     participants: UserInterface[],
     location: string,
-    eventPopUpDate: Date) {
+    date: Date,
+    endHour: number ) {
 
     const titleInput = document.getElementById("required-title");
     
@@ -27,9 +28,7 @@ export default async function addEvent(
         }
     }
 
-    console.log();
-    
-    await createEvent(title, description, user, participants, location, eventPopUpDate);
+    await createEvent(title, description, user, participants, location, date, endHour);
     setEvents([]);
     getEvents(setEvents);
 
