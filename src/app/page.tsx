@@ -67,7 +67,7 @@ export default function Home() {
     }, [events, own, tagged, others]);
 
     return (
-        <div className="h-screen w-screen flex items-center justify-center bg-gray-100 bg-logo bg-contain">
+        <div className="h-screen w-screen flex items-center justify-center bg-gray-100">
             {(currentUser.name != "") ? (
                 <div className="bg-white h-screen overflow-hidden">
                     <div className="flex mt-5">

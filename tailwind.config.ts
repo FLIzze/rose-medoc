@@ -14,6 +14,8 @@ const config: Config = {
       'dark-pink': '#813843',
       'white': '#FFFFFF',
       'gray': '#453d3e',
+      'red': '#d22e2e',
+      'black': '#000000',
     },
     extend: {
       backgroundImage: {

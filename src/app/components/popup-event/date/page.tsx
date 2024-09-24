@@ -65,66 +65,64 @@ export default function DateField({ date, setDate, endHour, setEndHour }: DateFi
     }
 
     return (
-        <div>
-            <div className="flex items-center">
+        <div className="flex items-center pt-4 text-dark-pink">
+            <button
+                className="hover:bg-very-light-pink p-1 text-left flex-wrap whitespace-nowrap rounded-lg"
+            >
+                {capitalizeFirstLetter(date.toLocaleDateString('fr-FR', { weekday: 'long' }))}, {date.getDate()} {capitalizeFirstLetter(date.toLocaleDateString('fr-FR', { month: 'long' }))} {date.getFullYear()}
+            </button>
+
+            <div>
                 <button
-                    className="hover:bg-very-light-pink py-2 px-2 text-left flex-wrap whitespace-nowrap rounded-lg"
+                    className='text-left hover:bg-very-light-pink p-1 rounded-lg'
+                    onClick={toggleBeginningHours}
                 >
-                    {capitalizeFirstLetter(date.toLocaleDateString('fr-FR', { weekday: 'long' }))}, {date.getDate()} {capitalizeFirstLetter(date.toLocaleDateString('fr-FR', { month: 'long' }))} {date.getFullYear()}
+                    {date.getHours()}:00
                 </button>
 
-                <div>
-                    <button
-                        className='py-2 text-left hover:bg-very-light-pink px-2 rounded-lg'
-                        onClick={toggleBeginningHours}
-                    >
-                        {date.getHours()}:00
-                    </button>
-
-                    <div
-                        ref={beginningHoursRef}
-                        className={`absolute border border-gray-200 rounded-lg h-52 overflow-scroll flex-col bg-white mt-1 ${isBeginningHoursVisible ? 'flex' : 'hidden'}`}
-                        id="beginningHours"
-                        style={{ zIndex: 10 }}
-                    >
-                        {Array.from({ length: 12 }, (_, i) => i + 7).map((hour, index) => (
-                            <button
-                                key={index}
-                                className="hover:bg-gray-100 p-2 text-left w-32 hover:bg-very-light-pink"
-                                onClick={() => handleBeginningHourClick(hour)}
-                            >
-                                {hour}:00
-                            </button>
-                        ))}
-                    </div>
+                <div
+                    ref={beginningHoursRef}
+                    className={`absolute border border-gray-200 rounded-lg h-52 overflow-scroll flex-col bg-white mt-1 ${isBeginningHoursVisible ? 'flex' : 'hidden'}`}
+                    id="beginningHours"
+                    style={{ zIndex: 10 }}
+                >
+                    {Array.from({ length: 12 }, (_, i) => i + 7).map((hour, index) => (
+                        <button
+                            key={index}
+                            className="hover:bg-gray-100 p-2 text-left w-32 hover:bg-very-light-pink"
+                            onClick={() => handleBeginningHourClick(hour)}
+                        >
+                            {hour}:00
+                        </button>
+                    ))}
                 </div>
+            </div>
 
-                <p className="py-2 px-1 text-center">-</p>
+            <p className="py-2 px-1 text-center">-</p>
 
-                <div className="w-full">
-                    <button
-                        className='py-2 text-left hover:bg-very-light-pink px-2 rounded-lg'
-                        onClick={toggleEndHours}
-                    >
-                        {endHour}:00
-                    </button>
+            <div className="w-full">
+                <button
+                    className='text-left hover:bg-very-light-pink p-1 rounded-lg'
+                    onClick={toggleEndHours}
+                >
+                    {endHour}:00
+                </button>
 
-                    <div
-                        ref={endHoursRef}
-                        className={`absolute border border-gray-200 rounded-lg max-h-52 overflow-scroll flex-col bg-white mt-1 ${isEndHoursVisible ? 'flex' : 'hidden'}`}
-                        id="endHours"
-                        style={{ zIndex: 10 }}
-                    >
-                        {Array.from({ length: Math.min(14, 20 - date.getHours() - 1) }, (_, i) => i + date.getHours() + 1).map((hour, index) => (
-                            <button
-                                key={index}
-                                className="hover:bg-gray-100 p-2 text-left w-32 hover:bg-very-light-pink"
-                                onClick={() => handleEndHourClick(hour)}
-                            >
-                                {hour}:00
-                            </button>
-                        ))}
-                    </div>
+                <div
+                    ref={endHoursRef}
+                    className={`absolute border border-gray-200 rounded-lg max-h-52 overflow-scroll flex-col bg-white mt-1 ${isEndHoursVisible ? 'flex' : 'hidden'}`}
+                    id="endHours"
+                    style={{ zIndex: 10 }}
+                >
+                    {Array.from({ length: Math.min(14, 20 - date.getHours() - 1) }, (_, i) => i + date.getHours() + 1).map((hour, index) => (
+                        <button
+                            key={index}
+                            className="hover:bg-gray-100 p-2 text-left w-32 hover:bg-very-light-pink"
+                            onClick={() => handleEndHourClick(hour)}
+                        >
+                            {hour}:00
+                        </button>
+                    ))}
                 </div>
             </div>
         </div>

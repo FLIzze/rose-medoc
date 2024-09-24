@@ -1,10 +1,11 @@
 'use client';
 
 import { EventInterface } from '@/app/model/event';
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { UserInterface } from "@/app/model/user";
 import Header from "./header/page";
 import Body from "./body/page";
+import hideEventPopup from '@/app/event/hideEventPopup';
 
 interface WeeklyCalProps {
     hours: number[],
@@ -42,7 +43,10 @@ export default function WeeklyCal({
     setCalendarMode }: WeeklyCalProps) {
 
     return (
-        <div className="h-screen flex flex-col pb-7">
+        <div
+            className="h-screen flex flex-col pb-7"
+            id='weeklyCal'
+        >
             <Header
                 date={date}
                 setDate={setDate}

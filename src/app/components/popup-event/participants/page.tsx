@@ -1,7 +1,7 @@
 "use client";
 
 import { UserInterface } from "@/app/model/user";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface ParticipantsProps {
     setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
@@ -10,7 +10,7 @@ interface ParticipantsProps {
     currentUser: UserInterface | undefined,
 }
 
-export default function Participants({ setParticipants, participants, users, currentUser } : ParticipantsProps) {
+export default function Participants({ setParticipants, participants, users, currentUser }: ParticipantsProps) {
     const [participantsInput, setParticipantsInput] = useState("");
 
     function removeParticipant(participantId: number) {
@@ -35,12 +35,27 @@ export default function Participants({ setParticipants, participants, users, cur
             participantsPopUp.style.display = "block";
         }
     }
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            const participantsPopUp = document.getElementById("participantsPopUp") as HTMLDivElement;
+            if (participantsPopUp && !participantsPopUp.contains(event.target as Node)) {
+                hideParticipantsPopUp();
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+    }, []);
+
     return (
-        <div>
+        <div className="mt-2">
             <div className="flex items-center">
                 <input
                     type="text"
-                    className="py-2 text-left px-2 w-full outline-none transition-all h-9 hover:bg-very-light-pink rounded-lg focus:bg-very-light-pink"
+                    className='outline-none pl-2 w-full resize-none h-9 focus:border-b-2 border-medium-pink transition-all text-medium-pink'
                     placeholder="Ajouter des participants"
                     onChange={(e) => {
                         setParticipantsInput(e.target.value);
@@ -52,7 +67,7 @@ export default function Participants({ setParticipants, participants, users, cur
 
             {participantsInput !== "" && (
                 <div
-                    className="absolute mt-1 rounded-lg w-72 max-h-48 h-fit bg-white overflow-scroll border border-dark-pink"
+                    className="absolute mt-1 rounded-lg w-72 max-h-48 h-fit bg-white overflow-scroll border border-medium-pink"
                     id="participantsPopUp"
                 >
                     {users
@@ -78,7 +93,7 @@ export default function Participants({ setParticipants, participants, users, cur
                             .map((user, index) => (
                                 <div key={index}>
                                     <button
-                                        onClick={() => {
+                                        onClick={(e) => {
                                             setParticipants([...participants, user]);
                                             hideParticipantsPopUp();
                                         }}
@@ -95,7 +110,7 @@ export default function Participants({ setParticipants, participants, users, cur
                 {participants.map((participant, index) => (
                     <div key={index}>
                         <div className="flex justify-between hover:bg-very-light-pink rounded-lg pl-2">
-                            <p>{participant.name}</p>
+                            <p>{participant.name} {participant.firstName}</p>
                             <button
                                 onClick={() => removeParticipant(participant.id)}
                                 className="mr-3">

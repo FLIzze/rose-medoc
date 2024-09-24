@@ -48,6 +48,17 @@ export default function WeeklyEvent({
             });
     }, []);
 
+    // useEffect(() => {
+    //     function handleClickOutside() {
+    //         hideEventPopup(setIsPopupVisible);
+    //     }
+
+    //     document.addEventListener('mousedown', handleClickOutside);
+    //     return () => {
+    //         document.removeEventListener('mousedown', handleClickOutside);
+    //     }
+    // })
+
     return (
         <div
             style={{
@@ -57,7 +68,6 @@ export default function WeeklyEvent({
                 height: `${eventHeight * 4}px`
             }}
             onClick={(e) => {
-                hideEventPopup(setIsPopupVisible);
                 displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
                 setCurrentEventDetails(event, setEvent);
                 setPopUpPosition(e, setPosition);

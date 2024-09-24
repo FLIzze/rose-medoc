@@ -9,7 +9,10 @@ interface HeaderProps {
 
 export default function Header({ date, setDate, setCalendarMode }: HeaderProps) {
     return (
-        <div className="flex-none grid grid-cols-9 w-full" style={{ gridTemplateColumns: '4rem repeat(8, 1fr)' }}>
+        <div
+            className="flex-none grid grid-cols-9 w-full"
+            style={{ gridTemplateColumns: '4rem repeat(8, 1fr)' }}
+        >
             <div className="bg-white">
                 {/* Empty cell for the top-left corner */}
             </div>
@@ -21,9 +24,11 @@ export default function Header({ date, setDate, setCalendarMode }: HeaderProps) 
                     <button
                         key={dayIndex}
                         className="bg-white"
-                        onClick={() => goToDailyCalendar(currentDate, setDate, setCalendarMode)}
                     >
-                        <div className="rounded-full hover:bg-very-light-pink w-fit px-3 py-1">
+                        <div
+                            className="rounded-full hover:bg-very-light-pink w-fit px-3 py-1"
+                            onClick={() => goToDailyCalendar(currentDate, setDate, setCalendarMode)}
+                        >
                             <p className="text-light-pink text-xs">{dayName}</p>
                             <p className="text-2xl font-semibold text-dark-pink">{currentDate.getDate()}</p>
                         </div>

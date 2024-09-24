@@ -53,7 +53,7 @@ export default function SideMonthlyCal({
     });
 
     return (
-        <div className='pb-6'>
+        <div className='pb-6 h-64'>
             <div className="flex justify-between items-center pl-2 text-sm font-bold">
                 <h2 className='w-full text-dark-pink'>{capitalizedMonthName} {currentYearCal}</h2>
                 <button onClick={handlePreviousMonth}>

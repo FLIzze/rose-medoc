@@ -42,7 +42,7 @@ export default function Location({ setLocation, location }: LocationProps) {
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             placeholder="Laisser vide pour Rose Medoc"
-            className="py-2 text-left px-2 w-full outline-none transition-all h-9 hover:bg-very-light-pink rounded-lg focus:bg-very-light-pink"
+            className='outline-none pl-2 mt-2 w-full resize-none h-9 focus:border-b-2 border-medium-pink transition-all text-medium-pink'
         />
     )
 }

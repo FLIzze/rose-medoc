@@ -1,7 +1,6 @@
 import { UserInterface } from "@/app/model/user";
 import { Dispatch, SetStateAction, MouseEvent } from "react";
 import { EventInterface } from "@/app/model/event";
-import hideEventDetails from "@/app/event/hideEventDetails";
 import displayEventPopUp from "@/app/event/displayEventPopUp";
 import WeeklyEvent from "../../event/weekly-event/page";
 import setPopUpPosition from "@/app/event/setPopUpPosition";
@@ -46,7 +45,10 @@ export default function Body({
     }
 
     return (
-        <div className="grid grid-cols-9 w-full overflow-y-scroll" style={{ gridTemplateColumns: '4rem repeat(8, 1fr)' }}>
+        <div
+            className="grid grid-cols-9 w-full overflow-y-scroll"
+            style={{ gridTemplateColumns: '4rem repeat(8, 1fr)' }}
+        >
             <div className="bg-white">
                 {hours.slice(0, -1).map((hour, hoursIndex) => (
                     <div key={hoursIndex} className="text-xs text-right text-dark-pink pr-3 h-24">
@@ -107,7 +109,6 @@ export default function Body({
                                                 <div
                                                     className="bg-white border-very-light-pink border-l border-t h-24"
                                                     onClick={(e) => {
-                                                        hideEventDetails(setIsDetailsVisible);
                                                         displayEventPopUp(setTitle,
                                                             setDescription,
                                                             setParticipants,

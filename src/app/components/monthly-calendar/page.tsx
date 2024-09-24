@@ -1,10 +1,8 @@
 import displayEventDetails from "@/app/event/displayEventDetails";
-import hideEventPopup from "@/app/event/hideEventPopup";
 import setCurrentEventDetails from "@/app/event/setCurrentEventDetails";
 import { EventInterface } from "@/app/model/event";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import MonthlyEvent from "../event/monthly-event/page";
-import hideEventDetails from "@/app/event/hideEventDetails";
 import displayEventPopUp from "@/app/event/displayEventPopUp";
 import { UserInterface } from "@/app/model/user";
 import goToDailyCalendar from "@/app/date/goToDailyCalendar";
@@ -102,7 +100,6 @@ export default function MainMonthlyCal({
                         key={index}
                         onClick={(e) => {
                             e.stopPropagation();
-                            hideEventDetails(setIsDetailsVisible);
                             displayEventPopUp(setTitle,
                                 setDescription,
                                 setParticipants,
@@ -144,7 +141,6 @@ export default function MainMonthlyCal({
                                     key={eventIndex}
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        hideEventPopup(setIsPopupVisible);
                                         displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
                                         setCurrentEventDetails(event, setEvent);
                                         setPopUpPosition(e);
@@ -153,6 +149,7 @@ export default function MainMonthlyCal({
                                 >
                                     <MonthlyEvent
                                         event={event}
+                                        setIsPopupVisible={setIsPopupVisible}
                                     />
                                 </button>
                             ))}
@@ -172,6 +169,7 @@ export default function MainMonthlyCal({
                                     ) : (
                                         <MonthlyEvent
                                             event={dayEvents[4]}
+                                            setIsPopupVisible={setIsPopupVisible}
                                         />
                                     )}
                                 </button>

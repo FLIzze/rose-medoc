@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { EventInterface } from "@/app/model/event";
 import deleteEvent from "@/app/event/deleteEvent";
 import Draggable from "../draggable/page";
@@ -20,14 +20,41 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
     const eventBeginning = new Date(event.beginning);
     const eventEnd = new Date(event.end);
 
+    const [size, setSize] = useState({ width: 0, height: 0 });
+    const detailsRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (detailsRef.current) {
+            const { offsetWidth, offsetHeight } = detailsRef.current;
+            setSize({ width: offsetWidth, height: offsetHeight });
+        }
+    }, [event.participants]);
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (detailsRef.current && !detailsRef.current.contains(event.target as Node)) {
+                hideEventDetails(setIsDetailsVisible);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [])
+
     return (
-        <Draggable pos={pos} size={{ width: 380, height: 220 }}>
+        <Draggable pos={pos} size={size}>
             <div
+                ref={detailsRef}
                 id="eventDetails"
-                className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-fit pointer-events-none text-dark-pink text-base rounded-lg    "
+                className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-fit pointer-events-none text-dark-pink text-base rounded-lg"
             >
                 <div className="flex justify-end pr-5 h-9 w-full bg-medium-pink items-center rounded-t-lg">
-                    <button onClick={() => downloadEvent(event, users)}>
+                    <button onClick={() => {
+                        downloadEvent(event, users);
+                        hideEventDetails(setIsDetailsVisible);
+                    }}>
                         <img
                             src="/download.png"
                             alt="download"
@@ -36,8 +63,8 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                     </button>
                     {event!.by == currentUser.id && (
                         <button onClick={() => {
-                            hideEventDetails(setIsDetailsVisible)
-                            deleteEvent(event.id, setEvents)
+                            deleteEvent(event.id, setEvents);
+                            hideEventDetails(setIsDetailsVisible);
                         }}>
                             <img
                                 src="/bin.png"
@@ -75,7 +102,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                         />
                     </div>
                     <div className="pb-4">
-                        <p className="flex whitespace-nowrap">{capitalizeFirstLetter(eventBeginning.toLocaleDateString('fr-FR', { weekday: 'long' }))}, {eventBeginning.getDate()} {capitalizeFirstLetter(eventBeginning.toLocaleDateString('fr-FR', { month: 'long' }))} {eventBeginning.getHours()+2}:00 - {eventEnd.getHours()+2}:00</p>
+                        <p className="flex whitespace-nowrap">{capitalizeFirstLetter(eventBeginning.toLocaleDateString('fr-FR', { weekday: 'long' }))}, {eventBeginning.getDate()} {capitalizeFirstLetter(eventBeginning.toLocaleDateString('fr-FR', { month: 'long' }))} {eventBeginning.getHours() + 2}:00 - {eventEnd.getHours() + 2}:00</p>
                     </div>
 
                     {event.description && (
@@ -87,7 +114,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                                     className='w-5 h-5 mx-3'
                                 />
                             </div>
-                            <div className="flex items-center pb-4 p-2">
+                            <div className="flex items-center pb-4 pt-2">
                                 <p className="text-justify">{event.description}</p>
                             </div>
                         </>
@@ -102,7 +129,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                                     className='w-5 h-5 mx-3'
                                 />
                             </div>
-                            <div className="flex flex-col pb-4 p-2">
+                            <div className="flex flex-col pb-4 pt-2">
                                 <p>{event.participants.length} participants</p>
                                 {event.participants.map((participantId, index) => {
                                     const participant = users.find(user => user.id === participantId);
@@ -125,7 +152,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                                     className='w-5 h-5 mx-3'
                                 />
                             </div>
-                            <div className="flex items-center pb-4">
+                            <div className="flex items-center pb-2">
                                 {event.location == 'Rose Medoc' ? (
                                     <p>Rose Medoc</p>
                                 ) : (
