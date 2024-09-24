@@ -72,7 +72,7 @@ export default function Participants({ setParticipants, participants, users, cur
                 >
                     {users
                         .filter(user =>
-                            (user.name.toLowerCase().includes(participantsInput.toLowerCase()) ||
+                            (user.lastName.toLowerCase().includes(participantsInput.toLowerCase()) ||
                                 user.firstName.toLowerCase().includes(participantsInput.toLowerCase())) &&
                             user.id !== currentUser?.id &&
                             !participants.some(participant => participant.id === user.id)
@@ -85,7 +85,7 @@ export default function Participants({ setParticipants, participants, users, cur
                     ) : (
                         users
                             .filter(user =>
-                                (user.name.toLowerCase().includes(participantsInput.toLowerCase()) ||
+                                (user.lastName.toLowerCase().includes(participantsInput.toLowerCase()) ||
                                     user.firstName.toLowerCase().includes(participantsInput.toLowerCase())) &&
                                 user.id !== currentUser?.id &&
                                 !participants.some(participant => participant.id === user.id)
@@ -98,7 +98,7 @@ export default function Participants({ setParticipants, participants, users, cur
                                             hideParticipantsPopUp();
                                         }}
                                         className="hover:bg-very-light-pink w-full h-full p-1 pl-3 text-left">
-                                        {user.name} {user.firstName}
+                                        {user.lastName} {user.firstName}
                                     </button>
                                 </div>
                             ))
@@ -110,7 +110,7 @@ export default function Participants({ setParticipants, participants, users, cur
                 {participants.map((participant, index) => (
                     <div key={index}>
                         <div className="flex justify-between hover:bg-very-light-pink rounded-lg pl-2">
-                            <p>{participant.name} {participant.firstName}</p>
+                            <p>{participant.lastName} {participant.firstName}</p>
                             <button
                                 onClick={() => removeParticipant(participant.id)}
                                 className="mr-3">

@@ -153,7 +153,7 @@ export default function CalendarHeader({
                         </button>
                     </div>
                 </div>
-                <p className='mr-10 font-bold text-dark-pink'>{currentUser.firstName} {currentUser.name}</p>
+                <p className='mr-10 font-bold text-dark-pink'>{currentUser.lastName} {currentUser.firstName}</p>
             </div>
         </div>
     );

@@ -1,15 +1,14 @@
 "use client";
 
-import { UserInterface } from "@/app/model/user";
 import { Dispatch, SetStateAction, useState } from "react";
 import login from "@/app/user/login";
 import Cookies from "js-cookie";
 
 interface LoginProps {
-    setCurrentUser: Dispatch<SetStateAction<UserInterface>>
+    setRegister: Dispatch<SetStateAction<boolean>>
 }
 
-export default function Login({ setCurrentUser }: LoginProps) {
+export default function Login({ setRegister }: LoginProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(true);
@@ -31,11 +30,10 @@ export default function Login({ setCurrentUser }: LoginProps) {
             return;
         }
 
-        const userId = await login(email, password);
-        if (userId) {
+        const userUuid = await login(email, password);
+        if (userUuid) {
             console.log('User logged in');
-            Cookies.set('userId', userId.toString(), { expires: 7, secure: true, sameSite: 'strict' });
-            setCurrentUser({ id: userId } as UserInterface);
+            Cookies.set('uuid', userUuid, { expires: 7, secure: true, sameSite: 'strict' });
         } else {
             setErrorMessage('Invalid credentials.');
             console.log('Invalid credentials');
@@ -80,10 +78,22 @@ export default function Login({ setCurrentUser }: LoginProps) {
                                 required
                             />
                         </div>
+
                         {errorMessage && <p className="text-red text-xs mb-4">{errorMessage}</p>}
+
                         <button type="submit" className="w-full py-2 rounded-lg text-white bg-medium-pink transition-all hover:bg-dark-pink">
                             Login
                         </button>
+
+                        <div className="mt-3 text-dark-pink flex gap-x-1">
+                            <p>Pas de compte ?</p>
+                            <button
+                                className="text-medium-pink hover:text-dark-pink transition-all"
+                                onClick={() => setRegister(true)}
+                            >Register
+                            </button>
+                        </div>
+
                     </form>
                 </div>
             </div>

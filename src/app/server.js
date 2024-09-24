@@ -18,7 +18,7 @@ app.post('/api/events', function (req, res) {
     var endDate = new Date(end).toISOString().slice(0, 19).replace('T', ' ');
     var sql = 'INSERT INTO event (title, description, beginning, end, `by`, location, participants) VALUES (?, ?, ?, ?, ?, ?, ?)';
     var values = [title, description, beginningDate, endDate, by, location, JSON.stringify(participants)];
-    pool.query(sql, values, function (error, results) {
+    pool.query(sql, values, function (error) {
         if (error) {
             console.error('Error creating event:', error);
             return res.status(500).json({ error: error.message });
@@ -26,7 +26,19 @@ app.post('/api/events', function (req, res) {
         res.status(201).json({ message: 'Event created' });
     });
 });
-app.get('/api/events', function (req, res) {
+app.post('/api/users', function (req, res) {
+    var _a = req.body, uuid = _a.uuid, lastName = _a.lastName, firstName = _a.firstName, email = _a.email, password = _a.password, color = _a.color;
+    var sql = 'INSERT INTO user (uuid, lastName, firstName, email, password, color) VALUES (?, ?, ?, ?, ?, ?)';
+    var values = [uuid, lastName, firstName, email, password, color];
+    pool.query(sql, values, function (error) {
+        if (error) {
+            console.error('Error creating user:', error);
+            return res.status(500).json({ error: error.message });
+        }
+        res.status(201).json({ message: 'User created' });
+    });
+});
+app.get('/api/events', function (_, res) {
     pool.query('SELECT * FROM event ORDER BY beginning ASC', function (error, results) {
         if (error) {
             console.error('Error fetching events:', error);
@@ -49,7 +61,7 @@ app.delete('/api/events', function (req, res) {
         res.status(200).send('Event deleted successfully');
     });
 });
-app.get('/api/users', function (req, res) {
+app.get('/api/users', function (_, res) {
     pool.query('SELECT * FROM user', function (error, results) {
         if (error) {
             console.error('Error fetching users:', error);

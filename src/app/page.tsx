@@ -10,6 +10,7 @@ import axios from 'axios';
 import { EventInterface } from './model/event';
 import filterEvent from './event/filterEvents';
 import getEvents from './event/getEvents';
+import Register from './components/register/page';
 
 export default function Home() {
     const [date, setDate] = useState(new Date());
@@ -17,7 +18,8 @@ export default function Home() {
 
     const defaultUser: UserInterface = {
         id: 0,
-        name: '',
+        uuid: '',
+        lastName: '',
         firstName: '',
         email: '',
         password: '',
@@ -38,28 +40,29 @@ export default function Home() {
     const [events, setEvents] = useState<EventInterface[]>([]);
     const [filteredEvents, setFilteredEvents] = useState<EventInterface[]>([]);
 
+    const [register, setRegister] = useState(false);
+
     useEffect(() => {
         getEvents(setEvents);
     }, []);
-    
+
     useEffect(() => {
-        const userId = Cookies.get('userId');
-        if (userId) {
-            setCurrentUser({ id: userId } as unknown as UserInterface);
-        }
-        
+        setCurrentUser(currentUser);
+    }, [currentUser]);
+
+    useEffect(() => {
         axios.get('http://localhost:5000/api/users')
-        .then((response) => {
-            setUsers(response.data)
-            for (const user of response.data as UserInterface[]) {
-                if (user.id == +cookie['userId']) {
-                    setCurrentUser(user);
+            .then((response) => {
+                setUsers(response.data)
+                for (const user of response.data as UserInterface[]) {
+                    if (user.uuid == cookie['uuid']) {
+                        setCurrentUser(user);
+                    }
                 }
-            }
-        })
-        .catch((error) => {
-            console.error('Error fetching users', error);
-        });
+            })
+            .catch((error) => {
+                console.error('Error fetching users', error);
+            });
     }, []);
 
     useEffect(() => {
@@ -68,7 +71,7 @@ export default function Home() {
 
     return (
         <div className="h-screen w-screen flex items-center justify-center bg-gray-100">
-            {(currentUser.name != "") ? (
+            {(currentUser.firstName != "" && currentUser.firstName !== undefined) ? (
                 <div className="bg-white h-screen overflow-hidden">
                     <div className="flex mt-5">
                         <div>
@@ -102,9 +105,15 @@ export default function Home() {
                     </div>
                 </div>
             ) : (
-                <Login
-                    setCurrentUser={setCurrentUser}
-                />
+                (register ? (
+                    <Register
+                        setRegister={setRegister}
+                    />
+                ) : (
+                    <Login
+                        setRegister={setRegister}
+                    />
+                ))
             )}
         </div>
     );

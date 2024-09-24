@@ -7,6 +7,7 @@ interface LocationProps {
 
 export default function Location({ setLocation, location }: LocationProps) {
     const inputRef = useRef<HTMLInputElement>(null);
+    
     const [apiKey, setApiKey] = useState<string>("");
 
     const filePath = "/google_api_key.json";

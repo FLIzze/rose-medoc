@@ -135,13 +135,31 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                                     const participant = users.find(user => user.id === participantId);
                                     return (
                                         <p key={index}>
-                                            {participant?.name} {participant?.firstName}
+                                            {participant?.lastName} {participant?.firstName}
                                         </p>
                                     );
                                 })}
                             </div>
                         </>
                     )}
+
+                    {event.participants && event.participants.length == 1 && (() => {
+                        const participant = users.find(user => user.id == event.participants[0]);
+                        return (
+                            <>
+                                <div className="bg-light-pink flex items-center justify-center p-2 pb-4">
+                                    <img
+                                        src="person.png"
+                                        alt="participants"
+                                        className='w-5 h-5 mx-3'
+                                    />
+                                </div>
+                                <div className="flex items-center pb-4 pt-2">
+                                    <p>{participant?.lastName} {participant?.firstName}</p>
+                                </div>
+                            </>
+                        );
+                    })()}
 
                     {event.location && (
                         <>

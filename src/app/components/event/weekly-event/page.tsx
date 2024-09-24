@@ -76,7 +76,7 @@ export default function WeeklyEvent({
         >
             <p className="overflow-hidden whitespace-nowrap text-ellipsis">{new Date(event.beginning).getHours() + 2}:00 - {new Date(event.end).getHours() + 2}:00</p>
             <p className="font-bold overflow-hidden whitespace-nowrap mr-2 text-ellipsis">{event.title}</p>
-            <p className="overflow-hidden whitespace-nowrap text-ellipsis">par {eventCreator.firstName} {eventCreator.name}</p>
+            <p className="overflow-hidden whitespace-nowrap text-ellipsis">par {eventCreator.lastName} {eventCreator.firstName}</p>
             <p className="overflow-hidden whitespace-nowrap text-ellipsis">{event.location}</p>
         </div>
     )

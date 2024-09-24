@@ -1,13 +1,13 @@
 import { UserInterface } from "../model/user";
 
-export default async function   createEvent(
+export default async function createEvent(
   title: string,
   description: string,
   user: UserInterface | undefined,
   participants: UserInterface[],
   location: string,
   date: Date,
-  endHour: number ) {
+  endHour: number) {
 
   try {
     if (location == '') {
