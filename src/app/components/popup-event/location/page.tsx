@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 interface LocationProps {
     setLocation: Dispatch<SetStateAction<string>>,
@@ -7,12 +7,26 @@ interface LocationProps {
 
 export default function Location({ setLocation, location }: LocationProps) {
     const inputRef = useRef<HTMLInputElement>(null);
+    const [apiKey, setApiKey] = useState<string>("");
+
+    const filePath = "/google_api_key.json";
 
     useEffect(() => {
-        if (!inputRef.current) return;
+        fetch(filePath)
+            .then(response => response.json())
+            .then(data => {
+                setApiKey(data.apiKey);
+            })
+            .catch(error => {
+                console.error("Error fetching API key:", error);
+            });
+    }, []);
+
+    useEffect(() => {
+        if (!inputRef.current || !apiKey) return;
 
         const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyACMsKni9JGHzeEMwU7R_H2gk0h9H-ZeOI&libraries=places`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
         script.async = true;
         script.onload = () => {
             if (!inputRef.current) return;
@@ -33,7 +47,7 @@ export default function Location({ setLocation, location }: LocationProps) {
         return () => {
             document.head.removeChild(script);
         };
-    }, [setLocation]);
+    }, [apiKey, setLocation]);
 
     return (
         <input
