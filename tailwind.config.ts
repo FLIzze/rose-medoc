@@ -8,7 +8,7 @@ const config: Config = {
   ],
   theme: {
     colors: {
-      'very-light-pink': '#fcf5f5',
+      'very-light-pink': '#f7ebeb',
       'light-pink': '#F4C2C5',
       'medium-pink': '#DF8685',
       'dark-pink': '#813843',

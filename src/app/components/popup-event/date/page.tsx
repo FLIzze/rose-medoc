@@ -68,14 +68,14 @@ export default function DateField({ date, setDate, endHour, setEndHour }: DateFi
         <div>
             <div className="flex items-center">
                 <button
-                    className="hover:bg-very-light-pink py-2 px-2 text-left flex-wrap whitespace-nowrap"
+                    className="hover:bg-very-light-pink py-2 px-2 text-left flex-wrap whitespace-nowrap rounded-lg"
                 >
                     {capitalizeFirstLetter(date.toLocaleDateString('fr-FR', { weekday: 'long' }))}, {date.getDate()} {capitalizeFirstLetter(date.toLocaleDateString('fr-FR', { month: 'long' }))} {date.getFullYear()}
                 </button>
 
                 <div>
                     <button
-                        className='py-2 text-left hover:bg-very-light-pink px-2'
+                        className='py-2 text-left hover:bg-very-light-pink px-2 rounded-lg'
                         onClick={toggleBeginningHours}
                     >
                         {date.getHours()}:00
@@ -103,7 +103,7 @@ export default function DateField({ date, setDate, endHour, setEndHour }: DateFi
 
                 <div className="w-full">
                     <button
-                        className='py-2 text-left hover:bg-very-light-pink px-2'
+                        className='py-2 text-left hover:bg-very-light-pink px-2 rounded-lg'
                         onClick={toggleEndHours}
                     >
                         {endHour}:00

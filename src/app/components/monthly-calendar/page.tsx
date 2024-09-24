@@ -2,12 +2,14 @@ import displayEventDetails from "@/app/event/displayEventDetails";
 import hideEventPopup from "@/app/event/hideEventPopup";
 import setCurrentEventDetails from "@/app/event/setCurrentEventDetails";
 import { EventInterface } from "@/app/model/event";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import MonthlyEvent from "../event/monthly-event/page";
 import hideEventDetails from "@/app/event/hideEventDetails";
 import displayEventPopUp from "@/app/event/displayEventPopUp";
 import { UserInterface } from "@/app/model/user";
 import goToDailyCalendar from "@/app/date/goToDailyCalendar";
+import nextWeek from "@/app/date/nextWeek";
+import prevWeek from "@/app/date/prevWeek";
 
 interface MainMonthlyCalProps {
     date: Date,
@@ -24,6 +26,7 @@ interface MainMonthlyCalProps {
     setLocation: Dispatch<SetStateAction<string>>,
     setDate: Dispatch<SetStateAction<Date>>,
     setCalendarMode: Dispatch<SetStateAction<string>>,
+    calendarMode: string
 }
 
 export default function MainMonthlyCal({
@@ -40,7 +43,8 @@ export default function MainMonthlyCal({
     setParticipants,
     setLocation,
     setDate,
-    setCalendarMode }: MainMonthlyCalProps) {
+    setCalendarMode,
+    calendarMode }: MainMonthlyCalProps) {
 
     const currentMonth = date.getMonth();
     const currentYear = date.getFullYear();
@@ -57,6 +61,21 @@ export default function MainMonthlyCal({
         setPosition({ x: clientX, y: clientY });
     }
 
+    useEffect(() => {
+        function handleWheel(event: WheelEvent) {
+            if (event.deltaY < 0) {
+                prevWeek(date, setDate, calendarMode);
+            } else {
+                nextWeek(date, setDate, calendarMode);
+            }
+        }
+
+        window.addEventListener('wheel', handleWheel);
+        return () => {
+            window.removeEventListener('wheel', handleWheel);
+        };
+    }, [date, setDate, setCalendarMode]);
+
     return (
         <div className="grid grid-cols-7 text-dark-pink text-sm gap-0">
             {daysArray.map((day, index) => {
@@ -67,9 +86,19 @@ export default function MainMonthlyCal({
                         eventDate.getFullYear() === day.getFullYear();
                 });
 
+                const isFirstColumn = index % 7 === 0;
+                const isLastColumn = index % 7 === 6;
+                const isFirstRow = index < 7;
+                const isLastRow = index >= daysArray.length - 7;
+
                 return (
                     <div
-                        className={`flex items-center flex-col border-r border-b border-dark-pink h-44 w-full ${index % 7 == 6 ? 'border-r-0' : ''} ${index >= daysArray.length - 7 ? 'border-b-0' : ''}`}
+                        className={`flex items-start flex-col border-very-light-pink h-44 w-full 
+                                    ${isFirstColumn ? 'border-l' : ''} 
+                                    ${isLastColumn ? 'border-r' : ''} 
+                                    ${isFirstRow ? 'border-t' : ''} 
+                                    ${isLastRow ? 'border-b' : ''} 
+                                    border-r border-b`}
                         key={index}
                         onClick={(e) => {
                             e.stopPropagation();
@@ -81,8 +110,8 @@ export default function MainMonthlyCal({
                                 setIsPopupVisible,
                                 isDetailsVisible,
                                 setLocation,
-                                9,
-                                date,
+                                7,
+                                day,
                                 setDate,
                             );
                             setPopUpPosition(e);
@@ -90,24 +119,26 @@ export default function MainMonthlyCal({
                     >
                         {index < 7 && (
                             <p
-                                className="font-bold select-none"
+                                className="select-none flex justify-center items-center w-full text-xs mt-1"
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 {day.toLocaleDateString('fr-FR', { weekday: 'short' }).toUpperCase()}
                             </p>
                         )}
 
-                        <button
-                            className="text-medium-pink hover:bg-very-light-pink py-1 px-2 rounded-full mt-1 transition-all"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                goToDailyCalendar(day, setDate, setCalendarMode);
-                            }}
-                        >
-                            {day.getDate()}
-                        </button>
+                        <div className={`w-full flex justify-center ${isFirstRow ? '' : 'mt-1'}`}>
+                            <button
+                                className="text-medium-pink hover:bg-very-light-pink px-2 transition-all rounded-full"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    goToDailyCalendar(day, setDate, setCalendarMode);
+                                }}
+                            >
+                                {day.getDate()}
+                            </button>
+                        </div>
 
-                        <div className="mt-1 ml-3">
+                        <div className="w-full">
                             {dayEvents.slice(0, 4).map((event, eventIndex) => (
                                 <button
                                     key={eventIndex}
@@ -118,7 +149,7 @@ export default function MainMonthlyCal({
                                         setCurrentEventDetails(event, setEvent);
                                         setPopUpPosition(e);
                                     }}
-                                    className="text-left"
+                                    className="w-full pt-1 px-2"
                                 >
                                     <MonthlyEvent
                                         event={event}
@@ -132,9 +163,10 @@ export default function MainMonthlyCal({
                                         e.stopPropagation();
                                         goToDailyCalendar(day, setDate, setCalendarMode);
                                     }}
+                                    className="w-full pt-1 px-2"
                                 >
                                     {dayEvents.length > 5 ? (
-                                        <div className="hover:bg-very-light-pink w-full rounded-lg p-1 transition-all">
+                                        <div className="hover:bg-very-light-pink transition-all w-full">
                                             {`${dayEvents.length - 4} autres événements`}
                                         </div>
                                     ) : (

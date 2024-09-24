@@ -25,7 +25,7 @@ export default function MonthlyEvent({ event }: MonthlyEventProps) {
             .catch((error) => {
                 console.error('Error fetching events', error);
             });
-    }, []);
+    }, [event.by]);
 
     return (
         <div
@@ -34,10 +34,9 @@ export default function MonthlyEvent({ event }: MonthlyEventProps) {
                 borderLeft: `4px solid ${eventCreator.color}`,
                 color: eventCreator.color,
             }}
-            className={`rounded-l-md pl-2 text-sm select-none hover:opacity-100 opacity-75 transition-all h-6 pr-3 w-full flex`}
-            >
-            <p className="overflow-hidden whitespace-nowrap text-ellipsis w-full">{new Date(event.beginning).getHours()+2}:00 {event.title}</p>
-
+            className={`rounded-l-md pl-2 text-sm select-none hover:opacity-100 opacity-75 transition-all h-6 pr-3 w-full flex text-left`}
+        >
+            <p className="overflow-hidden whitespace-nowrap text-ellipsis w-full">{new Date(event.beginning).getHours() + 2}:00 {event.title}</p>
         </div>
     )
 }

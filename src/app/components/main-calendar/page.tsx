@@ -132,6 +132,7 @@ export default function MainCal({
                         setLocation={setLocation}
                         setDate={setDate}
                         setCalendarMode={setCalendarMode}
+                        calendarMode={calendarMode}
                     />
                 )}
 

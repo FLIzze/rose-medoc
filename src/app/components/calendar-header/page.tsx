@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 
 import prevWeek from '@/app/date/prevWeek';
 import nextWeek from '@/app/date/nextWeek';
@@ -27,6 +27,7 @@ export default function CalendarHeader({
     date }: CalendarHeaderProps) {
 
     const [isCalendarModeVisible, setIsCalendarModeVisible] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     function goToToday() {
         const today = new Date();
@@ -41,6 +42,19 @@ export default function CalendarHeader({
         setCalendarMode(mode);
         hideCalendarMode(setIsCalendarModeVisible);
     }
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                hideCalendarMode(setIsCalendarModeVisible);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [dropdownRef]);
 
     // Calculate the start of the week (Monday)
     const startOfWeek = new Date(date);
@@ -102,21 +116,21 @@ export default function CalendarHeader({
             </div>
 
             <div className='flex justify-end items-center'>
-                <div className='relative'>
+                <div className='mr-7' ref={dropdownRef}>
                     <button
-                        className='mr-5 text-white bg-medium-pink px-3 py-2 rounded-full transition-all hover:bg-dark-pink flex items-center text-sm w-32'
+                        className='mr-5 text-white bg-medium-pink pl-3 py-2 rounded-full transition-all hover:bg-dark-pink flex items-center text-sm w-full'
                         onClick={() => displayCalendarMode(setIsCalendarModeVisible, isCalendarModeVisible)}
                     >
                         {calendarMode}
                         <img
                             src="down_arrow.png"
                             alt="derouler"
-                            className='w-3 h-3 ml-4 mr-2'
+                            className='w-3 h-3 ml-4'
                         />
                     </button>
 
                     <div
-                        className='absolute text-sm flex flex-col bg-medium-pink rounded-lg shadow-2xl items-start pl-2 py-3 text-white mt-2 pr-4 opacity-0 pointer-events-none z-10'
+                        className={`absolute text-sm flex flex-col bg-medium-pink rounded-lg shadow-2xl items-start pl-2 py-3 text-white mt-2 pr-4 transition-opacity duration-300 ${isCalendarModeVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} z-10`}
                         id='calMode'
                     >
                         <button
