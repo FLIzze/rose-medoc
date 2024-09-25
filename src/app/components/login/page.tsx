@@ -19,24 +19,24 @@ export default function Login({ setRegister }: LoginProps) {
         setErrorMessage('');
 
         if (!email || !password) {
-            setErrorMessage('Email and password are required.');
-            console.log('Email and password are required.');
+            setErrorMessage('L\'email et le mot de passe sont obligatoires.');
+            console.log('L\'email et le mot de passe sont obligatoires.');
             return;
         }
 
         if (!isEmailValid) {
-            setErrorMessage('Invalid email format.');
-            console.log('Invalid email format.');
+            setErrorMessage('Format de courriel invalide.');
+            console.log('Format de courriel invalide.');
             return;
         }
 
         const userUuid = await login(email, password);
         if (userUuid) {
-            console.log('User logged in');
+            console.log('Utilisateur connecté');
             Cookies.set('uuid', userUuid, { expires: 7, secure: true, sameSite: 'strict' });
         } else {
-            setErrorMessage('Invalid credentials.');
-            console.log('Invalid credentials');
+            setErrorMessage('Identifiants invalides.');
+            console.log('Identifiants invalides');
         }
     };
 
@@ -47,7 +47,7 @@ export default function Login({ setRegister }: LoginProps) {
     };
 
     const validateEmail = (email: string) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return emailRegex.test(email);
     };
 
@@ -55,7 +55,7 @@ export default function Login({ setRegister }: LoginProps) {
         <div className="flex w-screen h-screen bg-very-light-pink">
             <div className="flex items-center justify-center w-1/2 p-8 bg-white rounded shadow-md">
                 <div className="w-96">
-                    <h2 className="text-3xl font-bold mb-6 text-dark-pink">Login</h2>
+                    <h2 className="text-3xl font-bold mb-6 text-dark-pink">Connexion</h2>
                     <form onSubmit={handleLogin}>
                         <div className="mb-4">
                             <label className="text-dark-pink font-bold" htmlFor="email">Email</label>
@@ -67,10 +67,10 @@ export default function Login({ setRegister }: LoginProps) {
                                 className={`text-dark-pink w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 ${isEmailValid ? 'border-light-pink focus:ring-medium-pink' : 'border-red focus:ring-red'}`}
                                 required
                             />
-                            {!isEmailValid && <p className="text-red text-xs mt-1">Invalid email format.</p>}
+                            {!isEmailValid && <p className="text-red text-xs mt-1">Format de courriel invalide.</p>}
                         </div>
                         <div className="mb-4">
-                            <label className="text-dark-pink font-bold" htmlFor="password">Password</label>
+                            <label className="text-dark-pink font-bold" htmlFor="password">Mot de passe</label>
                             <input
                                 id="password"
                                 type="password"
@@ -84,7 +84,7 @@ export default function Login({ setRegister }: LoginProps) {
                         {errorMessage && <p className="text-red text-xs mb-4">{errorMessage}</p>}
 
                         <button type="submit" className="w-full py-2 rounded-lg text-white bg-medium-pink transition-all hover:bg-dark-pink">
-                            Login
+                            Connexion
                         </button>
 
                         <div className="mt-3 text-dark-pink flex gap-x-1">
@@ -92,7 +92,7 @@ export default function Login({ setRegister }: LoginProps) {
                             <button
                                 className="text-medium-pink hover:text-dark-pink transition-all"
                                 onClick={() => setRegister(true)}
-                            >Register
+                            >Inscription
                             </button>
                         </div>
 
