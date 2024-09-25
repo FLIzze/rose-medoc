@@ -22,7 +22,6 @@ export default function Header({ date, setDate, setCalendarMode }: HeaderProps) 
                 const dayName = currentDate.toLocaleDateString('fr-FR', { weekday: 'short' }).toUpperCase();
                 return (
                     <button
-                        key={dayIndex}
                         className="bg-white"
                     >
                         <div

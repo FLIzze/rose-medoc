@@ -90,33 +90,29 @@ export default function Participants({ setParticipants, participants, users, cur
                                 user.id !== currentUser?.id &&
                                 !participants.some(participant => participant.id === user.id)
                             )
-                            .map((user, index) => (
-                                <div key={index}>
-                                    <button
-                                        onClick={(e) => {
-                                            setParticipants([...participants, user]);
-                                            hideParticipantsPopUp();
-                                        }}
-                                        className="hover:bg-very-light-pink w-full h-full p-1 pl-3 text-left">
-                                        {user.lastName} {user.firstName}
-                                    </button>
-                                </div>
+                            .map((user) => (
+                                <button
+                                    onClick={(e) => {
+                                        setParticipants([...participants, user]);
+                                        hideParticipantsPopUp();
+                                    }}
+                                    className="hover:bg-very-light-pink w-full h-full p-1 pl-3 text-left">
+                                    {user.lastName} {user.firstName}
+                                </button>
                             ))
                     )}
                 </div>
             )}
 
             <div className="ml-7">
-                {participants.map((participant, index) => (
-                    <div key={index}>
-                        <div className="flex justify-between hover:bg-very-light-pink rounded-lg pl-2">
-                            <p>{participant.lastName} {participant.firstName}</p>
-                            <button
-                                onClick={() => removeParticipant(participant.id)}
-                                className="mr-3">
-                                x
-                            </button>
-                        </div>
+                {participants.map((participant) => (
+                    <div className="flex justify-between hover:bg-very-light-pink rounded-lg pl-2">
+                        <p>{participant.lastName} {participant.firstName}</p>
+                        <button
+                            onClick={() => removeParticipant(participant.id)}
+                            className="mr-3">
+                            x
+                        </button>
                     </div>
                 ))}
             </div>

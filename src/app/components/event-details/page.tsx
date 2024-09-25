@@ -134,7 +134,7 @@ export default function EventDetails({ event, setEvents, pos, currentUser, users
                                 {event.participants.map((participantId, index) => {
                                     const participant = users.find(user => user.id === participantId);
                                     return (
-                                        <p key={index}>
+                                        <p>
                                             {participant?.lastName} {participant?.firstName}
                                         </p>
                                     );

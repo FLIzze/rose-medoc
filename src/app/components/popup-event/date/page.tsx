@@ -88,7 +88,6 @@ export default function DateField({ date, setDate, endHour, setEndHour }: DateFi
                 >
                     {Array.from({ length: 12 }, (_, i) => i + 7).map((hour, index) => (
                         <button
-                            key={index}
                             className="hover:bg-gray-100 p-2 text-left w-32 hover:bg-very-light-pink"
                             onClick={() => handleBeginningHourClick(hour)}
                         >
@@ -116,7 +115,6 @@ export default function DateField({ date, setDate, endHour, setEndHour }: DateFi
                 >
                     {Array.from({ length: Math.min(14, 20 - date.getHours() - 1) }, (_, i) => i + date.getHours() + 1).map((hour, index) => (
                         <button
-                            key={index}
                             className="hover:bg-gray-100 p-2 text-left w-32 hover:bg-very-light-pink"
                             onClick={() => handleEndHourClick(hour)}
                         >

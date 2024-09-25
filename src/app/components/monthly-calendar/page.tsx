@@ -97,7 +97,6 @@ export default function MainMonthlyCal({
                                     ${isFirstRow ? 'border-t' : ''} 
                                     ${isLastRow ? 'border-b' : ''} 
                                     border-r border-b`}
-                        key={index}
                         onClick={(e) => {
                             e.stopPropagation();
                             displayEventPopUp(setTitle,
@@ -138,7 +137,6 @@ export default function MainMonthlyCal({
                         <div className="w-full">
                             {dayEvents.slice(0, 4).map((event, eventIndex) => (
                                 <button
-                                    key={eventIndex}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);

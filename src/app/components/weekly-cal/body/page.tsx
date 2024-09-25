@@ -51,7 +51,7 @@ export default function Body({
         >
             <div className="bg-white">
                 {hours.slice(0, -1).map((hour, hoursIndex) => (
-                    <div key={hoursIndex} className="text-xs text-right text-dark-pink pr-3 h-24">
+                    <div className="text-xs text-right text-dark-pink pr-3 h-24">
                         {hour}:00
                     </div>
                 ))}
@@ -64,7 +64,7 @@ export default function Body({
                 const date = new Date(startOfWeek);
                 date.setDate(startOfWeek.getDate() + dayIndex);
                 return (
-                    <div key={dayIndex} className="bg-white">
+                    <div className="bg-white">
                         {hours.slice(0, -1).map((hour, hoursIndex) => {
                             const eventsForHour = filteredEvents.filter(event =>
                                 new Date(event.beginning).getHours() == hour - 2 &&
@@ -78,55 +78,52 @@ export default function Body({
                             }
 
                             return (
-                                <div key={hoursIndex}>
-                                    <div>
-                                        {eventsForHour.length > 0 ? (
-                                            <div className="relative">
-                                                {eventsForHour.map((event, eventIndex) => {
-                                                    const eventDuration = (new Date(event.end).getHours() - new Date(event.beginning).getHours());
-                                                    skip = eventDuration;
-                                                    return (
-                                                        <button
-                                                            key={eventIndex}
-                                                            className="text-left w-full"
-                                                        >
-                                                            <WeeklyEvent
-                                                                event={event}
-                                                                daily={false}
-                                                                setPosition={setPosition}
-                                                                setIsPopupVisible={setIsPopupVisible}
-                                                                setIsDetailsVisible={setIsDetailsVisible}
-                                                                isDetailsVisible={isDetailsVisible}
-                                                                isPopupVisible={isPopupVisible}
-                                                                setEvent={setEvent}
-                                                            />
-                                                        </button>
+                                <div>
+                                    {eventsForHour.length > 0 ? (
+                                        <div className="relative">
+                                            {eventsForHour.map((event, eventIndex) => {
+                                                const eventDuration = (new Date(event.end).getHours() - new Date(event.beginning).getHours());
+                                                skip = eventDuration;
+                                                return (
+                                                    <button
+                                                        className="text-left w-full"
+                                                    >
+                                                        <WeeklyEvent
+                                                            event={event}
+                                                            daily={false}
+                                                            setPosition={setPosition}
+                                                            setIsPopupVisible={setIsPopupVisible}
+                                                            setIsDetailsVisible={setIsDetailsVisible}
+                                                            isDetailsVisible={isDetailsVisible}
+                                                            isPopupVisible={isPopupVisible}
+                                                            setEvent={setEvent}
+                                                        />
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    ) : (
+                                        skip == 0 && (
+                                            <div
+                                                className="bg-white border-very-light-pink border-l border-t h-24"
+                                                onClick={(e) => {
+                                                    displayEventPopUp(setTitle,
+                                                        setDescription,
+                                                        setParticipants,
+                                                        isPopupVisible,
+                                                        setIsPopupVisible,
+                                                        isDetailsVisible,
+                                                        setLocation,
+                                                        hour,
+                                                        date,
+                                                        setDate,
                                                     );
-                                                })}
+                                                    setPopUpPosition(e, setPosition);
+                                                }}
+                                            >
                                             </div>
-                                        ) : (
-                                            skip == 0 && (
-                                                <div
-                                                    className="bg-white border-very-light-pink border-l border-t h-24"
-                                                    onClick={(e) => {
-                                                        displayEventPopUp(setTitle,
-                                                            setDescription,
-                                                            setParticipants,
-                                                            isPopupVisible,
-                                                            setIsPopupVisible,
-                                                            isDetailsVisible,
-                                                            setLocation,
-                                                            hour,
-                                                            date,
-                                                            setDate,
-                                                        );
-                                                        setPopUpPosition(e, setPosition);
-                                                    }}
-                                                >
-                                                </div>
-                                            )
-                                        )}
-                                    </div>
+                                        )
+                                    )}
                                 </div>
                             );
                         })}
