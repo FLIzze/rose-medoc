@@ -1,7 +1,7 @@
 "use client";
 
 import { UserInterface } from "@/app/model/user";
-import { useState, useEffect, MouseEvent, Dispatch, SetStateAction } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import axios from "axios";
 import { EventInterface } from "@/app/model/event";
 import displayEventDetails from "@/app/event/displayEventDetails";
@@ -10,7 +10,7 @@ import setPopUpPosition from "@/app/event/setPopUpPosition";
 
 interface WeeklyEventProps {
     event: EventInterface,
-    daily: Boolean,
+    daily: boolean,
     setPosition: Dispatch<SetStateAction<{ x: number, y: number }>>,
     setIsDetailsVisible: Dispatch<SetStateAction<boolean>>,
     isDetailsVisible: boolean,

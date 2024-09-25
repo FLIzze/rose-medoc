@@ -68,7 +68,7 @@ export default function EventDetails({
                             className="w-7 h-7 p-1 hover:bg-dark-pink rounded-full"
                         />
                     </button>
-                    {event!.by == currentUser.id && (
+                    {event.by == currentUser.id && (
                         <button onClick={() => {
                             deleteEvent(event.id, setEvents);
                             hideEventDetails(setIsDetailsVisible);

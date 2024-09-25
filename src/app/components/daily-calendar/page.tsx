@@ -1,5 +1,5 @@
 import { UserInterface } from "@/app/model/user";
-import { Dispatch, SetStateAction, MouseEvent } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { EventInterface } from "@/app/model/event";
 import hideEventDetails from "@/app/event/hideEventDetails";
 import displayEventPopUp from "@/app/event/displayEventPopUp";

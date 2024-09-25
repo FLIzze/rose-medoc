@@ -1,6 +1,5 @@
 "use client";
 
-import hideEventPopup from "@/app/event/hideEventPopup";
 import { EventInterface } from "@/app/model/event"
 import { UserInterface } from "@/app/model/user";
 import axios from "axios";

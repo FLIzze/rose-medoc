@@ -24,12 +24,13 @@ export default function Draggable({ children, pos, size }: Readonly<DraggablePro
     }, [pos.x, pos.y]);
 
     return (
-        <div
+        <input
+            type="button"
             style={{ left: position.x, top: position.y }}
             className='absolute z-10 cursor-default'
             role='button'
             tabIndex={0}  >
             {children}
-        </div>
+        </input>
     );
 }
