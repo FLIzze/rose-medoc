@@ -1,7 +1,7 @@
 'use client';
 
 import { EventInterface } from '@/app/model/event';
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { UserInterface } from "@/app/model/user";
 import Header from "./header/page";
 import Body from "./body/page";
@@ -22,6 +22,9 @@ interface WeeklyCalProps {
     date: Date,
     setDate: Dispatch<SetStateAction<Date>>,
     setCalendarMode: Dispatch<SetStateAction<string>>,
+    viewMode: 'daily' | 'weekly',
+    setPopupDate: Dispatch<SetStateAction<Date>>,
+    popupDate: Date
 }
 
 export default function WeeklyCal({
@@ -39,7 +42,10 @@ export default function WeeklyCal({
     setLocation,
     date,
     setDate,
-    setCalendarMode }: Readonly<WeeklyCalProps>) {
+    setCalendarMode,
+    viewMode,
+    setPopupDate,
+    popupDate }: Readonly<WeeklyCalProps>) {
 
     return (
         <div
@@ -50,11 +56,12 @@ export default function WeeklyCal({
                 date={date}
                 setDate={setDate}
                 setCalendarMode={setCalendarMode}
+                viewMode={viewMode}
             />
 
             <Body
                 hours={hours}
-                startOfWeek={date}
+                date={date}
                 filteredEvents={filteredEvents}
                 setIsPopupVisible={setIsPopupVisible}
                 setIsDetailsVisible={setIsDetailsVisible}
@@ -66,7 +73,9 @@ export default function WeeklyCal({
                 setParticipants={setParticipants}
                 setLocation={setLocation}
                 setPosition={setPosition}
-                setDate={setDate}
+                setPopupDate={setPopupDate}
+                viewMode={viewMode}
+                popupDate={popupDate}
             />
         </div>
     );

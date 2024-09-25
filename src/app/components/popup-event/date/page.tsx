@@ -4,13 +4,13 @@ import capitalizeFirstLetter from "@/app/capitalizeFirstLetter";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 interface DateFieldProps {
-    date: Date,
-    setDate: Dispatch<SetStateAction<Date>>,
+    popupDate: Date,
+    setPopupDate: Dispatch<SetStateAction<Date>>,
     endHour: number,
     setEndHour: Dispatch<SetStateAction<number>>
 }
 
-export default function DateField({ date, setDate, endHour, setEndHour }: Readonly<DateFieldProps>) {
+export default function DateField({ popupDate, setPopupDate, endHour, setEndHour }: Readonly<DateFieldProps>) {
     const [isBeginningHoursVisible, setIsBeginningHoursVisible] = useState(false);
     const [isEndHoursVisible, setIsEndHoursVisible] = useState(false);
     const beginningHoursRef = useRef<HTMLDivElement>(null);
@@ -55,7 +55,7 @@ export default function DateField({ date, setDate, endHour, setEndHour }: Readon
 
     function handleBeginningHourClick(hour: number) {
         setEndHour(hour + 1);
-        setDate(new Date(date.setHours(hour)));
+        setPopupDate(new Date(popupDate.setHours(hour)));
         setIsBeginningHoursVisible(false);
     }
 
@@ -69,7 +69,7 @@ export default function DateField({ date, setDate, endHour, setEndHour }: Readon
             <button
                 className="hover:bg-very-light-pink p-1 text-left flex-wrap whitespace-nowrap rounded-lg"
             >
-                {capitalizeFirstLetter(date.toLocaleDateString('fr-FR', { weekday: 'long' }))}, {date.getDate()} {capitalizeFirstLetter(date.toLocaleDateString('fr-FR', { month: 'long' }))} {date.getFullYear()}
+                {capitalizeFirstLetter(popupDate.toLocaleDateString('fr-FR', { weekday: 'long' }))}, {popupDate.getDate()} {capitalizeFirstLetter(popupDate.toLocaleDateString('fr-FR', { month: 'long' }))} {popupDate.getFullYear()}
             </button>
 
             <div>
@@ -77,7 +77,7 @@ export default function DateField({ date, setDate, endHour, setEndHour }: Readon
                     className='text-left hover:bg-very-light-pink p-1 rounded-lg'
                     onClick={toggleBeginningHours}
                 >
-                    {date.getHours()}:00
+                    {popupDate.getHours()}:00
                 </button>
 
                 <div
@@ -114,7 +114,7 @@ export default function DateField({ date, setDate, endHour, setEndHour }: Readon
                     id="endHours"
                     style={{ zIndex: 10 }}
                 >
-                    {Array.from({ length: Math.min(14, 20 - date.getHours() - 1) }, (_, i) => i + date.getHours() + 1).map((hour, index) => (
+                    {Array.from({ length: Math.min(14, 20 - popupDate.getHours() - 1) }, (_, i) => i + popupDate.getHours() + 1).map((hour, index) => (
                         <button
                             key={index}
                             className="hover:bg-gray-100 p-2 text-left w-32 hover:bg-very-light-pink"

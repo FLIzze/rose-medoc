@@ -7,11 +7,11 @@ export default function prevWeek(
 ) {
     const newDate = new Date(currentDate);
 
-    if (calendarMode == "weekly") {
+    if (calendarMode === "weekly") {
         newDate.setDate(newDate.getDate() - 7);
-    } else if (calendarMode == "monthly") {
+    } else if (calendarMode === "monthly") {
         newDate.setMonth(newDate.getMonth() - 1);
-    } else if (calendarMode == "daily") {
+    } else if (calendarMode === "daily") {
         newDate.setDate(newDate.getDate() - 1);
     }
 

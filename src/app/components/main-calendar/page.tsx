@@ -8,7 +8,6 @@ import MonthlyCal from "../monthly-calendar/page"
 import { EventInterface } from "@/app/model/event"
 import PopupEvent from "../popup-event/page"
 import EventDetails from "../event-details/page"
-import DailyCal from "../daily-calendar/page";
 
 interface MainCalProps {
     currentUser: UserInterface,
@@ -49,6 +48,8 @@ export default function MainCal({
 
     const [location, setLocation] = useState("Rose Medoc");
 
+    const [popupDate, setPopupDate] = useState(new Date());
+
     // Calculate the start of the week (Monday)
     const startOfWeek = new Date(date);
     const dayOfWeek = startOfWeek.getDay();
@@ -73,7 +74,8 @@ export default function MainCal({
                     location={location}
                     setLocation={setLocation}
                     date={date}
-                    setDate={setDate}
+                    setPopupDate={setPopupDate}
+                    popupDate={popupDate}
                 />
 
                 <EventDetails
@@ -96,9 +98,9 @@ export default function MainCal({
             />
 
             <div className="mt-6 ml-3">
-                {calendarMode == 'weekly' && (
+                {(calendarMode === "weekly" || calendarMode === "daily") && (
                     <WeeklyCal
-                        date={startOfWeek}
+                        date={date}
                         hours={hours}
                         filteredEvents={filteredEvents}
                         setIsPopupVisible={setIsPopupVisible}
@@ -113,10 +115,13 @@ export default function MainCal({
                         setLocation={setLocation}
                         setDate={setDate}
                         setCalendarMode={setCalendarMode}
+                        viewMode={calendarMode}
+                        setPopupDate={setPopupDate}
+                        popupDate={popupDate}
                     />
                 )}
 
-                {calendarMode == 'monthly' && (
+                {calendarMode === "monthly" && (
                     <MonthlyCal
                         date={date}
                         filteredEvents={filteredEvents}
@@ -134,24 +139,6 @@ export default function MainCal({
                         setCalendarMode={setCalendarMode}
                         calendarMode={calendarMode}
                     />
-                )}
-
-                {calendarMode == 'daily' && (
-                    <DailyCal
-                        date={date}
-                        filteredEvents={filteredEvents}
-                        setPosition={setPosition}
-                        setIsPopupVisible={setIsPopupVisible}
-                        setIsDetailsVisible={setIsDetailsVisible}
-                        isPopupVisible={isPopupVisible}
-                        isDetailsVisible={isDetailsVisible}
-                        setEvent={setEvent}
-                        setTitle={setTitle}
-                        setDescription={setDescription}
-                        setParticipants={setParticipants}
-                        setLocation={setLocation}
-                        setDate={setDate}
-                        />
                 )}
             </div>
         </div>

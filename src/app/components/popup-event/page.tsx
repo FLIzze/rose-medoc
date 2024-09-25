@@ -26,7 +26,8 @@ interface PopupEventProps {
     location: string,
     setLocation: Dispatch<SetStateAction<string>>,
     date: Date,
-    setDate: Dispatch<SetStateAction<Date>>
+    setPopupDate: Dispatch<SetStateAction<Date>>,
+    popupDate: Date
 }
 
 export default function PopupEvent({
@@ -44,7 +45,8 @@ export default function PopupEvent({
     location,
     setLocation,
     date,
-    setDate }: Readonly<PopupEventProps>) {
+    setPopupDate,
+    popupDate }: Readonly<PopupEventProps>) {
 
     const [endHour, setEndHour] = useState(date.getHours() + 1);
     const [size, setSize] = useState({ width: 0, height: 0 });
@@ -108,8 +110,8 @@ export default function PopupEvent({
                         />
                     </div>
                     <Date
-                        date={date}
-                        setDate={setDate}
+                        popupDate={popupDate}
+                        setPopupDate={setPopupDate}
                         endHour={endHour}
                         setEndHour={setEndHour}
                     />
@@ -158,7 +160,7 @@ export default function PopupEvent({
                         <button
                             className='rounded-lg text-white bg-medium-pink hover:bg-dark-pink transition-all mx-4 py-2 mt-5 mb-4 w-full'
                             onClick={() => {
-                                addEvent(title, description, setEvents, currentUser, participants, location, date, endHour);
+                                addEvent(title, description, setEvents, currentUser, participants, location, popupDate, endHour);
                                 hideEventPopup(setIsPopupVisible)
                             }}>
                             Enregistrer
