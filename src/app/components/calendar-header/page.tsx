@@ -24,7 +24,7 @@ export default function CalendarHeader({
     setCalendarMode,
     calendarMode,
     currentUser,
-    date }: CalendarHeaderProps) {
+    date }: Readonly<CalendarHeaderProps>) {
 
     const [isCalendarModeVisible, setIsCalendarModeVisible] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);

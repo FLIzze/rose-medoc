@@ -31,7 +31,7 @@ export default function MainCal({
     users,
     filteredEvents,
     setEvents,
-    date }: MainCalProps) {
+    date }: Readonly<MainCalProps>) {
 
     const hours = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 

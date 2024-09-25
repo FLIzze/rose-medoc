@@ -9,7 +9,7 @@ interface RegisterProps {
     setRegister: Dispatch<SetStateAction<boolean>>
 }
 
-export default function Register({ setRegister }: RegisterProps) {
+export default function Register({ setRegister }: Readonly<RegisterProps>) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');

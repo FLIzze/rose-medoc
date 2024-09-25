@@ -42,7 +42,7 @@ export default function MainMonthlyCal({
     setLocation,
     setDate,
     setCalendarMode,
-    calendarMode }: MainMonthlyCalProps) {
+    calendarMode }: Readonly<MainMonthlyCalProps>) {
 
     const currentMonth = date.getMonth();
     const currentYear = date.getFullYear();
@@ -149,7 +149,6 @@ export default function MainMonthlyCal({
                                 >
                                     <MonthlyEvent
                                         event={event}
-                                        setIsPopupVisible={setIsPopupVisible}
                                     />
                                 </button>
                             ))}
@@ -169,7 +168,6 @@ export default function MainMonthlyCal({
                                     ) : (
                                         <MonthlyEvent
                                             event={dayEvents[4]}
-                                            setIsPopupVisible={setIsPopupVisible}
                                         />
                                     )}
                                 </button>

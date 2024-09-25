@@ -5,7 +5,7 @@ interface LocationProps {
     location: string
 }
 
-export default function Location({ setLocation, location }: LocationProps) {
+export default function Location({ setLocation, location }: Readonly<LocationProps>) {
     const inputRef = useRef<HTMLInputElement>(null);
     
     const [apiKey, setApiKey] = useState<string>("");

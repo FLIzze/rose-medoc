@@ -4,14 +4,13 @@ import hideEventPopup from "@/app/event/hideEventPopup";
 import { EventInterface } from "@/app/model/event"
 import { UserInterface } from "@/app/model/user";
 import axios from "axios";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface MonthlyEventProps {
     event: EventInterface,
-    setIsPopupVisible: Dispatch<SetStateAction<boolean>>
 }
 
-export default function MonthlyEvent({ event, setIsPopupVisible }: MonthlyEventProps) {
+export default function MonthlyEvent({ event }: Readonly<MonthlyEventProps>) {
     const [eventCreator, setEventCreator] = useState<UserInterface>({} as UserInterface);
 
     useEffect(() => {
@@ -28,17 +27,6 @@ export default function MonthlyEvent({ event, setIsPopupVisible }: MonthlyEventP
                 console.error('Error fetching events', error);
             });
     }, [event.by]);
-
-    useEffect(() => {
-        function handleClickOutside() {
-            hideEventPopup(setIsPopupVisible);
-        }
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        }
-    })
 
     return (
         <div

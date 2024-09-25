@@ -35,7 +35,7 @@ export default function DailyCal({
     setParticipants,
     setLocation,
     setPosition,
-    setDate }: DailyCalProps) {
+    setDate }: Readonly<DailyCalProps>) {
 
     const hours = Array.from({ length: 12 }, (_, i) => i + 7);
     let skip = 0;

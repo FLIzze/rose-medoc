@@ -10,7 +10,7 @@ interface ParticipantsProps {
     currentUser: UserInterface | undefined,
 }
 
-export default function Participants({ setParticipants, participants, users, currentUser }: ParticipantsProps) {
+export default function Participants({ setParticipants, participants, users, currentUser }: Readonly<ParticipantsProps>) {
     const [participantsInput, setParticipantsInput] = useState("");
 
     function removeParticipant(participantId: number) {

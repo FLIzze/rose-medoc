@@ -39,7 +39,7 @@ export default function WeeklyCal({
     setLocation,
     date,
     setDate,
-    setCalendarMode }: WeeklyCalProps) {
+    setCalendarMode }: Readonly<WeeklyCalProps>) {
 
     return (
         <div

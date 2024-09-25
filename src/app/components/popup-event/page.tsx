@@ -44,7 +44,7 @@ export default function PopupEvent({
     location,
     setLocation,
     date,
-    setDate }: PopupEventProps) {
+    setDate }: Readonly<PopupEventProps>) {
 
     const [endHour, setEndHour] = useState(date.getHours() + 1);
     const [size, setSize] = useState({ width: 0, height: 0 });

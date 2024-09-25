@@ -26,7 +26,7 @@ export default function Sidebar({
     setOwn,
     setTagged,
     setOthers,
-    filteredEvents }: SidebarProps) {
+    filteredEvents }: Readonly<SidebarProps>) {
 
     return (
         <div className="pl-4">

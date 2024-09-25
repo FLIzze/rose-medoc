@@ -14,7 +14,7 @@ export default function SideMonthlyCal({
     sidebarDate,
     setSidebarDate,
     setDate,
-    filteredEvents }: SideMonthlyCalProps) {
+    filteredEvents }: Readonly<SideMonthlyCalProps>) {
 
     const currentMonthCal = sidebarDate.getMonth();
     const currentYearCal = sidebarDate.getFullYear();

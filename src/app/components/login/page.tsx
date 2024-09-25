@@ -8,7 +8,7 @@ interface LoginProps {
     setRegister: Dispatch<SetStateAction<boolean>>
 }
 
-export default function Login({ setRegister }: LoginProps) {
+export default function Login({ setRegister }: Readonly<LoginProps>) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(true);

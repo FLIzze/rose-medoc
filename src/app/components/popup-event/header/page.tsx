@@ -5,7 +5,7 @@ interface Header {
     setIsPopupVisible: Dispatch<SetStateAction<boolean>>
 }
 
-export default function Header({ setIsPopupVisible }: Header) {
+export default function Header({ setIsPopupVisible }: Readonly<Header>) {
     return (
         <div className="flex justify-end pr-5 h-9 w-full bg-medium-pink rounded-t-lg">
             <button onClick={() => hideEventPopup(setIsPopupVisible)}>

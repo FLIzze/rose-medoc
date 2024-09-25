@@ -16,7 +16,14 @@ interface EventDetailsProps {
     setIsDetailsVisible: Dispatch<SetStateAction<boolean>>
 }
 
-export default function EventDetails({ event, setEvents, pos, currentUser, users, setIsDetailsVisible }: EventDetailsProps) {
+export default function EventDetails({ 
+    event, 
+    setEvents, 
+    pos, 
+    currentUser, 
+    users, 
+    setIsDetailsVisible }: Readonly<EventDetailsProps>) {
+
     const eventBeginning = new Date(event.beginning);
     const eventEnd = new Date(event.end);
 

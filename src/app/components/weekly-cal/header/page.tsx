@@ -7,7 +7,7 @@ interface HeaderProps {
     setCalendarMode: Dispatch<SetStateAction<string>>,
 }
 
-export default function Header({ date, setDate, setCalendarMode }: HeaderProps) {
+export default function Header({ date, setDate, setCalendarMode }: Readonly<HeaderProps>) {
     return (
         <div
             className="flex-none grid grid-cols-9 w-full"

@@ -10,7 +10,7 @@ interface DateFieldProps {
     setEndHour: Dispatch<SetStateAction<number>>
 }
 
-export default function DateField({ date, setDate, endHour, setEndHour }: DateFieldProps) {
+export default function DateField({ date, setDate, endHour, setEndHour }: Readonly<DateFieldProps>) {
     const [isBeginningHoursVisible, setIsBeginningHoursVisible] = useState(false);
     const [isEndHoursVisible, setIsEndHoursVisible] = useState(false);
     const beginningHoursRef = useRef<HTMLDivElement>(null);

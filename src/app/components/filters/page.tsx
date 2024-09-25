@@ -9,7 +9,7 @@ interface FiltersProps {
     setOthers: Dispatch<SetStateAction<boolean>>
 }
 
-export default function Filters({ own, tagged, setOwn, setTagged, others, setOthers }: FiltersProps) {
+export default function Filters({ own, tagged, setOwn, setTagged, others, setOthers }: Readonly<FiltersProps>) {
     return (
         <div className="text-sm text-dark-pink">
             <div className="flex gap-2">

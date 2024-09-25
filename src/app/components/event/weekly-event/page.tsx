@@ -25,7 +25,7 @@ export default function WeeklyEvent({
     setIsDetailsVisible,
     isDetailsVisible,
     isPopupVisible,
-    setEvent }: WeeklyEventProps) {
+    setEvent }: Readonly<WeeklyEventProps>) {
 
     const [eventCreator, setEventCreator] = useState<UserInterface>({} as UserInterface);
     const eventHeight = 24 * (new Date(event.end).getHours() - new Date(event.beginning).getHours());

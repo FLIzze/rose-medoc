@@ -36,7 +36,7 @@ export default function Body({
     setParticipants,
     setLocation,
     setPosition,
-    setDate }: BodyProps) {
+    setDate }: Readonly<BodyProps>) {
 
     let skip = 0;
 
