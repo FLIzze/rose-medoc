@@ -90,8 +90,9 @@ export default function Participants({ setParticipants, participants, users, cur
                                 user.id !== currentUser?.id &&
                                 !participants.some(participant => participant.id === user.id)
                             )
-                            .map((user) => (
+                            .map((user, index) => (
                                 <button
+                                    key={index}
                                     onClick={(e) => {
                                         setParticipants([...participants, user]);
                                         hideParticipantsPopUp();
@@ -102,11 +103,15 @@ export default function Participants({ setParticipants, participants, users, cur
                             ))
                     )}
                 </div>
-            )}
+            )
+            }
 
             <div className="ml-7">
-                {participants.map((participant) => (
-                    <div className="flex justify-between hover:bg-very-light-pink rounded-lg pl-2">
+                {participants.map((participant, index) => (
+                    <div
+                        className="flex justify-between hover:bg-very-light-pink rounded-lg pl-2"
+                        key={index}
+                    >
                         <p>{participant.lastName} {participant.firstName}</p>
                         <button
                             onClick={() => removeParticipant(participant.id)}
@@ -116,6 +121,6 @@ export default function Participants({ setParticipants, participants, users, cur
                     </div>
                 ))}
             </div>
-        </div>
+        </div >
     )
 }

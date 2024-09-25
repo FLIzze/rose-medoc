@@ -47,10 +47,6 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
-        setCurrentUser(currentUser);
-    }, [currentUser]);
-
-    useEffect(() => {
         axios.get('http://localhost:5000/api/users')
             .then((response) => {
                 setUsers(response.data)

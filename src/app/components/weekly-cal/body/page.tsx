@@ -51,7 +51,7 @@ export default function Body({
         >
             <div className="bg-white">
                 {hours.slice(0, -1).map((hour, hoursIndex) => (
-                    <div className="text-xs text-right text-dark-pink pr-3 h-24">
+                    <div className="text-xs text-right text-dark-pink pr-3 h-24" key={hoursIndex}>
                         {hour}:00
                     </div>
                 ))}
@@ -64,7 +64,7 @@ export default function Body({
                 const date = new Date(startOfWeek);
                 date.setDate(startOfWeek.getDate() + dayIndex);
                 return (
-                    <div className="bg-white">
+                    <div className="bg-white" key={dayIndex}>
                         {hours.slice(0, -1).map((hour, hoursIndex) => {
                             const eventsForHour = filteredEvents.filter(event =>
                                 new Date(event.beginning).getHours() == hour - 2 &&
@@ -78,7 +78,7 @@ export default function Body({
                             }
 
                             return (
-                                <div>
+                                <div key={hoursIndex}>
                                     {eventsForHour.length > 0 ? (
                                         <div className="relative">
                                             {eventsForHour.map((event, eventIndex) => {
@@ -87,12 +87,12 @@ export default function Body({
                                                 return (
                                                     <button
                                                         className="text-left w-full"
+                                                        key={eventIndex}
                                                     >
                                                         <WeeklyEvent
                                                             event={event}
                                                             daily={false}
                                                             setPosition={setPosition}
-                                                            setIsPopupVisible={setIsPopupVisible}
                                                             setIsDetailsVisible={setIsDetailsVisible}
                                                             isDetailsVisible={isDetailsVisible}
                                                             isPopupVisible={isPopupVisible}
@@ -104,7 +104,7 @@ export default function Body({
                                         </div>
                                     ) : (
                                         skip == 0 && (
-                                            <div
+                                            <button
                                                 className="bg-white border-very-light-pink border-l border-t h-24"
                                                 onClick={(e) => {
                                                     displayEventPopUp(setTitle,
@@ -121,7 +121,7 @@ export default function Body({
                                                     setPopUpPosition(e, setPosition);
                                                 }}
                                             >
-                                            </div>
+                                            </button>
                                         )
                                     )}
                                 </div>

@@ -79,8 +79,9 @@ export default function Register({ setRegister }: RegisterProps) {
 
                     <form onSubmit={handleRegister}>
                         <div className="mb-4">
-                            <label className="text-dark-pink font-bold">Nom</label>
+                            <label className="text-dark-pink font-bold" htmlFor="lastName">Nom</label>
                             <input
+                                id="lastName"
                                 type="text"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
@@ -90,8 +91,9 @@ export default function Register({ setRegister }: RegisterProps) {
                         </div>
 
                         <div className="mb-4">
-                            <label className="text-dark-pink font-bold">Prénom</label>
+                            <label className="text-dark-pink font-bold" htmlFor="firstName">Prénom</label>
                             <input
+                                id="firstName"
                                 type="text"
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
@@ -101,8 +103,9 @@ export default function Register({ setRegister }: RegisterProps) {
                         </div>
 
                         <div className="mb-4">
-                            <label className="text-dark-pink font-bold">Email</label>
+                            <label className="text-dark-pink font-bold" htmlFor="email">Email</label>
                             <input
+                                id="email"
                                 type="email"
                                 value={email}
                                 onChange={handleEmailChange}
@@ -113,8 +116,9 @@ export default function Register({ setRegister }: RegisterProps) {
                         </div>
 
                         <div className="mb-4">
-                            <label className="text-dark-pink font-bold">Mot de passe</label>
+                            <label className="text-dark-pink font-bold" htmlFor="password">Mot de passe</label>
                             <input
+                                id="password"
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
@@ -124,8 +128,9 @@ export default function Register({ setRegister }: RegisterProps) {
                         </div>
 
                         <div className="mb-4">
-                            <label className="text-dark-pink font-bold">Confirmer mot de passe</label>
+                            <label className="text-dark-pink font-bold" htmlFor="confirmPassword">Confirmer mot de passe</label>
                             <input
+                                id="confirmPassword"
                                 type="password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -135,8 +140,9 @@ export default function Register({ setRegister }: RegisterProps) {
                         </div>
 
                         <div className="mb-4">
-                            <label className="text-dark-pink font-bold">Couleur</label>
+                            <label className="text-dark-pink font-bold" htmlFor="color">Couleur</label>
                             <input
+                                id="color"
                                 type="color"
                                 value={color}
                                 onChange={(e) => setColor(e.target.value)}

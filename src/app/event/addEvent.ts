@@ -13,17 +13,15 @@ export default async function addEvent(
     participants: UserInterface[],
     location: string,
     date: Date,
-    endHour: number ) {
+    endHour: number) {
 
     const titleInput = document.getElementById("required-title");
-    
-    if (title == "") {
-        if (titleInput) {
+
+    if (titleInput) {
+        if (title == "") {
             titleInput.style.display = 'block';
-        }
-        return;
-    } else {
-        if (titleInput) {
+            return;
+        } else {
             titleInput.style.display = 'none';
         }
     }

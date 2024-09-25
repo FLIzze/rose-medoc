@@ -54,7 +54,7 @@ export default function DailyCal({
             <div className="grid grid-cols-2 w-full overflow-y-scroll h-screen pb-20" style={{ gridTemplateColumns: '4rem 1fr' }}>
                 <div className="bg-white">
                     {hours.map((hour, hoursIndex) => (
-                        <div className="text-xs text-right text-dark-pink pr-3 h-24">
+                        <div className="text-xs text-right text-dark-pink pr-3 h-24" key={hoursIndex}>
                             {hour}:00
                         </div>
                     ))}
@@ -77,7 +77,7 @@ export default function DailyCal({
                         }
 
                         return (
-                            <div>
+                            <div key={hoursIndex}>
                                 {eventsForHour.length > 0 ? (
                                     <div className="relative">
                                         {eventsForHour.map((event, eventIndex) => {
@@ -85,13 +85,13 @@ export default function DailyCal({
                                             skip = eventDuration;
                                             return (
                                                 <button
+                                                    key={eventIndex}
                                                     className="text-left w-full"
                                                 >
                                                     <WeeklyEvent
                                                         event={event}
                                                         daily={true}
                                                         setPosition={setPosition}
-                                                        setIsPopupVisible={setIsPopupVisible}
                                                         setIsDetailsVisible={setIsDetailsVisible}
                                                         isDetailsVisible={isDetailsVisible}
                                                         isPopupVisible={isPopupVisible}
@@ -103,7 +103,7 @@ export default function DailyCal({
                                     </div>
                                 ) : (
                                     skip == 0 && (
-                                        <div
+                                        <button
                                             className="bg-white border-very-light-pink border-l border-t h-24"
                                             onClick={(e) => {
                                                 hideEventDetails(setIsDetailsVisible);
@@ -121,7 +121,7 @@ export default function DailyCal({
                                                 setPopUpPosition(e, setPosition);
                                             }}
                                         >
-                                        </div>
+                                        </button>
                                     )
                                 )}
                             </div>

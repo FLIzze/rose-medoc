@@ -58,8 +58,9 @@ export default function Login({ setRegister }: LoginProps) {
                     <h2 className="text-3xl font-bold mb-6 text-dark-pink">Login</h2>
                     <form onSubmit={handleLogin}>
                         <div className="mb-4">
-                            <label className="text-dark-pink font-bold">Email</label>
+                            <label className="text-dark-pink font-bold" htmlFor="email">Email</label>
                             <input
+                                id="email"
                                 type="email"
                                 value={email}
                                 onChange={handleEmailChange}
@@ -69,8 +70,9 @@ export default function Login({ setRegister }: LoginProps) {
                             {!isEmailValid && <p className="text-red text-xs mt-1">Invalid email format.</p>}
                         </div>
                         <div className="mb-4">
-                            <label className="text-dark-pink font-bold">Password</label>
+                            <label className="text-dark-pink font-bold" htmlFor="password">Password</label>
                             <input
+                                id="password"
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}

@@ -23,14 +23,15 @@ export default function Header({ date, setDate, setCalendarMode }: HeaderProps) 
                 return (
                     <button
                         className="bg-white"
+                        key={dayIndex}
                     >
-                        <div
+                        <button
                             className="rounded-full hover:bg-very-light-pink w-fit px-3 py-1"
                             onClick={() => goToDailyCalendar(currentDate, setDate, setCalendarMode)}
                         >
                             <p className="text-light-pink text-xs">{dayName}</p>
                             <p className="text-2xl font-semibold text-dark-pink">{currentDate.getDate()}</p>
-                        </div>
+                        </button>
                     </button>
                 );
             })}

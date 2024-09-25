@@ -4,7 +4,6 @@ import { UserInterface } from "@/app/model/user";
 import { useState, useEffect, MouseEvent, Dispatch, SetStateAction } from "react";
 import axios from "axios";
 import { EventInterface } from "@/app/model/event";
-import hideEventPopup from "@/app/event/hideEventPopup";
 import displayEventDetails from "@/app/event/displayEventDetails";
 import setCurrentEventDetails from "@/app/event/setCurrentEventDetails";
 import setPopUpPosition from "@/app/event/setPopUpPosition";
@@ -13,7 +12,6 @@ interface WeeklyEventProps {
     event: EventInterface,
     daily: Boolean,
     setPosition: Dispatch<SetStateAction<{ x: number, y: number }>>,
-    setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
     setIsDetailsVisible: Dispatch<SetStateAction<boolean>>,
     isDetailsVisible: boolean,
     isPopupVisible: boolean,
@@ -24,7 +22,6 @@ export default function WeeklyEvent({
     event,
     daily,
     setPosition,
-    setIsPopupVisible,
     setIsDetailsVisible,
     isDetailsVisible,
     isPopupVisible,
@@ -48,19 +45,8 @@ export default function WeeklyEvent({
             });
     }, []);
 
-    // useEffect(() => {
-    //     function handleClickOutside() {
-    //         hideEventPopup(setIsPopupVisible);
-    //     }
-
-    //     document.addEventListener('mousedown', handleClickOutside);
-    //     return () => {
-    //         document.removeEventListener('mousedown', handleClickOutside);
-    //     }
-    // })
-
     return (
-        <div
+        <button
             style={{
                 backgroundColor: `${eventCreator.color}1A`,
                 borderLeft: `4px solid ${eventCreator.color}`,
@@ -78,6 +64,6 @@ export default function WeeklyEvent({
             <p className="font-bold overflow-hidden whitespace-nowrap mr-2 text-ellipsis">{event.title}</p>
             <p className="overflow-hidden whitespace-nowrap text-ellipsis">par {eventCreator.lastName} {eventCreator.firstName}</p>
             <p className="overflow-hidden whitespace-nowrap text-ellipsis">{event.location}</p>
-        </div>
+        </button>
     )
 }

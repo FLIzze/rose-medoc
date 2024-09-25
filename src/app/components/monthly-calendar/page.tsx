@@ -90,8 +90,9 @@ export default function MainMonthlyCal({
                 const isLastRow = index >= daysArray.length - 7;
 
                 return (
-                    <div
-                        className={`flex items-start flex-col border-very-light-pink h-44 w-full 
+                    <button
+                        key={index}
+                        className={`flex items-start flex-col border-very-light-pink h-44 w-full text-left
                                     ${isFirstColumn ? 'border-l' : ''} 
                                     ${isLastColumn ? 'border-r' : ''} 
                                     ${isFirstRow ? 'border-t' : ''} 
@@ -137,6 +138,7 @@ export default function MainMonthlyCal({
                         <div className="w-full">
                             {dayEvents.slice(0, 4).map((event, eventIndex) => (
                                 <button
+                                    key={eventIndex}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
@@ -173,7 +175,7 @@ export default function MainMonthlyCal({
                                 </button>
                             )}
                         </div>
-                    </div>
+                    </button>
                 );
             })}
         </div>
