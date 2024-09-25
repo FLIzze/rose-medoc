@@ -1,11 +1,10 @@
 'use client';
 
 import { EventInterface } from '@/app/model/event';
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { UserInterface } from "@/app/model/user";
 import Header from "./header/page";
 import Body from "./body/page";
-import hideEventPopup from '@/app/event/hideEventPopup';
 
 interface WeeklyCalProps {
     hours: number[],

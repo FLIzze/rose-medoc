@@ -1,15 +1,12 @@
 "use client";
 
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { EventInterface } from '@/app/model/event';
 
 interface SideMonthlyCalProps {
     sidebarDate: Date,
     setSidebarDate: Dispatch<SetStateAction<Date>>,
     setDate: Dispatch<SetStateAction<Date>>,
-    own: boolean,
-    tagged: boolean,
-    others: boolean,
     filteredEvents: EventInterface[],
 }
 

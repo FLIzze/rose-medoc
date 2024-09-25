@@ -34,9 +34,6 @@ export default function Sidebar({
                 sidebarDate={sidebarDate}
                 setSidebarDate={setSidebarDate}
                 setDate={setDate}
-                own={own}
-                tagged={tagged}
-                others={others}
                 filteredEvents={filteredEvents}
             />
 

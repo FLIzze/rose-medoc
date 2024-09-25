@@ -115,12 +115,12 @@ export default function MainMonthlyCal({
                         }}
                     >
                         {index < 7 && (
-                            <p
+                            <button
                                 className="select-none flex justify-center items-center w-full text-xs mt-1"
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 {day.toLocaleDateString('fr-FR', { weekday: 'short' }).toUpperCase()}
-                            </p>
+                            </button>
                         )}
 
                         <div className={`w-full flex justify-center ${isFirstRow ? '' : 'mt-1'}`}>
