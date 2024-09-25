@@ -87,8 +87,8 @@ export default function Body({
                     </div>
                 ) : (
                     skip == 0 && (
-                        <div
-                            className="bg-white border-very-light-pink border-l border-t h-24"
+                        <button
+                            className="bg-white border-very-light-pink border-l border-t h-24 w-full"
                             onClick={(e) => {
                                 displayEventPopUp(setTitle,
                                     setDescription,
@@ -104,7 +104,7 @@ export default function Body({
                                 setPopUpPosition(e, setPosition);
                             }}
                         >
-                        </div>
+                        </button>
                     )
                 )}
             </div>

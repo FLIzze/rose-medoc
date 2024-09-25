@@ -55,7 +55,7 @@ export default function EventDetails({
             <div
                 ref={detailsRef}
                 id="eventDetails"
-                className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-fit pointer-events-none text-dark-pink text-base rounded-lg"
+                className="absolute text-left opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-fit pointer-events-none text-dark-pink text-base rounded-lg"
             >
                 <div className="flex justify-end pr-5 h-9 w-full bg-medium-pink items-center rounded-t-lg">
                     <button onClick={() => {

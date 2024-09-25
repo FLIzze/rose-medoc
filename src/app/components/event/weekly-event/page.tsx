@@ -58,12 +58,12 @@ export default function WeeklyEvent({
                 setCurrentEventDetails(event, setEvent);
                 setPopUpPosition(e, setPosition);
             }}
-            className={`rounded-l-md pl-3 text-sm py-1 hover:cursor-pointer pb-3 select-none hover:opacity-100 opacity-75 transition-all ${daily ? 'w-full' : 'w-48'}`}
+            className={`rounded-l-md pl-3 text-sm py-1 hover:cursor-pointer pb-3 select-none hover:opacity-100 opacity-75 transition-all items-start justify-start flex flex-col overflow-hidden whitespace-nowrap text-ellipsis ${daily ? 'w-full' : 'w-48'}`}
         >
-            <p className="overflow-hidden whitespace-nowrap text-ellipsis">{new Date(event.beginning).getHours() + 2}:00 - {new Date(event.end).getHours() + 2}:00</p>
-            <p className="font-bold overflow-hidden whitespace-nowrap mr-2 text-ellipsis">{event.title}</p>
-            <p className="overflow-hidden whitespace-nowrap text-ellipsis">par {eventCreator.lastName} {eventCreator.firstName}</p>
-            <p className="overflow-hidden whitespace-nowrap text-ellipsis">{event.location}</p>
+            <p>{new Date(event.beginning).getHours() + 2}:00 - {new Date(event.end).getHours() + 2}:00</p>
+            <p className="font-bold">{event.title}</p>
+            <p>par {eventCreator.lastName} {eventCreator.firstName}</p>
+            <p>{event.location}</p>
         </button>
     )
 }

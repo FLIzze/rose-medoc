@@ -53,8 +53,8 @@ export default function PopupEvent({
     const popupRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setEndHour(date.getHours() + 1);
-    }, [date]);
+        setEndHour(popupDate.getHours() + 1);
+    }, [popupDate]);
 
     useEffect(() => {
         if (popupRef.current) {

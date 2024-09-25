@@ -64,13 +64,15 @@ export default function DateField({ popupDate, setPopupDate, endHour, setEndHour
         setIsEndHoursVisible(false);
     }
 
+    const adjustedDate = new Date(popupDate);
+    adjustedDate.setDate(popupDate.getDate() - 2);
+
     return (
         <div className="flex items-center pt-4 text-dark-pink">
             <button
                 className="hover:bg-very-light-pink p-1 text-left flex-wrap whitespace-nowrap rounded-lg"
             >
-                {capitalizeFirstLetter(popupDate.toLocaleDateString('fr-FR', { weekday: 'long' }))}, {popupDate.getDate()} {capitalizeFirstLetter(popupDate.toLocaleDateString('fr-FR', { month: 'long' }))} {popupDate.getFullYear()}
-            </button>
+                {capitalizeFirstLetter(adjustedDate.toLocaleDateString('fr-FR', { weekday: 'long' }))}, {adjustedDate.getDate()} {capitalizeFirstLetter(adjustedDate.toLocaleDateString('fr-FR', { month: 'long' }))} {adjustedDate.getFullYear()}            </button>
 
             <div>
                 <button
