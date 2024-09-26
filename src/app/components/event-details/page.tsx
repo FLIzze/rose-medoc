@@ -18,12 +18,12 @@ interface EventDetailsProps {
     setIsDetailsVisible: Dispatch<SetStateAction<boolean>>
 }
 
-export default function EventDetails({ 
-    event, 
-    setEvents, 
-    pos, 
-    currentUser, 
-    users, 
+export default function EventDetails({
+    event,
+    setEvents,
+    pos,
+    currentUser,
+    users,
     setIsDetailsVisible }: Readonly<EventDetailsProps>) {
 
     const eventBeginning = new Date(event.beginning);
@@ -139,13 +139,14 @@ export default function EventDetails({
                                 />
                             </div>
                             <div className="flex flex-col pb-4 pt-2">
-                                <p>{event.participants.length} participants</p>
+                                <p className="font-bold">{event.participants.length} participants</p>
                                 {event.participants.map((participantId, index) => {
                                     const participant = users.find(user => user.id === participantId);
                                     return (
-                                        <p key={index}>
-                                            {participant?.lastName} {participant?.firstName}
-                                        </p>
+                                        <div className="flex items-center mt-1" key={index}>
+                                            <img src={`data:image/jpeg;base64,${participant?.pp}`} alt="Profile Picture" className='w-6 h-6 rounded-full mr-2' />
+                                            <p>{participant?.lastName} {participant?.firstName}</p>
+                                        </div>
                                     );
                                 })}
                             </div>
@@ -164,7 +165,10 @@ export default function EventDetails({
                                     />
                                 </div>
                                 <div className="flex items-center pb-4 pt-2">
-                                    <p>{participant?.lastName} {participant?.firstName}</p>
+                                    <div className="flex items-center mt-1">
+                                        <img src={`data:image/jpeg;base64,${participant?.pp}`} alt="Profile Picture" className='w-6 h-6 rounded-full mr-2' />
+                                        <p>{participant?.lastName} {participant?.firstName}</p>
+                                    </div>
                                 </div>
                             </>
                         );

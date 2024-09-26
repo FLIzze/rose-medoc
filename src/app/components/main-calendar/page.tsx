@@ -19,6 +19,8 @@ interface MainCalProps {
     filteredEvents: EventInterface[],
     setEvents: Dispatch<SetStateAction<EventInterface[]>>,
     date: Date,
+    defaultUser: UserInterface,
+    setCurrentUser: Dispatch<SetStateAction<UserInterface>>
 }
 
 export default function MainCal({
@@ -30,7 +32,9 @@ export default function MainCal({
     users,
     filteredEvents,
     setEvents,
-    date }: Readonly<MainCalProps>) {
+    date,
+    defaultUser,
+    setCurrentUser }: Readonly<MainCalProps>) {
 
     const hours = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
@@ -95,6 +99,8 @@ export default function MainCal({
                 calendarMode={calendarMode}
                 currentUser={currentUser}
                 date={date}
+                setCurrentUser={setCurrentUser}
+                defaultUser={defaultUser}
             />
 
             <div className="mt-6 ml-3">

@@ -11,21 +11,11 @@ import { EventInterface } from './model/event';
 import filterEvent from './event/filterEvents';
 import getEvents from './event/getEvents';
 import Register from './components/register/page';
+import defaultUser from './defaultUser';
 
 export default function Home() {
     const [date, setDate] = useState(new Date());
     const [sidebarDate, setSidebarDate] = useState(new Date());
-
-    const defaultUser: UserInterface = {
-        id: 0,
-        uuid: '',
-        lastName: '',
-        firstName: '',
-        email: '',
-        password: '',
-        color: '',
-        pp: new Blob()
-    }
 
     const [currentUser, setCurrentUser] = useState<UserInterface>(defaultUser);
 
@@ -97,6 +87,8 @@ export default function Home() {
                                 filteredEvents={filteredEvents}
                                 setEvents={setEvents}
                                 date={date}
+                                defaultUser={defaultUser}
+                                setCurrentUser={setCurrentUser}
                             />
                         </div>
                     </div>

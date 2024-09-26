@@ -61,6 +61,10 @@ app.get('/api/events', (_: any, res: any) => {
   });
 });
 
+app.update('/api/users', (req: any, res: any) => {
+  
+});
+
 app.delete('/api/events', (req: any, res: any) => {
   const { id } = req.body;
 

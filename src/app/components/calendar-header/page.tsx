@@ -8,6 +8,7 @@ import hideCalendarMode from '@/app/event/hideCalendarMode';
 import displayCalendarMode from '@/app/event/displayCalendarMode';
 import { UserInterface } from '@/app/model/user';
 import capitalizeFirstLetter from '@/app/capitalizeFirstLetter';
+import Profile from '../profile/page';
 
 interface CalendarHeaderProps {
     setDate: Dispatch<SetStateAction<Date>>,
@@ -15,7 +16,9 @@ interface CalendarHeaderProps {
     setCalendarMode: Dispatch<SetStateAction<string>>,
     calendarMode: string,
     currentUser: UserInterface,
-    date: Date
+    date: Date,
+    defaultUser: UserInterface,
+    setCurrentUser: Dispatch<SetStateAction<UserInterface>>
 }
 
 export default function CalendarHeader({
@@ -24,7 +27,9 @@ export default function CalendarHeader({
     setCalendarMode,
     calendarMode,
     currentUser,
-    date }: Readonly<CalendarHeaderProps>) {
+    date,
+    defaultUser,
+    setCurrentUser }: Readonly<CalendarHeaderProps>) {
 
     const [isCalendarModeVisible, setIsCalendarModeVisible] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -130,7 +135,7 @@ export default function CalendarHeader({
                     </button>
 
                     <div
-                        className={`absolute text-sm flex flex-col bg-medium-pink rounded-lg shadow-2xl items-start pl-2 py-3 text-white mt-2 pr-4 transition-opacity duration-300 ${isCalendarModeVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} z-10`}
+                        className="absolute text-sm flex flex-col bg-medium-pink rounded-lg shadow-2xl items-start pl-2 py-3 text-white mt-2 pr-4 transition-opacity duration-300 z-10 w-40 opacity-0 pointer-events-none"
                         id='calMode'
                     >
                         <button
@@ -153,12 +158,12 @@ export default function CalendarHeader({
                         </button>
                     </div>
                 </div>
-                {currentUser.pp ? (
-                    <img src={`data:image/jpeg;base64,${currentUser.pp}`} alt="Profile Picture" className='w-14 h-14 rounded-lg mr-2' />
-                ) : (
-                    <p>No profile picture available</p>
-                )}
-                <p className='mr-10 font-bold text-dark-pink'>{currentUser.lastName} {currentUser.firstName}</p>
+
+                <Profile
+                    currentUser={currentUser}
+                    setCurrentUser={setCurrentUser}
+                    defaultUser={defaultUser}
+                />
             </div>
         </div>
     );

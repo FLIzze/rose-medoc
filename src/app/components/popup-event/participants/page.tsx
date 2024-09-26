@@ -98,8 +98,10 @@ export default function Participants({ setParticipants, participants, users, cur
                                         hideParticipantsPopUp();
                                     }}
                                     className="hover:bg-very-light-pink w-full h-full p-1 pl-3 text-left">
-                                    <img src={`data:image/jpeg;base64,${user.pp}`} alt="Profile Picture" className='w-14 h-14 rounded-lg mr-2' />
-                                    {user.lastName} {user.firstName}
+                                    <div className="flex items-center">
+                                        <img src={`data:image/jpeg;base64,${user.pp}`} alt="Profile Picture" className='w-8 h-8 rounded-full mr-2' />
+                                        <p>{user.lastName} {user.firstName}</p>
+                                    </div>
                                 </button>
                             ))
                     )}
@@ -107,21 +109,22 @@ export default function Participants({ setParticipants, participants, users, cur
             )
             }
 
-            <div className="ml-7">
-                {participants.map((participant, index) => (
-                    <div
-                        className="flex justify-between hover:bg-very-light-pink rounded-lg pl-2"
-                        key={index}
-                    >
+            {participants.map((participant, index) => (
+                <div
+                    className="flex justify-between hover:bg-very-light-pink rounded-lg p-2"
+                    key={index}
+                >
+                    <div className="flex items-center">
+                        <img src={`data:image/jpeg;base64,${participant.pp}`} alt="Profile Picture" className='w-7 h-7 rounded-full mr-2' />
                         <p>{participant.lastName} {participant.firstName}</p>
-                        <button
-                            onClick={() => removeParticipant(participant.id)}
-                            className="mr-3">
-                            x
-                        </button>
                     </div>
-                ))}
-            </div>
+                    <button
+                        onClick={() => removeParticipant(participant.id)}
+                        className="mr-3">
+                        x
+                    </button>
+                </div>
+            ))}
         </div >
     )
 }
