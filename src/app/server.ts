@@ -35,10 +35,12 @@ app.post('/api/events', (req: any, res: any) => {
 });
 
 app.post('/api/users', (req: any, res: any) => {
-  const { uuid, lastName, firstName, email, password, color } = req.body;
-  
-  const sql = 'INSERT INTO user (uuid, lastName, firstName, email, password, color) VALUES (?, ?, ?, ?, ?, ?)';
-  const values = [uuid, lastName, firstName, email, password, color];
+  const { uuid, lastName, firstName, email, password, color, pp } = req.body;
+
+  const fileBuffer = pp ? Buffer.from(pp.split(',')[1], 'base64') : null;
+
+  const sql = 'INSERT INTO user (uuid, lastName, firstName, email, password, color, pp) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  const values = [uuid, lastName, firstName, email, password, color, fileBuffer];
 
   pool.query(sql, values, (error: any) => {
     if (error) {
@@ -84,7 +86,15 @@ app.get('/api/users', (_: any, res: any) => {
       console.error('Error fetching users:', error);
       return res.status(500).json({ error: error.message });
     }
-    res.status(200).json(results);
+
+    const users = results.map((user: any) => {
+      if (user.pp) {
+        user.pp = Buffer.from(user.pp).toString('base64');
+      }
+      return user;
+    });
+
+    res.status(200).json(users);
   });
 });
 

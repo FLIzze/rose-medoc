@@ -1,9 +1,8 @@
 "use client";
 
 import { Dispatch, SetStateAction, useState } from "react";
-import register from "@/app/user/register";
 import hash from "@/app/password/hash";
-import login from "@/app/user/login";
+import register from "@/app/user/register";
 
 interface RegisterProps {
     setRegister: Dispatch<SetStateAction<boolean>>
@@ -19,6 +18,8 @@ export default function Register({ setRegister }: Readonly<RegisterProps>) {
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [file, setFile] = useState<File | null>(null);
+    const [fileURL, setFileURL] = useState<string | null>(null);
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -27,36 +28,28 @@ export default function Register({ setRegister }: Readonly<RegisterProps>) {
 
         if (!firstName || !lastName || !email || !password || !confirmPassword) {
             setErrorMessage('Tous les champs sont obligatoires.');
-            console.log('All fields are required.');
             return;
         }
 
         if (!isEmailValid) {
             setErrorMessage('Format de courriel invalide.');
-            console.log('Invalid email format.');
             return;
         }
 
         if (password !== confirmPassword) {
             setErrorMessage('Les mots de passe ne correspondent pas.');
-            console.log('Passwords do not match.');
             return;
         }
 
         try {
-            await register(lastName, firstName, email, await hash(password), color);
-            const userId = await login(email, password);
-            if (userId !== null) {
-                setSuccessMessage('Inscription réussie et connexion réussie.');
-                console.log('Registration and login successful.');
-                setRegister(false);
-            } else {
-                setErrorMessage('Inscription réussie, mais échec de la connexion.');
-                console.log('Registration successful, but login failed.');
-            }
+        } catch {
+            setErrorMessage("Erreur lors de la sauvegarde de l'image.");
+        }
+
+        try {
+            register(lastName, firstName, email, await hash(password), color, file);
         } catch (error) {
-            setErrorMessage('Erreur lors de l\'inscription.');
-            console.error('Error during registration:', error);
+            setErrorMessage("Erreur lors de l'inscription.");
         }
     };
 
@@ -64,6 +57,14 @@ export default function Register({ setRegister }: Readonly<RegisterProps>) {
         const emailValue = e.target.value;
         setEmail(emailValue);
         setIsEmailValid(validateEmail(emailValue));
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const selectedFile = e.target.files[0];
+            setFile(selectedFile);
+            setFileURL(URL.createObjectURL(selectedFile));
+        }
     };
 
     const validateEmail = (email: string) => {
@@ -113,6 +114,18 @@ export default function Register({ setRegister }: Readonly<RegisterProps>) {
                                 required
                             />
                             {!isEmailValid && <p className="text-red text-xs mt-1">Format de courriel invalide.</p>}
+                        </div>
+
+                        <div className="mb-4 flex flex-col">
+                            <label className="text-dark-pink font-bold" htmlFor="picture">Photo</label>
+                            <input
+                                id="picture"
+                                type="file"
+                                onChange={handleFileChange}
+                                required
+                                accept="image/*"
+                            />
+                            {fileURL && <img src={fileURL} alt="Selected file" className="mt-2 w-32 h-32 object-cover rounded-lg" />}
                         </div>
 
                         <div className="mb-4">
@@ -182,4 +195,8 @@ export default function Register({ setRegister }: Readonly<RegisterProps>) {
             </div>
         </div>
     )
+}
+
+function getBase64Image(file: File | null): string {
+    throw new Error("Function not implemented.");
 }

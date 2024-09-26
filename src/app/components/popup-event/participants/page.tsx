@@ -98,6 +98,7 @@ export default function Participants({ setParticipants, participants, users, cur
                                         hideParticipantsPopUp();
                                     }}
                                     className="hover:bg-very-light-pink w-full h-full p-1 pl-3 text-left">
+                                    <img src={`data:image/jpeg;base64,${user.pp}`} alt="Profile Picture" className='w-14 h-14 rounded-lg mr-2' />
                                     {user.lastName} {user.firstName}
                                 </button>
                             ))

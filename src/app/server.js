@@ -27,9 +27,10 @@ app.post('/api/events', function (req, res) {
     });
 });
 app.post('/api/users', function (req, res) {
-    var _a = req.body, uuid = _a.uuid, lastName = _a.lastName, firstName = _a.firstName, email = _a.email, password = _a.password, color = _a.color;
-    var sql = 'INSERT INTO user (uuid, lastName, firstName, email, password, color) VALUES (?, ?, ?, ?, ?, ?)';
-    var values = [uuid, lastName, firstName, email, password, color];
+    var _a = req.body, uuid = _a.uuid, lastName = _a.lastName, firstName = _a.firstName, email = _a.email, password = _a.password, color = _a.color, pp = _a.pp;
+    var fileBuffer = pp ? Buffer.from(pp.split(',')[1], 'base64') : null;
+    var sql = 'INSERT INTO user (uuid, lastName, firstName, email, password, color, pp) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    var values = [uuid, lastName, firstName, email, password, color, fileBuffer];
     pool.query(sql, values, function (error) {
         if (error) {
             console.error('Error creating user:', error);
@@ -67,7 +68,13 @@ app.get('/api/users', function (_, res) {
             console.error('Error fetching users:', error);
             return res.status(500).json({ error: error.message });
         }
-        res.status(200).json(results);
+        var users = results.map(function (user) {
+            if (user.pp) {
+                user.pp = Buffer.from(user.pp).toString('base64');
+            }
+            return user;
+        });
+        res.status(200).json(users);
     });
 });
 app.listen(port, function () {

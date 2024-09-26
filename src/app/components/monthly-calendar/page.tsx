@@ -1,3 +1,5 @@
+"use client";
+
 import displayEventDetails from "@/app/event/displayEventDetails";
 import setCurrentEventDetails from "@/app/event/setCurrentEventDetails";
 import { EventInterface } from "@/app/model/event";

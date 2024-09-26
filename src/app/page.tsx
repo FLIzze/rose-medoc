@@ -23,7 +23,8 @@ export default function Home() {
         firstName: '',
         email: '',
         password: '',
-        color: ''
+        color: '',
+        pp: new Blob()
     }
 
     const [currentUser, setCurrentUser] = useState<UserInterface>(defaultUser);

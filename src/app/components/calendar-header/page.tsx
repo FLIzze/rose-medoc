@@ -153,6 +153,11 @@ export default function CalendarHeader({
                         </button>
                     </div>
                 </div>
+                {currentUser.pp ? (
+                    <img src={`data:image/jpeg;base64,${currentUser.pp}`} alt="Profile Picture" className='w-14 h-14 rounded-lg mr-2' />
+                ) : (
+                    <p>No profile picture available</p>
+                )}
                 <p className='mr-10 font-bold text-dark-pink'>{currentUser.lastName} {currentUser.firstName}</p>
             </div>
         </div>

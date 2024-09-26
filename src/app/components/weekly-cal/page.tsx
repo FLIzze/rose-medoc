@@ -1,7 +1,5 @@
-'use client';
-
 import { EventInterface } from '@/app/model/event';
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { UserInterface } from "@/app/model/user";
 import Header from "./header/page";
 import Body from "./body/page";
