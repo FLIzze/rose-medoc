@@ -34,6 +34,34 @@ app.post('/api/events', (req: any, res: any) => {
   });
 });
 
+app.put('/api/users', (req: any, res: any) => {
+  const { id, email, firstName, lastName, password, color } = req.body;
+
+  let sql = 'UPDATE user SET email = ?, firstName = ?, lastName = ?, color = ?';
+  const values = [email, firstName, lastName, color];
+
+  if (password) {
+    sql += ', password = ?';
+    values.push(password);
+  }
+
+  sql += ' WHERE id = ?';
+  values.push(id);
+
+  pool.query(sql, values, (error: any, results: any) => {
+    if (error) {
+      console.error('Error updating user:', error);
+      return res.status(500).json({ error: error.message });
+    }
+
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'User updated successfully' });
+  });
+});
+
 app.post('/api/users', (req: any, res: any) => {
   const { uuid, lastName, firstName, email, password, color, pp } = req.body;
 
@@ -59,10 +87,6 @@ app.get('/api/events', (_: any, res: any) => {
     }
     res.status(200).json(results);
   });
-});
-
-app.update('/api/users', (req: any, res: any) => {
-  
 });
 
 app.delete('/api/events', (req: any, res: any) => {

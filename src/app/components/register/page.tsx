@@ -196,7 +196,3 @@ export default function Register({ setRegister }: Readonly<RegisterProps>) {
         </div>
     )
 }
-
-function getBase64Image(file: File | null): string {
-    throw new Error("Function not implemented.");
-}

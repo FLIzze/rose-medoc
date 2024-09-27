@@ -5,9 +5,9 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface ProfileProps {
-    currentUser: UserInterface;
-    setCurrentUser: Dispatch<SetStateAction<UserInterface>>;
-    defaultUser: UserInterface;
+    currentUser: UserInterface,
+    setCurrentUser: Dispatch<SetStateAction<UserInterface>>,
+    defaultUser: UserInterface,
 }
 
 export default function Profile({ currentUser, setCurrentUser, defaultUser }: Readonly<ProfileProps>) {
@@ -46,7 +46,7 @@ export default function Profile({ currentUser, setCurrentUser, defaultUser }: Re
     }
 
     return (
-        <div>
+        <div className="text-sm">
             <button
                 className="hover:opacity-70 transition-all"
                 onClick={displayProfile}
@@ -56,27 +56,17 @@ export default function Profile({ currentUser, setCurrentUser, defaultUser }: Re
 
             <div
                 id="profile"
-                className={`absolute left-80 z-20 transition-opacity duration-300 ${isProfileVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                className={`rounded-lg right-0 mr-4 absolute z-20 transition-opacity duration-300 text-white ${isProfileVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
             >
-                <div className="flex justify-end pr-5 h-9 w-full bg-medium-pink rounded-t-lg">
-                    <button onClick={hideProfile}>
-                        <img
-                            src="/cross.png"
-                            alt="cross"
-                            className="w-7 h-7 p-1 hover:bg-dark-pink rounded-full"
-                        />
-                    </button>
-                </div>
-
-                <div className="text-dark-pink pl-5 pt-2 flex flex-col bg-white pr-4 pb-5 shadow-2xl">
+                <div className="flex flex-col shadow-2xl bg-medium-pink rounded-lg py-3 px-2">
                     <button
-                        className="bg-medium-pink text-white hover:bg-dark-pink rounded-lg p-2 transition-colors mt-2"
+                        className="bg-medium-pink text-white hover:bg-dark-pink rounded-lg p-2 transition-colors text-left"
                         onClick={() => editProfile(currentUser)}
                     >
                         Modifier le profil
                     </button>
                     <button
-                        className="bg-medium-pink text-white hover:bg-dark-pink rounded-lg p-2 transition-colors mt-2"
+                        className="bg-medium-pink text-white hover:bg-dark-pink rounded-lg p-2 transition-colors text-left"
                         onClick={dc}
                     >
                         Déconnexion

@@ -6,5 +6,5 @@ export interface UserInterface {
     email: string,
     password: string,
     color: string,
-    pp: Blob
+    pp: string
 }

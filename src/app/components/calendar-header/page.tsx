@@ -8,7 +8,7 @@ import hideCalendarMode from '@/app/event/hideCalendarMode';
 import displayCalendarMode from '@/app/event/displayCalendarMode';
 import { UserInterface } from '@/app/model/user';
 import capitalizeFirstLetter from '@/app/capitalizeFirstLetter';
-import Profile from '../profile/page';
+import Profile from '../profil/page';
 
 interface CalendarHeaderProps {
     setDate: Dispatch<SetStateAction<Date>>,

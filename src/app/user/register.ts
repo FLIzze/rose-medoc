@@ -1,14 +1,6 @@
 import capitalizeFirstLetter from "../capitalizeFirstLetter";
 import { v4 as uuidv4 } from 'uuid';
-
-const getBase64Image = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = error => reject(error);
-    });
-};
+import getBase64Image from "../getBase64Image";
 
 export default async function register(
     lastName: string,
@@ -19,7 +11,7 @@ export default async function register(
     file: File | null) {
 
     try {
-        const base64Image = file ? await getBase64Image(file) : null;
+        const base64Image = getBase64Image(file!);
 
         const response = await fetch('http://localhost:5000/api/users', {
             method: 'POST',

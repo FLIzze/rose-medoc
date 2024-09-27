@@ -26,6 +26,27 @@ app.post('/api/events', function (req, res) {
         res.status(201).json({ message: 'Event created' });
     });
 });
+app.put('/api/users', function (req, res) {
+    var _a = req.body, id = _a.id, email = _a.email, firstName = _a.firstName, lastName = _a.lastName, password = _a.password, color = _a.color;
+    var sql = 'UPDATE user SET email = ?, firstName = ?, lastName = ?, color = ?';
+    var values = [email, firstName, lastName, color];
+    if (password) {
+        sql += ', password = ?';
+        values.push(password);
+    }
+    sql += ' WHERE id = ?';
+    values.push(id);
+    pool.query(sql, values, function (error, results) {
+        if (error) {
+            console.error('Error updating user:', error);
+            return res.status(500).json({ error: error.message });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json({ message: 'User updated successfully' });
+    });
+});
 app.post('/api/users', function (req, res) {
     var _a = req.body, uuid = _a.uuid, lastName = _a.lastName, firstName = _a.firstName, email = _a.email, password = _a.password, color = _a.color, pp = _a.pp;
     var fileBuffer = pp ? Buffer.from(pp.split(',')[1], 'base64') : null;
