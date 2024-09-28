@@ -210,9 +210,9 @@ export default function EditProfile() {
                 />
             </form>
 
-            <div className="flex justify-center w-screen h-screen bg-very-light-pink items-center">
-                <img src="logo.png" alt="logo Rose Medoc" className="w-96 h-96 object-cover cursor-pointer" onClick={goToHome} />
-            </div>
+            <button className="flex justify-center w-screen h-screen bg-very-light-pink items-center" onClick={goToHome}>
+                <img src="logo.png" alt="logo Rose Medoc" className="w-96 h-96 object-cover cursor-pointer"/>
+            </button>
         </div>
     );
 }
