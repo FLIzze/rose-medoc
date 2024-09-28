@@ -2,13 +2,14 @@
 
 import { Dispatch, SetStateAction, useState } from "react";
 import login from "@/app/user/login";
-import Cookies from "js-cookie";
+import { UserInterface } from "@/app/model/user";
 
 interface LoginProps {
-    setRegister: Dispatch<SetStateAction<boolean>>
+    setRegister: Dispatch<SetStateAction<boolean>>,
+    setCurrentUser: Dispatch<SetStateAction<UserInterface>>,
 }
 
-export default function Login({ setRegister }: Readonly<LoginProps>) {
+export default function Login({ setRegister, setCurrentUser }: Readonly<LoginProps>) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(true);
@@ -30,14 +31,7 @@ export default function Login({ setRegister }: Readonly<LoginProps>) {
             return;
         }
 
-        const userUuid = await login(email, password);
-        if (userUuid) {
-            console.log('Utilisateur connecté');
-            Cookies.set('uuid', userUuid, { expires: 7, secure: true, sameSite: 'strict' });
-        } else {
-            setErrorMessage('Identifiants invalides.');
-            console.log('Identifiants invalides');
-        }
+        await login(email, password, setCurrentUser);
     };
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,6 +68,7 @@ export default function Login({ setRegister }: Readonly<LoginProps>) {
                             <input
                                 id="password"
                                 type="password"
+                                autoComplete="new-password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className={`w-full text-dark-pink px-3 py-2 border rounded-lg outline-none focus:ring-2 ${isEmailValid ? 'border-light-pink focus:ring-medium-pink' : 'border-red focus:ring-red'}`}

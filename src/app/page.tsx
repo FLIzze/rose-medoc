@@ -50,7 +50,7 @@ export default function Home() {
             .catch((error) => {
                 console.error('Error fetching users', error);
             });
-    }, []);
+    }, [currentUser]);
 
     useEffect(() => {
         setFilteredEvents(filterEvent(events, currentUser, own, tagged, others));
@@ -58,7 +58,7 @@ export default function Home() {
 
     return (
         <div className="h-screen w-screen flex items-center justify-center bg-gray-100">
-            {(currentUser.firstName != "" && currentUser.firstName !== undefined) ? (
+            {(currentUser !== defaultUser && currentUser !== undefined && currentUser !== null) ? (
                 <div className="bg-white h-screen overflow-hidden">
                     <div className="flex mt-5">
                         <div>
@@ -97,10 +97,12 @@ export default function Home() {
                 (register ? (
                     <Register
                         setRegister={setRegister}
+                        setCurrentUser={setCurrentUser}
                     />
                 ) : (
                     <Login
                         setRegister={setRegister}
+                        setCurrentUser={setCurrentUser}
                     />
                 ))
             )}

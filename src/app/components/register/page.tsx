@@ -3,12 +3,17 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import hash from "@/app/password/hash";
 import register from "@/app/user/register";
+import getBase64Image from "@/app/getBase64Image";
+import { UserInterface } from "@/app/model/user";
+import defaultUser from "@/app/defaultUser";
+import login from "@/app/user/login";
 
 interface RegisterProps {
-    setRegister: Dispatch<SetStateAction<boolean>>
+    setRegister: Dispatch<SetStateAction<boolean>>,
+    setCurrentUser: Dispatch<SetStateAction<UserInterface>>,
 }
 
-export default function Register({ setRegister }: Readonly<RegisterProps>) {
+export default function Register({ setRegister, setCurrentUser }: Readonly<RegisterProps>) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -42,12 +47,11 @@ export default function Register({ setRegister }: Readonly<RegisterProps>) {
         }
 
         try {
-        } catch {
-            setErrorMessage("Erreur lors de la sauvegarde de l'image.");
-        }
-
-        try {
-            register(lastName, firstName, email, await hash(password), color, file);
+            const base64Image = await getBase64Image(file!);
+            if (await register(lastName, firstName, email, await hash(password), color, base64Image)) {
+                login(email, password, setCurrentUser);
+                setSuccessMessage("Inscription réussie !");
+            }
         } catch (error) {
             setErrorMessage("Erreur lors de l'inscription.");
         }
@@ -125,7 +129,7 @@ export default function Register({ setRegister }: Readonly<RegisterProps>) {
                                 required
                                 accept="image/*"
                             />
-                            {fileURL && <img src={fileURL} alt="Selected file" className="mt-2 w-32 h-32 object-cover rounded-lg" />}
+                            {fileURL && <img src={fileURL} alt="Selected file" className="mt-2 w-32 h-32 object-cover rounded-lg border border-medium-pink" />}
                         </div>
 
                         <div className="mb-4">
@@ -135,6 +139,7 @@ export default function Register({ setRegister }: Readonly<RegisterProps>) {
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                autoComplete="new-password"
                                 className="w-full text-dark-pink px-3 py-2 border rounded-lg outline-none focus:ring-2 border-light-pink focus:ring-medium-pink"
                                 required
                             />
@@ -147,6 +152,7 @@ export default function Register({ setRegister }: Readonly<RegisterProps>) {
                                 type="password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
+                                autoComplete="new-password"
                                 className="w-full text-dark-pink px-3 py-2 border rounded-lg outline-none focus:ring-2 border-light-pink focus:ring-medium-pink"
                                 required
                             />
@@ -159,7 +165,7 @@ export default function Register({ setRegister }: Readonly<RegisterProps>) {
                                 type="color"
                                 value={color}
                                 onChange={(e) => setColor(e.target.value)}
-                                className="w-full h-10 border-none"
+                                className="w-full h-10 border-none rounded-lg border border-medium-pink"
                                 required
                             />
                         </div>

@@ -8,7 +8,7 @@ const defaultUser: UserInterface = {
     email: '',
     password: '',
     color: '',
-    pp: new Blob()
+    pp: ''
 }
 
 export default defaultUser;

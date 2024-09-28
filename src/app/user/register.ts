@@ -1,6 +1,5 @@
 import capitalizeFirstLetter from "../capitalizeFirstLetter";
 import { v4 as uuidv4 } from 'uuid';
-import getBase64Image from "../getBase64Image";
 
 export default async function register(
     lastName: string,
@@ -8,11 +7,9 @@ export default async function register(
     email: string,
     password: string,
     color: string,
-    file: File | null) {
+    file: string) : Promise<boolean> {
 
     try {
-        const base64Image = getBase64Image(file!);
-
         const response = await fetch('http://localhost:5000/api/users', {
             method: 'POST',
             headers: {
@@ -25,15 +22,16 @@ export default async function register(
                 email: email,
                 password: password,
                 color: color,
-                pp: base64Image
+                pp: file
             })
         });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(errorText);
+        if (response.ok) {
+            return true;
         }
     } catch (error) {
         console.error('Error registering user', error);
     }
+
+    return false;
 }

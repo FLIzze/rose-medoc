@@ -30,7 +30,9 @@ export default function Profile({ currentUser, setCurrentUser, defaultUser }: Re
     }, []);
 
     const dc = () => {
+        document.cookie = 'uuid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         setCurrentUser(defaultUser);
+        window.location.reload();
     };
 
     const displayProfile = () => {
@@ -59,6 +61,7 @@ export default function Profile({ currentUser, setCurrentUser, defaultUser }: Re
                 className={`rounded-lg right-0 mr-4 absolute z-20 transition-opacity duration-300 text-white ${isProfileVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
             >
                 <div className="flex flex-col shadow-2xl bg-medium-pink rounded-lg py-3 px-2">
+                    <p className="font-bold mb-3 mt-1">Bonjour {currentUser.lastName} {currentUser.firstName}</p>
                     <button
                         className="bg-medium-pink text-white hover:bg-dark-pink rounded-lg p-2 transition-colors text-left"
                         onClick={() => editProfile(currentUser)}

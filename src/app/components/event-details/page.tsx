@@ -145,8 +145,7 @@ export default function EventDetails({
                                     return (
                                         <div className="flex items-center mt-1" key={index}>
                                             <img src={`data:image/jpeg;base64,${participant?.pp}`} alt="Profile Picture" className='w-6 h-6 rounded-full mr-2' />
-                                            <p>{participant?.lastName} {participant?.firstName}</p>
-                                        </div>
+                                            <p className={`${participant?.id === event.by ? 'font-bold' : ''}`}>{participant?.lastName} {participant?.firstName}</p>                                        </div>
                                     );
                                 })}
                             </div>
@@ -167,7 +166,7 @@ export default function EventDetails({
                                 <div className="flex items-center pb-4 pt-2">
                                     <div className="flex items-center mt-1">
                                         <img src={`data:image/jpeg;base64,${participant?.pp}`} alt="Profile Picture" className='w-6 h-6 rounded-full mr-2' />
-                                        <p>{participant?.lastName} {participant?.firstName}</p>
+                                        <p className="font-bold">{participant?.lastName} {participant?.firstName}</p>
                                     </div>
                                 </div>
                             </>

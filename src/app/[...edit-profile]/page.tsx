@@ -55,7 +55,7 @@ export default function EditProfile() {
         }
 
         const hashedPassword = await hash(newPassword);
-        const base64Image = await getBase64Image(file!);
+        const base64Image = await getBase64Image(file);
 
         const updatedUser: UserInterface = {
             id: currentUserId,
@@ -64,8 +64,8 @@ export default function EditProfile() {
             firstName: capitalizeFirstLetter(newFirstName.toLowerCase()) || user.firstName,
             lastName: newLastName.toUpperCase() || user.lastName,
             color: newColor || user.color,
-            pp: base64Image || user.pp,
-            uuid: user.uuid
+            pp: base64Image,
+            uuid: user.uuid || ""
         };
 
         try {
@@ -87,7 +87,7 @@ export default function EditProfile() {
                 setNewColor("");
                 setErrorMessage("");
                 setFileURL("");
-                setFile(new File([], "default.txt"));
+                setFile(null);
                 alert("Profil mis à jour avec succès");
                 goToHome();
             } else {
@@ -104,7 +104,7 @@ export default function EditProfile() {
         router.push("/");
     }
 
-        const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const selectedFile = e.target.files[0];
             setFile(selectedFile);
@@ -113,12 +113,10 @@ export default function EditProfile() {
     };
 
     return (
-        <div className="w-full h-full bg-white text-dark-pink text-lg pb-10">
-            <div className="flex justify-center w-full">
-                <img src="logo.png" alt="logo Rose Medoc" className="w-96 h-96 object-cover cursor-pointer" onClick={goToHome} />
-            </div>
-
+        <div className="w-screen h-screen bg-white text-dark-pink text-lg pb-10 flex">
             <form method="post" className="flex flex-col gap-y-4 w-full px-72 justify-center" onSubmit={handleSubmit}>
+                <h2 className="text-3xl font-bold mb-6 text-dark-pink">Modifier votre compte</h2>
+
                 <div className="flex flex-col">
                     <label htmlFor="email" className="font-bold">Email</label>
                     <input
@@ -162,6 +160,7 @@ export default function EditProfile() {
                         className="border border-medium-pink rounded-md p-2 focus:ring-2 focus:ring-medium-pink outline-none transition-all"
                         placeholder="Nouveau mot de passe"
                         id="password"
+                        autoComplete="new-password"
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                     />
@@ -174,6 +173,7 @@ export default function EditProfile() {
                         className="border border-medium-pink rounded-md p-2 focus:ring-2 focus:ring-medium-pink outline-none transition-all"
                         placeholder="Confirmer le mot de passe"
                         id="confirmPassword"
+                        autoComplete="new-password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
@@ -183,7 +183,7 @@ export default function EditProfile() {
                     <label htmlFor="color" className="font-bold">Couleur</label>
                     <input
                         type="color"
-                        className="border border-medium-pink focus:ring-2 focus:ring-medium-pink outline-none transition-all w-full"
+                        className="border border-medium-pink focus:ring-2 focus:ring-medium-pink outline-none transition-all w-full rounded-lg"
                         id="color"
                         value={newColor}
                         onChange={(e) => setNewColor(e.target.value)}
@@ -192,7 +192,7 @@ export default function EditProfile() {
 
                 <div className="flex flex-col">
                     <label htmlFor="pp" className="font-bold">Photo de profil</label>
-                    {fileURL && <img src={fileURL} alt="Selected file" className="border border-medium-pink rounded-lg" />}
+                    {fileURL && <img src={fileURL} alt="Selected file" className="w-32 h-32 object-cover rounded-lg border border-medium-pink" />}
                     <input
                         type="file"
                         id="pp"
@@ -209,6 +209,10 @@ export default function EditProfile() {
                     value={"Mettre à jour le profil"}
                 />
             </form>
+
+            <div className="flex justify-center w-screen h-screen bg-very-light-pink items-center">
+                <img src="logo.png" alt="logo Rose Medoc" className="w-96 h-96 object-cover cursor-pointer" onClick={goToHome} />
+            </div>
         </div>
     );
 }

@@ -135,7 +135,7 @@ export default function CalendarHeader({
                     </button>
 
                     <div
-                        className="absolute text-sm flex flex-col bg-medium-pink rounded-lg shadow-2xl items-start pl-2 py-3 text-white mt-2 pr-4 transition-opacity duration-300 z-10 w-40 opacity-0 pointer-events-none"
+                        className="absolute text-sm flex flex-col bg-medium-pink rounded-lg shadow-2xl items-start pl-2 py-3 text-white mt-2 transition-opacity duration-300 z-10 w-40 opacity-0 pointer-events-none"
                         id='calMode'
                     >
                         <button

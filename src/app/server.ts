@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const sharp = require('sharp');
 
 const app = express();
 const port = 5000;
@@ -15,6 +16,9 @@ const pool = mysql.createPool({
 
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 app.post('/api/events', (req: any, res: any) => {
   const { title, description, beginning, end, by, participants, location } = req.body;
@@ -34,11 +38,26 @@ app.post('/api/events', (req: any, res: any) => {
   });
 });
 
-app.put('/api/users', (req: any, res: any) => {
-  const { id, email, firstName, lastName, password, color } = req.body;
+app.put('/api/users', async (req: any, res: any) => {
+  const { id, email, firstName, lastName, password, color, pp } = req.body;
+
+  let fileBuffer = null;
+  if (pp && pp !== '') {
+    const base64Data = pp.split(',')[1];
+    const buffer = Buffer.from(base64Data, 'base64');
+    fileBuffer = await sharp(buffer)
+      .resize(200, 200)
+      .jpeg({ quality: 80 })
+      .toBuffer();
+  }
 
   let sql = 'UPDATE user SET email = ?, firstName = ?, lastName = ?, color = ?';
   const values = [email, firstName, lastName, color];
+
+  if (fileBuffer) {
+    sql += ', pp = ?';
+    values.push(fileBuffer);
+  }
 
   if (password) {
     sql += ', password = ?';
@@ -62,10 +81,18 @@ app.put('/api/users', (req: any, res: any) => {
   });
 });
 
-app.post('/api/users', (req: any, res: any) => {
+app.post('/api/users', async (req: any, res: any) => {
   const { uuid, lastName, firstName, email, password, color, pp } = req.body;
 
-  const fileBuffer = pp ? Buffer.from(pp.split(',')[1], 'base64') : null;
+  let fileBuffer = null;
+  if (pp) {
+    const base64Data = pp.split(',')[1];
+    const buffer = Buffer.from(base64Data, 'base64');
+    fileBuffer = await sharp(buffer)
+      .resize(200, 200) 
+      .jpeg({ quality: 80 }) 
+      .toBuffer();
+  }
 
   const sql = 'INSERT INTO user (uuid, lastName, firstName, email, password, color, pp) VALUES (?, ?, ?, ?, ?, ?, ?)';
   const values = [uuid, lastName, firstName, email, password, color, fileBuffer];
@@ -77,7 +104,7 @@ app.post('/api/users', (req: any, res: any) => {
     }
     res.status(201).json({ message: 'User created' });
   });
-})
+});
 
 app.get('/api/events', (_: any, res: any) => {
   pool.query('SELECT * FROM event ORDER BY beginning ASC', (error: any, results: any) => {

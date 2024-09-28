@@ -1,4 +1,7 @@
-export default function getBase64Image(file: File): Promise<string> {
+export default async function getBase64Image(file: File | null): Promise<string> {
+    if (!file) {
+        return '';
+    }
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
