@@ -16,6 +16,7 @@ interface WeeklyEventProps {
     isDetailsVisible: boolean,
     isPopupVisible: boolean,
     setEvent: Dispatch<SetStateAction<EventInterface>>,
+    style?: React.CSSProperties
 }
 
 export default function WeeklyEvent({
@@ -25,10 +26,10 @@ export default function WeeklyEvent({
     setIsDetailsVisible,
     isDetailsVisible,
     isPopupVisible,
-    setEvent }: Readonly<WeeklyEventProps>) {
+    setEvent,
+    style }: Readonly<WeeklyEventProps>) {
 
     const [eventCreator, setEventCreator] = useState<UserInterface>({} as UserInterface);
-    const eventHeight = 24 * (new Date(event.end).getHours() - new Date(event.beginning).getHours());
 
     useEffect(() => {
         axios.get('http://localhost:5000/api/users')
@@ -43,7 +44,7 @@ export default function WeeklyEvent({
             .catch((error) => {
                 console.error('Error fetching events', error);
             });
-    }, []);
+    }, [event.by]);
 
     return (
         <button
@@ -51,14 +52,14 @@ export default function WeeklyEvent({
                 backgroundColor: `${eventCreator.color}1A`,
                 borderLeft: `4px solid ${eventCreator.color}`,
                 color: eventCreator.color,
-                height: `${eventHeight * 4}px`
+                ...style
             }}
             onClick={(e) => {
                 displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
                 setCurrentEventDetails(event, setEvent);
                 setPopUpPosition(e, setPosition);
             }}
-            className={`rounded-l-md pl-3 text-sm py-1 hover:cursor-pointer pb-3 select-none hover:opacity-100 opacity-75 transition-all items-start justify-start flex flex-col overflow-hidden whitespace-nowrap text-ellipsis ${daily ? 'w-full' : 'w-48'}`}
+            className={`rounded-l-md pl-3 text-sm py-1 hover:cursor-pointer pb-3 select-none hover:opacity-100 opacity-75 transition-all items-start justify-start flex flex-col overflow-hidden whitespace-nowrap text-ellipsis w-full h-full`}
         >
             <p>{new Date(event.beginning).getHours() + 2}:00 - {new Date(event.end).getHours() + 2}:00</p>
             <p className="font-bold">{event.title}</p>

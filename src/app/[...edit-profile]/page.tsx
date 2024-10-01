@@ -9,6 +9,7 @@ import hash from "../password/hash";
 import { useRouter } from "next/navigation";
 import capitalizeFirstLetter from "../capitalizeFirstLetter";
 import getBase64Image from "../getBase64Image";
+import Cookies from "js-cookie";
 
 export default function EditProfile() {
     const router = useRouter();
@@ -38,6 +39,10 @@ export default function EditProfile() {
             const users: UserInterface[] = response.data;
             const currentUser = users.find(user => user.id === currentUserId);
             if (currentUser) {
+                if (currentUser.uuid !== Cookies.get('uuid')) {
+                    router.push('/');
+                    return;
+                }
                 setUser(currentUser);
             } else {
                 console.error('Utilisateur non trouvé');

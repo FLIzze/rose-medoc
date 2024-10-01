@@ -17,6 +17,7 @@ export default async function login(
                 Cookies.set('uuid', user.uuid, { expires: 7, secure: true, sameSite: 'strict' });
                 setCurrentUser(user);
                 window.location.reload();
+                return true;
             }
         }
     } catch (error) {
@@ -24,4 +25,5 @@ export default async function login(
         console.error('Error fetching users', error);
     }
     console.log('Identifiants invalides');
+    return false;
 }

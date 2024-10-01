@@ -51,7 +51,6 @@ export default function PopupEvent({
     const [endHour, setEndHour] = useState(date.getHours() + 1);
     const [size, setSize] = useState({ width: 0, height: 0 });
     const popupRef = useRef<HTMLDivElement>(null);
-    const locationInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         setEndHour(popupDate.getHours() + 1);
@@ -66,12 +65,7 @@ export default function PopupEvent({
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
-            if (
-                popupRef.current &&
-                !popupRef.current.contains(event.target as Node) &&
-                locationInputRef.current &&
-                !locationInputRef.current.contains(event.target as Node)
-            ) {
+            if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
                 hideEventPopup(setIsPopupVisible);
             }
         }
@@ -80,7 +74,7 @@ export default function PopupEvent({
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [setIsPopupVisible]);
+    })
 
     return (
         <Draggable pos={pos} size={size}>

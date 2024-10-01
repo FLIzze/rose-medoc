@@ -31,7 +31,10 @@ export default function Login({ setRegister, setCurrentUser }: Readonly<LoginPro
             return;
         }
 
-        await login(email, password, setCurrentUser);
+        if (!await login(email, password, setCurrentUser)) {
+            setErrorMessage('Identifiants invalides.');
+            console.log('Identifiants invalides.');
+        }
     };
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
