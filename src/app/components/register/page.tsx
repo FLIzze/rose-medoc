@@ -5,7 +5,6 @@ import hash from "@/app/password/hash";
 import register from "@/app/user/register";
 import getBase64Image from "@/app/getBase64Image";
 import { UserInterface } from "@/app/model/user";
-import defaultUser from "@/app/defaultUser";
 import login from "@/app/user/login";
 
 interface RegisterProps {
@@ -43,6 +42,11 @@ export default function Register({ setRegister, setCurrentUser }: Readonly<Regis
 
         if (password !== confirmPassword) {
             setErrorMessage('Les mots de passe ne correspondent pas.');
+            return;
+        }
+
+        if (file!.size > 65535) {
+            setErrorMessage('Fichier trop grand.');
             return;
         }
 
