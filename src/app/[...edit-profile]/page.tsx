@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import capitalizeFirstLetter from "../capitalizeFirstLetter";
 import getBase64Image from "../getBase64Image";
 import Cookies from "js-cookie";
+import Image from "next/image";
 
 export default function EditProfile() {
     const router = useRouter();
@@ -197,7 +198,12 @@ export default function EditProfile() {
 
                 <div className="flex flex-col">
                     <label htmlFor="pp" className="font-bold">Photo de profil</label>
-                    {fileURL && <img src={fileURL} alt="Selected file" className="w-32 h-32 object-cover rounded-lg border border-medium-pink" />}
+                    {fileURL && <Image
+                        src={fileURL} alt="Selected file"
+                        className="object-cover rounded-lg border border-medium-pink"
+                        width={100}
+                        height={100}
+                    />}
                     <input
                         type="file"
                         id="pp"
@@ -216,7 +222,13 @@ export default function EditProfile() {
             </form>
 
             <button className="flex justify-center w-screen h-screen bg-very-light-pink items-center" onClick={goToHome}>
-                <img src="logo.png" alt="logo Rose Medoc" className="w-96 h-96 object-cover cursor-pointer"/>
+                <Image 
+                src="/logo.png" 
+                alt="logo Rose Medoc" 
+                className="object-cover cursor-pointer" 
+                width={500}
+                height={500}
+                />
             </button>
         </div>
     );

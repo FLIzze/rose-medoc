@@ -6,6 +6,7 @@ import register from "@/app/user/register";
 import getBase64Image from "@/app/getBase64Image";
 import { UserInterface } from "@/app/model/user";
 import login from "@/app/user/login";
+import Image from "next/image";
 
 interface RegisterProps {
     setRegister: Dispatch<SetStateAction<boolean>>,
@@ -133,7 +134,7 @@ export default function Register({ setRegister, setCurrentUser }: Readonly<Regis
                                 required
                                 accept="image/*"
                             />
-                            {fileURL && <img src={fileURL} alt="Selected file" className="mt-2 w-32 h-32 object-cover rounded-lg border border-medium-pink" />}
+                            {fileURL && <img src={fileURL} alt="Selected file" className="mt-2 object-cover rounded-lg border border-medium-pink" width={80} height={80} />}
                         </div>
 
                         <div className="mb-4">
@@ -197,10 +198,12 @@ export default function Register({ setRegister, setCurrentUser }: Readonly<Regis
             </div>
 
             <div className="flex items-center justify-center w-1/2 bg-very-light-pink">
-                <img
+                <Image
                     src="/logo.png"
                     alt="logo Rose Medoc"
-                    className="object-cover w-96 h-96"
+                    className="object-cover"
+                    width={500}
+                    height={500}
                 />
             </div>
         </div>

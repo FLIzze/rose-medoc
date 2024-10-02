@@ -53,7 +53,13 @@ export default function Profile({ currentUser, setCurrentUser, defaultUser }: Re
                 className="hover:opacity-70 transition-all"
                 onClick={displayProfile}
             >
-                <img src={`data:image/jpeg;base64,${currentUser.pp}`} alt="Profile Picture" className='w-11 h-11 rounded-full mr-6' />
+                <img
+                    src={`data:image/jpeg;base64,${currentUser.pp}`}
+                    alt="Profile Picture"
+                    className='rounded-full mr-6'
+                    width={20}
+                    height={20}
+                />
             </button>
 
             <div

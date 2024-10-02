@@ -3,6 +3,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import login from "@/app/user/login";
 import { UserInterface } from "@/app/model/user";
+import Image from "next/image";
 
 interface LoginProps {
     setRegister: Dispatch<SetStateAction<boolean>>,
@@ -99,10 +100,12 @@ export default function Login({ setRegister, setCurrentUser }: Readonly<LoginPro
             </div>
 
             <div className="flex items-center justify-center w-1/2 bg-very-light-pink">
-                <img
+                <Image
                     src="/logo.png"
                     alt="logo Rose Medoc"
-                    className="object-cover w-96 h-96"
+                    className="object-cover"
+                    width={500}
+                    height={500}
                 />
             </div>
         </div>

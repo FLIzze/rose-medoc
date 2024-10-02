@@ -8,6 +8,7 @@ import { UserInterface } from "@/app/model/user";
 import hideEventDetails from "@/app/event/hideEventDetails";
 import downloadEvent from "@/app/event/downloadEvent";
 import capitalizeFirstLetter from "@/app/capitalizeFirstLetter";
+import Image from "next/image";
 
 interface EventDetailsProps {
     event: EventInterface,
@@ -64,10 +65,12 @@ export default function EventDetails({
                         downloadEvent(event, users);
                         hideEventDetails(setIsDetailsVisible);
                     }}>
-                        <img
+                        <Image
                             src="/download.png"
                             alt="download"
-                            className="w-7 h-7 p-1 hover:bg-dark-pink rounded-full"
+                            className="p-1 hover:bg-dark-pink rounded-full"
+                            width={30}
+                            height={30}
                         />
                     </button>
                     {event.by == currentUser.id && (
@@ -75,28 +78,34 @@ export default function EventDetails({
                             deleteEvent(event.id, setEvents);
                             hideEventDetails(setIsDetailsVisible);
                         }}>
-                            <img
+                            <Image
                                 src="/bin.png"
                                 alt="supprimer"
-                                className="w-8 h-8 p-2 hover:bg-dark-pink rounded-full mx-1"
+                                className="p-2 hover:bg-dark-pink rounded-full mx-1"
+                                width={30}
+                                height={30}
                             />
                         </button>
                     )}
                     <button onClick={() => hideEventDetails(setIsDetailsVisible)}>
-                        <img
+                        <Image
                             src="/cross.png"
                             alt="cross"
-                            className="w-7 h-7 p-1 hover:bg-dark-pink rounded-full"
+                            className="p-1 hover:bg-dark-pink rounded-full"
+                            width={30}
+                            height={30}
                         />
                     </button>
                 </div>
 
                 <div className="grid grid-cols-[auto,2fr] gap-x-6 mr-6">
                     <div className="bg-light-pink flex items-center justify-center p-2">
-                        <img
-                            src="title.png"
+                        <Image
+                            src="/title.png"
                             alt="titre"
-                            className='w-5 h-5 mx-3'
+                            className='mx-3'
+                            width={18}
+                            height={18}
                         />
                     </div>
                     <div className="pb-4 mt-4">
@@ -104,10 +113,12 @@ export default function EventDetails({
                     </div>
 
                     <div className="bg-light-pink flex items-center justify-center pb-4">
-                        <img
-                            src="clock.png"
+                        <Image
+                            src="/clock.png"
                             alt="date"
-                            className='w-5 h-5 mx-3'
+                            className='mx-3'
+                            width={18}
+                            height={18}
                         />
                     </div>
                     <div className="pb-4">
@@ -117,10 +128,12 @@ export default function EventDetails({
                     {event.description && (
                         <>
                             <div className="bg-light-pink flex items-center justify-center p-2 pb-4">
-                                <img
-                                    src="description.png"
+                                <Image
+                                    src="/description.png"
                                     alt="description"
-                                    className='w-5 h-5 mx-3'
+                                    className='mx-3'
+                                    height={18}
+                                    width={18}
                                 />
                             </div>
                             <div className="flex items-center pb-4 pt-2">
@@ -132,10 +145,12 @@ export default function EventDetails({
                     {event.participants && event.participants.length > 1 && (
                         <>
                             <div className="bg-light-pink flex items-center justify-center p-2 pb-4">
-                                <img
-                                    src="person.png"
+                                <Image
+                                    src="/person.png"
                                     alt="participants"
-                                    className='w-5 h-5 mx-3'
+                                    className='mx-3'
+                                    width={18}
+                                    height={18}
                                 />
                             </div>
                             <div className="flex flex-col pb-4 pt-2">
@@ -157,15 +172,17 @@ export default function EventDetails({
                         return (
                             <>
                                 <div className="bg-light-pink flex items-center justify-center p-2 pb-4">
-                                    <img
-                                        src="person.png"
+                                    <Image
+                                        src="/person.png"
                                         alt="participants"
-                                        className='w-5 h-5 mx-3'
+                                        className='mx-3'
+                                        width={18}
+                                        height={18}
                                     />
                                 </div>
                                 <div className="flex items-center pb-4 pt-2">
                                     <div className="flex items-center mt-1">
-                                        <img src={`data:image/jpeg;base64,${participant?.pp}`} alt="Profile Picture" className='w-6 h-6 rounded-full mr-2' />
+                                        <Image src={`data:image/jpeg;base64,${participant?.pp}`} alt="Profile Picture" className='w-6 h-6 rounded-full mr-2' />
                                         <p className="font-bold">{participant?.lastName} {participant?.firstName}</p>
                                     </div>
                                 </div>
@@ -176,10 +193,12 @@ export default function EventDetails({
                     {event.location && (
                         <>
                             <div className="bg-light-pink flex items-center justify-center p-2 pb-4">
-                                <img
-                                    src="pin.png"
+                                <Image
+                                    src="/pin.png"
                                     alt="location"
-                                    className='w-5 h-5 mx-3'
+                                    className='mx-3'
+                                    height={18}
+                                    width={18}
                                 />
                             </div>
                             <div className="flex items-center pb-2">

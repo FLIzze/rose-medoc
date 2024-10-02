@@ -2,6 +2,7 @@ import Filters from "../filters/page"
 import { Dispatch, SetStateAction } from "react"
 import SideMonthlyCal from "../side-monthly-calendar/page"
 import { EventInterface } from "@/app/model/event"
+import Image from "next/image"
 
 interface SidebarProps {
     sidebarDate: Date,
@@ -48,10 +49,12 @@ export default function Sidebar({
                 setOthers={setOthers}
             />
 
-            <img
-                className="w-96 h-96 object-cover pointer-events-none"
-                src="logo.png"
+            <Image
+                className="object-cover pointer-events-none"
+                src="/logo.png"
                 alt="logo Rose Medoc"
+                width={500}
+                height={500}
             />
         </div>
     )

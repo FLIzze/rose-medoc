@@ -9,6 +9,7 @@ import displayCalendarMode from '@/app/event/displayCalendarMode';
 import { UserInterface } from '@/app/model/user';
 import capitalizeFirstLetter from '@/app/capitalizeFirstLetter';
 import Profile from '../profil/page';
+import Image from 'next/image';
 
 interface CalendarHeaderProps {
     setDate: Dispatch<SetStateAction<Date>>,
@@ -84,30 +85,36 @@ export default function CalendarHeader({
                         className="mr-3"
                         onClick={goToToday}
                     >
-                        <img
+                        <Image
                             src="/home.png"
                             alt="home"
-                            className='w-9 h-9 bg-medium-pink hover:bg-dark-pink transition-all p-2 rounded-full'
+                            className='bg-medium-pink hover:bg-dark-pink transition-all p-2 rounded-full'
+                            width={40}
+                            height={40}
                         />
                     </button>
                     <button
                         className="mr-3"
                         onClick={() => prevWeek(date, setDate, calendarMode)}
                     >
-                        <img
-                            src="left_arrow.png"
+                        <Image
+                            src="/left_arrow.png"
                             alt="prev Week"
-                            className='w-9 h-9 bg-medium-pink hover:bg-dark-pink transition-all p-2 rounded-full'
+                            className='bg-medium-pink hover:bg-dark-pink transition-all p-2 rounded-full'
+                            width={40}
+                            height={40}
                         />
                     </button>
                     <button
                         className="mr-3"
                         onClick={() => nextWeek(date, setDate, calendarMode)}
                     >
-                        <img
-                            src="right_arrow.png"
+                        <Image
+                            src="/right_arrow.png"
                             alt="next Week"
-                            className='w-9 h-9 bg-medium-pink hover:bg-dark-pink transition-all p-2 rounded-full'
+                            className='bg-medium-pink hover:bg-dark-pink transition-all p-2 rounded-full'
+                            width={40}
+                            height={40}
                         />
                     </button>
                 </div>
@@ -127,10 +134,12 @@ export default function CalendarHeader({
                         onClick={() => displayCalendarMode(setIsCalendarModeVisible, isCalendarModeVisible)}
                     >
                         {calendarMode}
-                        <img
-                            src="down_arrow.png"
+                        <Image
+                            src="/down_arrow.png"
                             alt="derouler"
-                            className='w-3 h-3 ml-4'
+                            className='ml-4'
+                            width={10}
+                            height={10}
                         />
                     </button>
 

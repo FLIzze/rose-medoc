@@ -2,6 +2,7 @@
 
 import React, { Dispatch, SetStateAction } from 'react';
 import { EventInterface } from '@/app/model/event';
+import Image from 'next/image';
 
 interface SideMonthlyCalProps {
     sidebarDate: Date,
@@ -54,17 +55,21 @@ export default function SideMonthlyCal({
             <div className="flex justify-between items-center pl-2 text-sm font-bold">
                 <h2 className='w-full text-dark-pink'>{capitalizedMonthName} {currentYearCal}</h2>
                 <button onClick={handlePreviousMonth}>
-                    <img
-                        src="left_arrow.png"
+                    <Image
+                        src="/left_arrow.png"
                         alt="prev mois"
-                        className='w-5 h-5 mr-3 bg-medium-pink hover:bg-dark-pink p-1 rounded-full'
+                        className='mr-3 bg-medium-pink hover:bg-dark-pink p-1 rounded-full'
+                        height={10}
+                        width={10}
                     />
                 </button>
                 <button onClick={handleNextMonth}>
-                    <img
-                        src="right_arrow.png"
+                    <Image
+                        src="/right_arrow.png"
                         alt="next mois"
-                        className='w-5 h-5 mr-6 bg-medium-pink hover:bg-dark-pink p-1 rounded-full'
+                        className='mr-6 bg-medium-pink hover:bg-dark-pink p-1 rounded-full'
+                        width={10}
+                        height={10}
                     />
                 </button>
             </div>

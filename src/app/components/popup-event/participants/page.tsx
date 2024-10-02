@@ -2,6 +2,7 @@
 
 import { UserInterface } from "@/app/model/user";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import Image from "next/image";
 
 interface ParticipantsProps {
     setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
@@ -99,7 +100,13 @@ export default function Participants({ setParticipants, participants, users, cur
                                     }}
                                     className="hover:bg-very-light-pink w-full h-full p-1 pl-3 text-left">
                                     <div className="flex items-center">
-                                        <img src={`data:image/jpeg;base64,${user.pp}`} alt="Profile Picture" className='w-8 h-8 rounded-full mr-2' />
+                                        <Image
+                                            src={`data:image/jpeg;base64,${user.pp}`}
+                                            alt="Profile Picture"
+                                            className='rounded-full mr-2'
+                                            width={10}
+                                            height={10}
+                                        />
                                         <p>{user.lastName} {user.firstName}</p>
                                     </div>
                                 </button>
@@ -115,7 +122,13 @@ export default function Participants({ setParticipants, participants, users, cur
                     key={index}
                 >
                     <div className="flex items-center">
-                        <img src={`data:image/jpeg;base64,${participant.pp}`} alt="Profile Picture" className='w-7 h-7 rounded-full mr-2' />
+                        <img
+                            src={`data:image/jpeg;base64,${participant.pp}`}
+                            alt="Profile Picture"
+                            className='rounded-full mr-2'
+                            width={10}
+                            height={10}
+                        />
                         <p>{participant.lastName} {participant.firstName}</p>
                     </div>
                     <button

@@ -10,6 +10,7 @@ import hideEventPopup from "@/app/event/hideEventPopup";
 import Participants from "./participants/page";
 import Date from "./date/page";
 import Location from "./location/page";
+import Image from "next/image";
 
 interface PopupEventProps {
     setEvents: Dispatch<SetStateAction<EventInterface[]>>
@@ -87,10 +88,12 @@ export default function PopupEvent({
 
                 <div className="grid grid-cols-[auto,2fr] gap-x-6 mr-6">
                     <div className="bg-light-pink flex items-center justify-center p-2">
-                        <img
+                        <Image
                             src="/title.png"
                             alt="title"
-                            className='w-5 h-5 mx-3'
+                            className='mx-3'
+                            width={10}
+                            height={10}
                         />
                     </div>
                     <input
@@ -103,10 +106,12 @@ export default function PopupEvent({
                     <p className="text-xs text-red-500 hidden" id="required-title">Titre obligatoire.</p>
 
                     <div className="bg-light-pink flex items-center justify-center pt-4">
-                        <img
+                        <Image
                             src="/clock.png"
                             alt="date"
-                            className='w-5 h-5 mx-3'
+                            className='mx-3'
+                            width={10}
+                            height={10}
                         />
                     </div>
                     <Date
@@ -117,10 +122,12 @@ export default function PopupEvent({
                     />
 
                     <div className="bg-light-pink flex items-center justify-center p-4">
-                        <img
+                        <Image
                             src="/description.png"
                             alt="description"
-                            className='w-5 h-5 mx-3'
+                            className='mx-3'
+                            height={10}
+                            width={10}
                         />
                     </div>
                     <input
@@ -131,10 +138,12 @@ export default function PopupEvent({
                     />
 
                     <div className="bg-light-pink flex items-center justify-center p-4">
-                        <img
+                        <Image
                             src="/person.png"
                             alt="participants"
-                            className='w-5 h-5 mx-3'
+                            className='mx-3'
+                            width={10}
+                            height={10}
                         />
                     </div>
                     <Participants
@@ -145,10 +154,12 @@ export default function PopupEvent({
                     />
 
                     <div className="bg-light-pink flex items-center justify-center p-4">
-                        <img
+                        <Image
                             src="/pin.png"
                             alt="location"
-                            className='w-5 h-5 mx-3'
+                            className='mx-3'
+                            width={10}
+                            height={10}
                         />
                     </div>
                     <Location
