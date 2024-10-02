@@ -39,4 +39,4 @@ google_api_key.json
 
 server.js
 db.js
-create_table.ts
+create_table.js
