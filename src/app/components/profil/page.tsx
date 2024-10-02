@@ -3,6 +3,7 @@
 import { UserInterface } from "@/app/model/user";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface ProfileProps {
     currentUser: UserInterface,
@@ -53,12 +54,12 @@ export default function Profile({ currentUser, setCurrentUser, defaultUser }: Re
                 className="hover:opacity-70 transition-all"
                 onClick={displayProfile}
             >
-                <img
+                <Image
                     src={`data:image/jpeg;base64,${currentUser.pp}`}
                     alt="Profile Picture"
                     className='rounded-full mr-6'
-                    width={20}
-                    height={20}
+                    width={40}
+                    height={40}
                 />
             </button>
 

@@ -50,11 +50,11 @@ export default function Home() {
             .catch((error) => {
                 console.error('Error fetching users', error);
             });
-    }, [currentUser]);
+    }, [currentUser, cookie]);
 
     useEffect(() => {
         setFilteredEvents(filterEvent(events, currentUser, own, tagged, others));
-    }, [events, own, tagged, others]);
+    }, [events, own, tagged, others, currentUser]);
 
     return (
         <div className="h-screen w-screen flex items-center justify-center bg-gray-100">

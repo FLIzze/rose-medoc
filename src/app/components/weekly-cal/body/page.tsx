@@ -101,8 +101,7 @@ export default function Body({
                                 style={{
                                     width: `${columnWidth}%`,
                                     left: `${leftPosition}%`,
-                                    height: `${eventDuration * 100}%`, // Adjust height based on event duration
-                                    // top: 0
+                                    height: `${eventDuration * 100}%`
                                 }}
                             >
                                 <WeeklyEvent

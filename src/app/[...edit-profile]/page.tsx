@@ -3,7 +3,7 @@
 import axios from "axios";
 import { UserInterface } from "../model/user";
 import { usePathname } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, useCallback } from "react";
 import defaultUser from "../defaultUser";
 import hash from "../password/hash";
 import { useRouter } from "next/navigation";
@@ -30,11 +30,7 @@ export default function EditProfile() {
 
     const [errorMessage, setErrorMessage] = useState<string>("");
 
-    useEffect(() => {
-        fetchUserData();
-    }, [currentUserId]);
-
-    const fetchUserData = async () => {
+    const fetchUserData = useCallback(async () => {
         try {
             const response = await axios.get(`http://localhost:5000/api/users`);
             const users: UserInterface[] = response.data;
@@ -51,7 +47,11 @@ export default function EditProfile() {
         } catch (error) {
             console.error('Erreur lors de la récupération de l\'utilisateur', error);
         }
-    };
+    }, [currentUserId, router]);
+
+    useEffect(() => {
+        fetchUserData();
+    }, [currentUserId, fetchUserData]);
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();

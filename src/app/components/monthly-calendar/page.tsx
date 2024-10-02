@@ -74,7 +74,7 @@ export default function MainMonthlyCal({
         return () => {
             window.removeEventListener('wheel', handleWheel);
         };
-    }, [date, setDate, setCalendarMode]);
+    }, [date, setDate, setCalendarMode, calendarMode]);
 
     return (
         <div className="grid grid-cols-7 text-dark-pink text-sm gap-0">

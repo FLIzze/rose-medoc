@@ -59,8 +59,8 @@ export default function SideMonthlyCal({
                         src="/left_arrow.png"
                         alt="prev mois"
                         className='mr-3 bg-medium-pink hover:bg-dark-pink p-1 rounded-full'
-                        height={10}
-                        width={10}
+                        height={25}
+                        width={25}
                     />
                 </button>
                 <button onClick={handleNextMonth}>
@@ -68,8 +68,8 @@ export default function SideMonthlyCal({
                         src="/right_arrow.png"
                         alt="next mois"
                         className='mr-6 bg-medium-pink hover:bg-dark-pink p-1 rounded-full'
-                        width={10}
-                        height={10}
+                        width={25}
+                        height={25}
                     />
                 </button>
             </div>

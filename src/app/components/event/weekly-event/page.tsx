@@ -16,7 +16,6 @@ interface WeeklyEventProps {
     isDetailsVisible: boolean,
     isPopupVisible: boolean,
     setEvent: Dispatch<SetStateAction<EventInterface>>,
-    style?: React.CSSProperties
 }
 
 export default function WeeklyEvent({
@@ -26,8 +25,7 @@ export default function WeeklyEvent({
     setIsDetailsVisible,
     isDetailsVisible,
     isPopupVisible,
-    setEvent,
-    style }: Readonly<WeeklyEventProps>) {
+    setEvent }: Readonly<WeeklyEventProps>) {
 
     const [eventCreator, setEventCreator] = useState<UserInterface>({} as UserInterface);
 
@@ -52,7 +50,6 @@ export default function WeeklyEvent({
                 backgroundColor: `${eventCreator.color}1A`,
                 borderLeft: `4px solid ${eventCreator.color}`,
                 color: eventCreator.color,
-                ...style
             }}
             onClick={(e) => {
                 displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);

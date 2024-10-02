@@ -21,7 +21,7 @@ export default function Draggable({ children, pos, size }: Readonly<DraggablePro
         } else {
             setPosition({ x: pos.x, y: pos.y });
         }
-    }, [pos.x, pos.y]);
+    }, [pos.x, pos.y, size.width, size.height]);
 
     return (
         <button

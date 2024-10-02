@@ -104,8 +104,8 @@ export default function Participants({ setParticipants, participants, users, cur
                                             src={`data:image/jpeg;base64,${user.pp}`}
                                             alt="Profile Picture"
                                             className='rounded-full mr-2'
-                                            width={10}
-                                            height={10}
+                                            width={20}
+                                            height={20}
                                         />
                                         <p>{user.lastName} {user.firstName}</p>
                                     </div>
@@ -122,12 +122,12 @@ export default function Participants({ setParticipants, participants, users, cur
                     key={index}
                 >
                     <div className="flex items-center">
-                        <img
+                        <Image
                             src={`data:image/jpeg;base64,${participant.pp}`}
                             alt="Profile Picture"
                             className='rounded-full mr-2'
-                            width={10}
-                            height={10}
+                            width={20}
+                            height={20}
                         />
                         <p>{participant.lastName} {participant.firstName}</p>
                     </div>

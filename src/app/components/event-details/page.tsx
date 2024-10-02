@@ -51,7 +51,7 @@ export default function EventDetails({
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [])
+    }, [setIsDetailsVisible]);
 
     return (
         <Draggable pos={pos} size={size}>
@@ -159,7 +159,13 @@ export default function EventDetails({
                                     const participant = users.find(user => user.id === participantId);
                                     return (
                                         <div className="flex items-center mt-1" key={index}>
-                                            <img src={`data:image/jpeg;base64,${participant?.pp}`} alt="Profile Picture" className='w-6 h-6 rounded-full mr-2' />
+                                            <Image
+                                                src={`data:image/jpeg;base64,${participant?.pp}`}
+                                                alt="Profile Picture"
+                                                className='rounded-full mr-2'
+                                                width={25}
+                                                height={25}
+                                            />
                                             <p className={`${participant?.id === event.by ? 'font-bold' : ''}`}>{participant?.lastName} {participant?.firstName}</p>                                        </div>
                                     );
                                 })}
@@ -182,7 +188,13 @@ export default function EventDetails({
                                 </div>
                                 <div className="flex items-center pb-4 pt-2">
                                     <div className="flex items-center mt-1">
-                                        <Image src={`data:image/jpeg;base64,${participant?.pp}`} alt="Profile Picture" className='w-6 h-6 rounded-full mr-2' />
+                                        <Image
+                                            src={`data:image/jpeg;base64,${participant?.pp}`}
+                                            alt="Profile Picture"
+                                            className='w-6 h-6 rounded-full mr-2'
+                                            width={20}
+                                            height={20}
+                                        />
                                         <p className="font-bold">{participant?.lastName} {participant?.firstName}</p>
                                     </div>
                                 </div>

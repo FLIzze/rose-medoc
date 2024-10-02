@@ -12,14 +12,14 @@ import Profile from '../profil/page';
 import Image from 'next/image';
 
 interface CalendarHeaderProps {
-    setDate: Dispatch<SetStateAction<Date>>,
-    setSidebarDate: Dispatch<SetStateAction<Date>>,
-    setCalendarMode: Dispatch<SetStateAction<string>>,
-    calendarMode: string,
-    currentUser: UserInterface,
-    date: Date,
-    defaultUser: UserInterface,
-    setCurrentUser: Dispatch<SetStateAction<UserInterface>>
+    setDate: Dispatch<SetStateAction<Date>>;
+    setSidebarDate: Dispatch<SetStateAction<Date>>;
+    setCalendarMode: Dispatch<SetStateAction<string>>;
+    calendarMode: string;
+    currentUser: UserInterface;
+    date: Date;
+    defaultUser: UserInterface;
+    setCurrentUser: Dispatch<SetStateAction<UserInterface>>;
 }
 
 export default function CalendarHeader({
@@ -30,7 +30,8 @@ export default function CalendarHeader({
     currentUser,
     date,
     defaultUser,
-    setCurrentUser }: Readonly<CalendarHeaderProps>) {
+    setCurrentUser
+}: Readonly<CalendarHeaderProps>) {
 
     const [isCalendarModeVisible, setIsCalendarModeVisible] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -38,11 +39,11 @@ export default function CalendarHeader({
     function goToToday() {
         const today = new Date();
         setDate(today);
-    };
+    }
 
     useEffect(() => {
         setSidebarDate(date);
-    }, [date]);
+    }, [date, setSidebarDate]);
 
     function setCalendar(mode: string) {
         setCalendarMode(mode);

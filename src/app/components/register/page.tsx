@@ -134,7 +134,13 @@ export default function Register({ setRegister, setCurrentUser }: Readonly<Regis
                                 required
                                 accept="image/*"
                             />
-                            {fileURL && <img src={fileURL} alt="Selected file" className="mt-2 object-cover rounded-lg border border-medium-pink" width={80} height={80} />}
+                            {fileURL &&
+                                <Image
+                                    src={fileURL}
+                                    alt="Selected file"
+                                    className="mt-2 object-cover rounded-lg border border-medium-pink"
+                                    width={400} height={400}
+                                />}
                         </div>
 
                         <div className="mb-4">

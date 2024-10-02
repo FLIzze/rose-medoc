@@ -14,8 +14,8 @@ export default function Header({ setIsPopupVisible }: Readonly<Header>) {
                     src="/cross.png"
                     alt="cross"
                     className="p-1 hover:bg-dark-pink rounded-full"
-                    width={10}
-                    height={10}
+                    width={28}
+                    height={28}
                 />
             </button>
         </div>
