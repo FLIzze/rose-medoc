@@ -11,6 +11,10 @@ const pool = createPool({
 async function createTable() {
     const connection = await pool.getConnection();
     try {
+        const createDataseQuery = `
+        CREATE DATABASE IF NOT EXISTS calendar;
+        `
+
         const createUserTableQuery = `
         CREATE TABLE IF NOT EXISTS user (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -37,6 +41,7 @@ async function createTable() {
       );
         `;
 
+        await connection.query(createDataseQuery);
         await connection.query(createUserTableQuery);
         await connection.query(createEventTableQuery);
     } catch (error) {
