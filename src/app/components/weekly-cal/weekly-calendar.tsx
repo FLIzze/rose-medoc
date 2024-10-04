@@ -1,8 +1,8 @@
 import { EventInterface } from '@/app/model/event';
 import { Dispatch, SetStateAction } from "react";
 import { UserInterface } from "@/app/model/user";
-import Header from "./header/page";
-import Body from "./body/page";
+import Header from "./header/header";
+import Body from "./body/body";
 
 interface WeeklyCalProps {
     hours: number[],

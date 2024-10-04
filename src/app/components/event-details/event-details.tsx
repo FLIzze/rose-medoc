@@ -3,7 +3,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { EventInterface } from "@/app/model/event";
 import deleteEvent from "@/app/event/deleteEvent";
-import Draggable from "../draggable/page";
+import Draggable from "../draggable/draggable";
 import { UserInterface } from "@/app/model/user";
 import hideEventDetails from "@/app/event/hideEventDetails";
 import downloadEvent from "@/app/event/downloadEvent";

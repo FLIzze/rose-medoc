@@ -3,14 +3,14 @@
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { UserInterface } from './model/user';
-import Sidebar from './components/sidebar/page';
-import Login from './components/login/page';
-import MainCal from './components/main-calendar/page';
+import Sidebar from './components/sidebar/sidebar';
+import Login from './components/login/login';
+import MainCal from './components/main-calendar/main-calendar';
 import axios from 'axios';
 import { EventInterface } from './model/event';
 import filterEvent from './event/filterEvents';
 import getEvents from './event/getEvents';
-import Register from './components/register/page';
+import Register from './components/register/register';
 import defaultUser from './defaultUser';
 
 export default function Home() {

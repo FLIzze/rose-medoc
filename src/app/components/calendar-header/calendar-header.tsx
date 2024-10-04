@@ -8,21 +8,21 @@ import hideCalendarMode from '@/app/event/hideCalendarMode';
 import displayCalendarMode from '@/app/event/displayCalendarMode';
 import { UserInterface } from '@/app/model/user';
 import capitalizeFirstLetter from '@/app/capitalizeFirstLetter';
-import Profile from '../profil/page';
+import Profile from '../profil/profil';
 import Image from 'next/image';
 
 interface CalendarHeaderProps {
-    setDate: Dispatch<SetStateAction<Date>>;
-    setSidebarDate: Dispatch<SetStateAction<Date>>;
-    setCalendarMode: Dispatch<SetStateAction<string>>;
-    calendarMode: string;
-    currentUser: UserInterface;
-    date: Date;
-    defaultUser: UserInterface;
-    setCurrentUser: Dispatch<SetStateAction<UserInterface>>;
+    setDate: Dispatch<SetStateAction<Date>>,
+    setSidebarDate: Dispatch<SetStateAction<Date>>,
+    setCalendarMode: Dispatch<SetStateAction<string>>,
+    calendarMode: string,
+    currentUser: UserInterface,
+    date: Date,
+    defaultUser: UserInterface,
+    setCurrentUser: Dispatch<SetStateAction<UserInterface>>
 }
 
-export default function CalendarHeader({
+const CalendarHeader: React.FC<CalendarHeaderProps> = ({ 
     setDate,
     setSidebarDate,
     setCalendarMode,
@@ -31,8 +31,7 @@ export default function CalendarHeader({
     date,
     defaultUser,
     setCurrentUser
-}: Readonly<CalendarHeaderProps>) {
-
+}) => {
     const [isCalendarModeVisible, setIsCalendarModeVisible] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -178,3 +177,5 @@ export default function CalendarHeader({
         </div>
     );
 }
+
+export default CalendarHeader;

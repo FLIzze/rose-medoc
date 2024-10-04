@@ -2,14 +2,14 @@
 
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { EventInterface } from "@/app/model/event";
-import Draggable from "../draggable/page";
+import Draggable from "../draggable/draggable";
 import { UserInterface } from "@/app/model/user";
-import Header from "./header/page";
+import Header from "./header/header";
 import addEvent from "@/app/event/addEvent";
 import hideEventPopup from "@/app/event/hideEventPopup";
-import Participants from "./participants/page";
-import Date from "./date/page";
-import Location from "./location/page";
+import Participants from "./participants/participants";
+import Date from "./date/date";
+import Location from "./location/location";
 import Image from "next/image";
 
 interface PopupEventProps {

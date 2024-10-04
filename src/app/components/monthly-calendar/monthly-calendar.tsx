@@ -4,7 +4,7 @@ import displayEventDetails from "@/app/event/displayEventDetails";
 import setCurrentEventDetails from "@/app/event/setCurrentEventDetails";
 import { EventInterface } from "@/app/model/event";
 import { Dispatch, SetStateAction, useEffect } from "react";
-import MonthlyEvent from "../event/monthly-event/page";
+import MonthlyEvent from "../event/monthly-event/monthly-event";
 import displayEventPopUp from "@/app/event/displayEventPopUp";
 import { UserInterface } from "@/app/model/user";
 import goToDailyCalendar from "@/app/date/goToDailyCalendar";

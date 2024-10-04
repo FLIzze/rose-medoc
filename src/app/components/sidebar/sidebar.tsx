@@ -1,6 +1,6 @@
-import Filters from "../filters/page"
+import Filters from "../filters/filters"
 import { Dispatch, SetStateAction } from "react"
-import SideMonthlyCal from "../side-monthly-calendar/page"
+import SideMonthlyCal from "../side-monthly-calendar/side-monthly-calendar"
 import { EventInterface } from "@/app/model/event"
 import Image from "next/image"
 

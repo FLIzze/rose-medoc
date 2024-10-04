@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 import { EventInterface } from "@/app/model/event";
 import displayEventPopUp from "@/app/event/displayEventPopUp";
 import setPopUpPosition from "@/app/event/setPopUpPosition";
-import WeeklyEvent from "../../event/weekly-event/page";
+import WeeklyEvent from "../../event/weekly-event/weekly-component";
 
 interface BodyProps {
     hours: number[],
@@ -54,7 +54,6 @@ export default function Body({
         return normalizedDate;
     }
 
-    // Calculate overlapping events and position them side by side
     const renderEventsForHour = (hour: number, date: Date) => {
         const normalizedDate = normalizeDate(date);
 

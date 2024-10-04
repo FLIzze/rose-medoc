@@ -2,12 +2,12 @@
 
 import { UserInterface } from "@/app/model/user"
 import { Dispatch, SetStateAction, useState } from "react"
-import WeeklyCal from "../weekly-cal/page"
-import CalendarHeader from "../calendar-header/page"
-import MonthlyCal from "../monthly-calendar/page"
+import WeeklyCal from "../weekly-cal/weekly-calendar"
+import MonthlyCal from "../monthly-calendar/monthly-calendar"
 import { EventInterface } from "@/app/model/event"
-import PopupEvent from "../popup-event/page"
-import EventDetails from "../event-details/page"
+import PopupEvent from "../popup-event/popup-event"
+import EventDetails from "../event-details/event-details"
+import CalendarHeader from "../calendar-header/calendar-header";
 
 interface MainCalProps {
     currentUser: UserInterface,
@@ -54,7 +54,6 @@ export default function MainCal({
 
     const [popupDate, setPopupDate] = useState(new Date());
 
-    // Calculate the start of the week (Monday)
     const startOfWeek = new Date(date);
     const dayOfWeek = startOfWeek.getDay();
     const diffToMonday = (dayOfWeek === 0 ? -6 : 1) - dayOfWeek;
@@ -99,8 +98,8 @@ export default function MainCal({
                 calendarMode={calendarMode}
                 currentUser={currentUser}
                 date={date}
-                setCurrentUser={setCurrentUser}
                 defaultUser={defaultUser}
+                setCurrentUser={setCurrentUser}
             />
 
             <div className="mt-6 ml-3">

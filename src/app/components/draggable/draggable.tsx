@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 
 interface DraggableProps {
-    children: React.ReactNode;
-    pos: { x: number, y: number };
-    size: { width: number, height: number };
+    children: React.ReactNode,
+    pos: { x: number, y: number },
+    size: { width: number, height: number }
 }
 
 export default function Draggable({ children, pos, size }: Readonly<DraggableProps>) {
