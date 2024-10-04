@@ -1,27 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { positionAtom, sizeAtom } from "@/app/atom";
+import { useAtom, useAtomValue } from "jotai";
+import { useEffect } from "react";
 
 interface DraggableProps {
-    children: React.ReactNode,
-    pos: { x: number, y: number },
-    size: { width: number, height: number }
+    children: React.ReactNode
 }
 
-export default function Draggable({ children, pos, size }: Readonly<DraggableProps>) {
-    const [position, setPosition] = useState({ x: pos.x, y: pos.y });
+export default function Draggable({ children }: DraggableProps) {
+    const [position, setPosition] = useAtom(positionAtom);
+    const size = useAtomValue(sizeAtom);
 
     useEffect(() => {
-        if (pos.x + size.width >= window.innerWidth && pos.y + size.height >= window.innerHeight) {
-            setPosition({ x: pos.x - size.width, y: pos.y - size.height });
-        } else if (pos.x + size.width >= window.innerWidth) {
-            setPosition({ x: pos.x - size.width, y: pos.y });
-        } else if (pos.y + size.height >= window.innerHeight) {
-            setPosition({ x: pos.x, y: pos.y - size.height });
+        if (position.x + size.width >= window.innerWidth && position.y + size.height >= window.innerHeight) {
+            setPosition({ x: position.x - size.width, y: position.y - size.height });
+        } else if (position.x + size.width >= window.innerWidth) {
+            setPosition({ x: position.x - size.width, y: position.y });
+        } else if (position.y + size.height >= window.innerHeight) {
+            setPosition({ x: position.x, y: position.y - size.height });
         } else {
-            setPosition({ x: pos.x, y: pos.y });
+            setPosition({ x: position.x, y: position.y });
         }
-    }, [pos.x, pos.y, size.width, size.height]);
+    }, [position.x, position.y, size.width, size.height]);
 
     return (
         <button

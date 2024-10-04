@@ -1,33 +1,24 @@
 "use client";
 
 import { UserInterface } from "@/app/model/user";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { EventInterface } from "@/app/model/event";
 import displayEventDetails from "@/app/event/displayEventDetails";
-import setCurrentEventDetails from "@/app/event/setCurrentEventDetails";
-import setPopUpPosition from "@/app/event/setPopUpPosition";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { eventAtom, isDetailsVisibleAtom, isPopupVisibleAtom } from "@/app/atom";
+import { EventInterface } from "@/app/model/event";
 
 interface WeeklyEventProps {
-    event: EventInterface,
-    daily: boolean,
-    setPosition: Dispatch<SetStateAction<{ x: number, y: number }>>,
-    setIsDetailsVisible: Dispatch<SetStateAction<boolean>>,
-    isDetailsVisible: boolean,
-    isPopupVisible: boolean,
-    setEvent: Dispatch<SetStateAction<EventInterface>>,
+    event: EventInterface;
 }
 
-export default function WeeklyEvent({
-    event,
-    daily,
-    setPosition,
-    setIsDetailsVisible,
-    isDetailsVisible,
-    isPopupVisible,
-    setEvent }: Readonly<WeeklyEventProps>) {
+export default function WeeklyEvent({ event }: WeeklyEventProps) {
+    // const setPosition = useAtomValue(setPosition);
 
     const [eventCreator, setEventCreator] = useState<UserInterface>({} as UserInterface);
+
+    const [isDetailsVisible, setIsDetailsVisible] = useAtom(isDetailsVisibleAtom);
+    const isPopupVisible = useAtomValue(isPopupVisibleAtom);
 
     useEffect(() => {
         axios.get('http://localhost:5000/api/users')
@@ -53,8 +44,7 @@ export default function WeeklyEvent({
             }}
             onClick={(e) => {
                 displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
-                setCurrentEventDetails(event, setEvent);
-                setPopUpPosition(e, setPosition);
+                // setPopUpPosition(e, setPosition);
             }}
             className={`rounded-l-md pl-3 text-sm py-1 hover:cursor-pointer pb-3 select-none hover:opacity-100 opacity-75 transition-all items-start justify-start flex flex-col overflow-hidden whitespace-nowrap text-ellipsis w-full h-full`}
         >

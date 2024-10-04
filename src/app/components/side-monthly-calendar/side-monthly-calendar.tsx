@@ -1,21 +1,14 @@
 "use client";
 
-import React, { Dispatch, SetStateAction } from 'react';
-import { EventInterface } from '@/app/model/event';
+import { dateAtom, filteredEventsAtom, sidebarDateAtom } from '@/app/atom';
+import { useAtom } from 'jotai';
 import Image from 'next/image';
 
-interface SideMonthlyCalProps {
-    sidebarDate: Date,
-    setSidebarDate: Dispatch<SetStateAction<Date>>,
-    setDate: Dispatch<SetStateAction<Date>>,
-    filteredEvents: EventInterface[],
-}
+export default function SideMonthlyCal() {
 
-export default function SideMonthlyCal({
-    sidebarDate,
-    setSidebarDate,
-    setDate,
-    filteredEvents }: Readonly<SideMonthlyCalProps>) {
+    const [sidebarDate, setSidebarDate] = useAtom(sidebarDateAtom);
+    const [, setDate] = useAtom(dateAtom);
+    const [filteredEvents] = useAtom(filteredEventsAtom);
 
     const currentMonthCal = sidebarDate.getMonth();
     const currentYearCal = sidebarDate.getFullYear();

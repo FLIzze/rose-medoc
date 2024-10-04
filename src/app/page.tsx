@@ -1,37 +1,33 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { UserInterface } from './model/user';
 import Sidebar from './components/sidebar/sidebar';
 import Login from './components/login/login';
 import MainCal from './components/main-calendar/main-calendar';
 import axios from 'axios';
-import { EventInterface } from './model/event';
 import filterEvent from './event/filterEvents';
 import getEvents from './event/getEvents';
 import Register from './components/register/register';
 import defaultUser from './defaultUser';
+import { useAtom } from 'jotai';
+import { currentUserAtom, eventsAtom, filteredEventsAtom, othersAtom, ownAtom, registerAtom, taggedAtom, usersAtom } from './atom';
 
 export default function Home() {
-    const [date, setDate] = useState(new Date());
-    const [sidebarDate, setSidebarDate] = useState(new Date());
-
-    const [currentUser, setCurrentUser] = useState<UserInterface>(defaultUser);
-
-    const [own, setOwn] = useState(true);
-    const [tagged, setTagged] = useState(true);
-    const [others, setOthers] = useState(false);
-
-    const [calendarMode, setCalendarMode] = useState('weekly');
-
-    const [users, setUsers] = useState<UserInterface[]>([]);
     const cookie = Cookies.get();
 
-    const [events, setEvents] = useState<EventInterface[]>([]);
-    const [filteredEvents, setFilteredEvents] = useState<EventInterface[]>([]);
+    const [own] = useAtom(ownAtom);
+    const [tagged] = useAtom(taggedAtom);
+    const [others] = useAtom(othersAtom);
 
-    const [register, setRegister] = useState(false);
+    const [currentUser, setCurrentUser] = useAtom(currentUserAtom);
+    const [, setUsers] = useAtom(usersAtom);
+    const [events, setEvents] = useAtom(eventsAtom)
+    
+    const [, setFilteredEvents] = useAtom(filteredEventsAtom);
+
+    const [register] = useAtom(registerAtom);
 
     useEffect(() => {
         getEvents(setEvents);
@@ -62,48 +58,19 @@ export default function Home() {
                 <div className="bg-white h-screen overflow-hidden">
                     <div className="flex mt-5">
                         <div>
-                            <Sidebar
-                                sidebarDate={sidebarDate}
-                                setSidebarDate={setSidebarDate}
-                                setDate={setDate}
-                                own={own}
-                                tagged={tagged}
-                                others={others}
-                                setOwn={setOwn}
-                                setTagged={setTagged}
-                                setOthers={setOthers}
-                                filteredEvents={filteredEvents}
-                            />
+                            <Sidebar/>
                         </div>
 
                         <div className="w-screen">
-                            <MainCal
-                                currentUser={currentUser}
-                                setDate={setDate}
-                                setSidebarDate={setSidebarDate}
-                                setCalendarMode={setCalendarMode}
-                                calendarMode={calendarMode}
-                                users={users}
-                                filteredEvents={filteredEvents}
-                                setEvents={setEvents}
-                                date={date}
-                                defaultUser={defaultUser}
-                                setCurrentUser={setCurrentUser}
-                            />
+                            <MainCal/>
                         </div>
                     </div>
                 </div>
             ) : (
                 (register ? (
-                    <Register
-                        setRegister={setRegister}
-                        setCurrentUser={setCurrentUser}
-                    />
+                    <Register/>
                 ) : (
-                    <Login
-                        setRegister={setRegister}
-                        setCurrentUser={setCurrentUser}
-                    />
+                    <Login/>
                 ))
             )}
         </div>

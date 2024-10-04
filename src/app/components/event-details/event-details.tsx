@@ -1,42 +1,37 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { EventInterface } from "@/app/model/event";
+import { useEffect, useRef } from "react";
 import deleteEvent from "@/app/event/deleteEvent";
 import Draggable from "../draggable/draggable";
-import { UserInterface } from "@/app/model/user";
 import hideEventDetails from "@/app/event/hideEventDetails";
 import downloadEvent from "@/app/event/downloadEvent";
 import capitalizeFirstLetter from "@/app/capitalizeFirstLetter";
 import Image from "next/image";
+import { useAtomValue, useSetAtom } from "jotai";
+import { currentUserAtom, eventAtom, eventsAtom, isDetailsVisibleAtom, positionAtom, usersAtom } from "@/app/atom";
 
-interface EventDetailsProps {
-    event: EventInterface,
-    setEvents: Dispatch<SetStateAction<EventInterface[]>>,
-    pos: { x: number, y: number },
-    currentUser: UserInterface,
-    users: UserInterface[],
-    setIsDetailsVisible: Dispatch<SetStateAction<boolean>>
-}
-
-export default function EventDetails({
-    event,
-    setEvents,
-    pos,
-    currentUser,
-    users,
-    setIsDetailsVisible }: Readonly<EventDetailsProps>) {
+export default function EventDetails() {
+    const event = useAtomValue(eventAtom);
 
     const eventBeginning = new Date(event.beginning);
     const eventEnd = new Date(event.end);
 
-    const [size, setSize] = useState({ width: 0, height: 0 });
+    const setIsDetailsVisible = useSetAtom(isDetailsVisibleAtom);
+
     const detailsRef = useRef<HTMLDivElement>(null);
+
+    const pos = useAtomValue(positionAtom);
+
+    const users = useAtomValue(usersAtom);
+
+    const currentUser = useAtomValue(currentUserAtom);
+
+    const setEvents = useSetAtom(eventsAtom);
 
     useEffect(() => {
         if (detailsRef.current) {
             const { offsetWidth, offsetHeight } = detailsRef.current;
-            setSize({ width: offsetWidth, height: offsetHeight });
+            // setSize({ width: offsetWidth, height: offsetHeight });
         }
     }, [event.participants]);
 
@@ -54,7 +49,7 @@ export default function EventDetails({
     }, [setIsDetailsVisible]);
 
     return (
-        <Draggable pos={pos} size={size}>
+        <Draggable>
             <div
                 ref={detailsRef}
                 id="eventDetails"

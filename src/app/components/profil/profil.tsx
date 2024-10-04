@@ -1,20 +1,20 @@
 "use client";
 
 import { UserInterface } from "@/app/model/user";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useAtom } from "jotai";
+import { currentUserAtom, isProfileVisibleAtom } from "@/app/atom";
+import defaultUser from "@/app/defaultUser";
 
-interface ProfileProps {
-    currentUser: UserInterface,
-    setCurrentUser: Dispatch<SetStateAction<UserInterface>>,
-    defaultUser: UserInterface,
-}
 
-export default function Profile({ currentUser, setCurrentUser, defaultUser }: Readonly<ProfileProps>) {
+export default function Profile() {
     const router = useRouter();
 
-    const [isProfileVisible, setIsProfileVisible] = useState(false);
+    const [isProfileVisible, setIsProfileVisible] = useAtom(isProfileVisibleAtom);
+
+    const [currentUser, setCurrentUser] = useAtom(currentUserAtom);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {

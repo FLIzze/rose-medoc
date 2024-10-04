@@ -1,50 +1,31 @@
 "use client";
 
 import displayEventDetails from "@/app/event/displayEventDetails";
-import setCurrentEventDetails from "@/app/event/setCurrentEventDetails";
-import { EventInterface } from "@/app/model/event";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { useEffect } from "react";
 import MonthlyEvent from "../event/monthly-event/monthly-event";
 import displayEventPopUp from "@/app/event/displayEventPopUp";
-import { UserInterface } from "@/app/model/user";
 import goToDailyCalendar from "@/app/date/goToDailyCalendar";
 import nextWeek from "@/app/date/nextWeek";
 import prevWeek from "@/app/date/prevWeek";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { calendarModeAtom, dateAtom, descriptionAtom, eventAtom, filteredEventsAtom, isDetailsVisibleAtom, isPopupVisibleAtom, locationAtom, participantsAtom, titleAtom } from "@/app/atom";
 
-interface MainMonthlyCalProps {
-    date: Date,
-    filteredEvents: EventInterface[],
-    setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
-    setIsDetailsVisible: Dispatch<SetStateAction<boolean>>,
-    isDetailsVisible: boolean,
-    isPopupVisible: boolean,
-    setEvent: Dispatch<SetStateAction<EventInterface>>,
-    setPosition: Dispatch<SetStateAction<{ x: number, y: number }>>,
-    setTitle: Dispatch<SetStateAction<string>>,
-    setDescription: Dispatch<SetStateAction<string>>,
-    setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
-    setLocation: Dispatch<SetStateAction<string>>,
-    setDate: Dispatch<SetStateAction<Date>>,
-    setCalendarMode: Dispatch<SetStateAction<string>>,
-    calendarMode: string
-}
+export default function MainMonthlyCal() {
+    const [date, setDate] = useAtom(dateAtom);
 
-export default function MainMonthlyCal({
-    date,
-    filteredEvents,
-    setIsDetailsVisible,
-    setIsPopupVisible,
-    isDetailsVisible,
-    isPopupVisible,
-    setEvent,
-    setPosition,
-    setTitle,
-    setDescription,
-    setParticipants,
-    setLocation,
-    setDate,
-    setCalendarMode,
-    calendarMode }: Readonly<MainMonthlyCalProps>) {
+    const [calendarMode, setCalendarMode] = useAtom(calendarModeAtom);
+
+    const [isDetailsVisible, setIsDetailsVisible] = useAtom(isDetailsVisibleAtom);
+    const [isPopupVisible, setIsPopupVisible] = useAtom(isPopupVisibleAtom);
+    
+    const setTitle = useSetAtom(titleAtom);
+    const setDescription = useSetAtom(descriptionAtom);
+    const setParticipants = useSetAtom(participantsAtom);
+    const setLocation = useSetAtom(locationAtom);
+
+    const setEvent = useSetAtom(eventAtom);
+
+    const filteredEvents = useAtomValue(filteredEventsAtom);
 
     const currentMonth = date.getMonth();
     const currentYear = date.getFullYear();
@@ -58,7 +39,7 @@ export default function MainMonthlyCal({
 
     function setPopUpPosition(e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<HTMLDivElement>) {
         const { clientX, clientY } = e;
-        setPosition({ x: clientX, y: clientY });
+        // setPosition({ x: clientX, y: clientY });
     }
 
     useEffect(() => {
@@ -144,8 +125,8 @@ export default function MainMonthlyCal({
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
-                                        setCurrentEventDetails(event, setEvent);
                                         setPopUpPosition(e);
+                                        setEvent(event);
                                     }}
                                     className="w-full pt-1 px-2"
                                 >

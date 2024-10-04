@@ -1,46 +1,29 @@
-import { UserInterface } from "@/app/model/user";
-import { Dispatch, SetStateAction } from "react";
 import { EventInterface } from "@/app/model/event";
 import displayEventPopUp from "@/app/event/displayEventPopUp";
 import setPopUpPosition from "@/app/event/setPopUpPosition";
 import WeeklyEvent from "../../event/weekly-event/weekly-component";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { calendarModeAtom, dateAtom, descriptionAtom, eventAtom, filteredEventsAtom, hoursAtom, isDetailsVisibleAtom, isPopupVisibleAtom, locationAtom, participantsAtom, popupDateAtom, titleAtom, viewModeAtom } from "@/app/atom";
 
-interface BodyProps {
-    hours: number[],
-    date: Date,
-    filteredEvents: EventInterface[],
-    setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
-    setIsDetailsVisible: Dispatch<SetStateAction<boolean>>,
-    isDetailsVisible: boolean,
-    isPopupVisible: boolean,
-    setEvent: Dispatch<SetStateAction<EventInterface>>,
-    setTitle: Dispatch<SetStateAction<string>>,
-    setDescription: Dispatch<SetStateAction<string>>,
-    setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
-    setLocation: Dispatch<SetStateAction<string>>,
-    setPosition: Dispatch<SetStateAction<{ x: number, y: number }>>,
-    setPopupDate: Dispatch<SetStateAction<Date>>,
-    viewMode: 'daily' | 'weekly',
-    popupDate: Date
-}
+export default function Body() {
+    const setTitle = useSetAtom(titleAtom);
+    const setDescription = useSetAtom(descriptionAtom);
+    const setParticipants = useSetAtom(participantsAtom);
+    const setLocation = useSetAtom(locationAtom);
 
-export default function Body({
-    hours,
-    date,
-    filteredEvents,
-    setIsPopupVisible,
-    setIsDetailsVisible,
-    isDetailsVisible,
-    isPopupVisible,
-    setEvent,
-    setTitle,
-    setDescription,
-    setParticipants,
-    setLocation,
-    setPosition,
-    setPopupDate,
-    viewMode,
-    popupDate }: Readonly<BodyProps>) {
+    const isDetailsVisible = useAtomValue(isDetailsVisibleAtom);
+    const setPopupDate = useSetAtom(popupDateAtom);
+    const [isPopupVisible, setIsPopupVisible] = useAtom(isPopupVisibleAtom);
+
+    const filteredEvents = useAtomValue(filteredEventsAtom);
+
+    const calendarMode = useAtomValue(calendarModeAtom);
+
+    const date = useAtomValue(dateAtom);
+
+    const hours = useAtomValue(hoursAtom);
+
+    const setEvent = useSetAtom(eventAtom);
 
     let skip = 0;
 
@@ -90,8 +73,8 @@ export default function Body({
                     {eventColumns.map(({ event, columnIndex, totalColumns }, eventIndex) => {
                         const eventDuration = (new Date(event.end).getHours() - new Date(event.beginning).getHours());
                         skip = eventDuration;
-                        const columnWidth = 100 / totalColumns; // Divide width equally among overlapping events
-                        const leftPosition = (columnWidth * columnIndex); // Position each event based on column index
+                        const columnWidth = 100 / totalColumns; 
+                        const leftPosition = (columnWidth * columnIndex); 
 
                         return (
                             <button
@@ -102,15 +85,10 @@ export default function Body({
                                     left: `${leftPosition}%`,
                                     height: `${eventDuration * 100}%`
                                 }}
+                                onClick={() => setEvent(event)}
                             >
                                 <WeeklyEvent
                                     event={event}
-                                    daily={viewMode === 'daily'}
-                                    setPosition={setPosition}
-                                    setIsDetailsVisible={setIsDetailsVisible}
-                                    isDetailsVisible={isDetailsVisible}
-                                    isPopupVisible={isPopupVisible}
-                                    setEvent={setEvent}
                                 />
                             </button>
                         );
@@ -123,7 +101,7 @@ export default function Body({
             skip === 0 && (
                 <button
                     className="bg-white border border-very-light-pink h-24 w-full"
-                    onClick={(e) => {
+                    onClick={() => {
                         displayEventPopUp(setTitle,
                             setDescription,
                             setParticipants,
@@ -133,9 +111,9 @@ export default function Body({
                             setLocation,
                             hour,
                             date,
-                            setPopupDate
+                            setPopupDate,
                         );
-                        setPopUpPosition(e, setPosition);
+                        // setPopUpPosition(e, setPosition);
                     }}
                 >
                 </button>
@@ -144,7 +122,7 @@ export default function Body({
     }
 
     const renderGrid = () => {
-        if (viewMode === "weekly") {
+        if (calendarMode === "weekly") {
             const startOfWeek = new Date(date);
             startOfWeek.setDate(date.getDate() - date.getDay() + 1);
 
@@ -161,7 +139,7 @@ export default function Body({
                     </div>
                 );
             });
-        } else if (viewMode === "daily") {
+        } else if (calendarMode === "daily") {
             return (
                 <div className="bg-white">
                     {hours.slice(0, -1).map((hour, hoursIndex) => (
@@ -176,8 +154,8 @@ export default function Body({
 
     return (
         <div
-            className={`grid ${viewMode === 'weekly' ? 'grid-cols-9' : 'grid-cols-2'} w-full overflow-y-scroll`}
-            style={{ gridTemplateColumns: viewMode === 'weekly' ? '4rem repeat(8, 1fr)' : '4rem 1fr' }}
+            className={`grid ${calendarMode === 'weekly' ? 'grid-cols-9' : 'grid-cols-2'} w-full overflow-y-scroll`}
+            style={{ gridTemplateColumns: calendarMode === 'weekly' ? '4rem repeat(8, 1fr)' : '4rem 1fr' }}
         >
             <div className="bg-white">
                 {hours.slice(0, -1).map((hour, hoursIndex) => (

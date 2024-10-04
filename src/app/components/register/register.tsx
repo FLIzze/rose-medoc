@@ -1,19 +1,15 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import hash from "@/app/password/hash";
 import register from "@/app/user/register";
 import getBase64Image from "@/app/getBase64Image";
-import { UserInterface } from "@/app/model/user";
 import login from "@/app/user/login";
 import Image from "next/image";
+import { useSetAtom } from "jotai";
+import { currentUserAtom, registerAtom } from "@/app/atom";
 
-interface RegisterProps {
-    setRegister: Dispatch<SetStateAction<boolean>>,
-    setCurrentUser: Dispatch<SetStateAction<UserInterface>>,
-}
-
-export default function Register({ setRegister, setCurrentUser }: Readonly<RegisterProps>) {
+export default function Register() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -25,6 +21,9 @@ export default function Register({ setRegister, setCurrentUser }: Readonly<Regis
     const [successMessage, setSuccessMessage] = useState('');
     const [file, setFile] = useState<File | null>(null);
     const [fileURL, setFileURL] = useState<string | null>(null);
+
+    const setRegister = useSetAtom(registerAtom);
+    const setCurrentUser = useSetAtom(currentUserAtom);
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();

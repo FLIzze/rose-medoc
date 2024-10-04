@@ -1,9 +1,7 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { EventInterface } from "@/app/model/event";
+import { useEffect, useRef, useState } from "react";
 import Draggable from "../draggable/draggable";
-import { UserInterface } from "@/app/model/user";
 import Header from "./header/header";
 import addEvent from "@/app/event/addEvent";
 import hideEventPopup from "@/app/event/hideEventPopup";
@@ -11,43 +9,27 @@ import Participants from "./participants/participants";
 import Date from "./date/date";
 import Location from "./location/location";
 import Image from "next/image";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { currentUserAtom, descriptionAtom, eventsAtom, isPopupVisibleAtom, locationAtom, participantsAtom, popupDateAtom, positionAtom, titleAtom, usersAtom } from "@/app/atom";
 
-interface PopupEventProps {
-    setEvents: Dispatch<SetStateAction<EventInterface[]>>
-    pos: { x: number, y: number },
-    title: string,
-    setTitle: Dispatch<SetStateAction<string>>,
-    description: string,
-    setDescription: Dispatch<SetStateAction<string>>,
-    currentUser: UserInterface | undefined,
-    users: UserInterface[],
-    participants: UserInterface[],
-    setParticipants: Dispatch<SetStateAction<UserInterface[]>>,
-    setIsPopupVisible: Dispatch<SetStateAction<boolean>>,
-    location: string,
-    setLocation: Dispatch<SetStateAction<string>>,
-    date: Date,
-    setPopupDate: Dispatch<SetStateAction<Date>>,
-    popupDate: Date
-}
+export default function PopupEvent() {
+    const date = useAtomValue(popupDateAtom)
+    const [popupDate, setPopupDate] = useAtom(popupDateAtom);
 
-export default function PopupEvent({
-    setEvents,
-    pos,
-    title,
-    setTitle,
-    description,
-    setDescription,
-    currentUser,
-    users,
-    participants,
-    setParticipants,
-    setIsPopupVisible,
-    location,
-    setLocation,
-    date,
-    setPopupDate,
-    popupDate }: Readonly<PopupEventProps>) {
+    const setIsPopupVisible = useSetAtom(isPopupVisibleAtom);
+
+    const [title, setTitle] = useAtom(titleAtom);
+    const [description, setDescription] = useAtom(descriptionAtom);
+    const [participants, setParticipants] = useAtom(participantsAtom);
+    const [location, setLocation] = useAtom(locationAtom);
+
+    const currentUser = useAtomValue(currentUserAtom);
+
+    const pos = useAtomValue(positionAtom);
+
+    const users = useAtomValue(usersAtom);
+
+    const setEvents = useSetAtom(eventsAtom);
 
     const [endHour, setEndHour] = useState(date.getHours() + 1);
     const [size, setSize] = useState({ width: 0, height: 0 });
@@ -78,7 +60,7 @@ export default function PopupEvent({
     })
 
     return (
-        <Draggable pos={pos} size={size}>
+        <Draggable>
             <div
                 ref={popupRef}
                 className="absolute opacity-0 h-fit bg-white shadow-2xl transition-all duration-150 w-fit pointer-events-none text-dark-pink rounded-br-lg"

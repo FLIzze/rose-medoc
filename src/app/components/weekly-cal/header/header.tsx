@@ -1,17 +1,17 @@
+import { calendarModeAtom, dateAtom, viewModeAtom } from "@/app/atom";
 import goToDailyCalendar from "@/app/date/goToDailyCalendar";
-import { Dispatch, SetStateAction } from "react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
-interface HeaderProps {
-    date: Date,
-    setDate: Dispatch<SetStateAction<Date>>,
-    setCalendarMode: Dispatch<SetStateAction<string>>,
-    viewMode: 'daily' | 'weekly'
-}
+export default function Header() {
+    const calendarMode = useAtomValue(calendarModeAtom);
 
-export default function Header({ date, setDate, setCalendarMode, viewMode }: Readonly<HeaderProps>) {
+    const [date, setDate] = useAtom(dateAtom);
+
+    const setCalendarMode = useSetAtom(calendarModeAtom);
+
     return (
         <div>
-            {viewMode === "weekly" && (
+            {calendarMode === "weekly" && (
                 <div
                     className="flex-none grid grid-cols-9 w-full"
                     style={{ gridTemplateColumns: '4rem repeat(8, 1fr)' }}
@@ -41,7 +41,7 @@ export default function Header({ date, setDate, setCalendarMode, viewMode }: Rea
                 </div>
             )}
 
-            {viewMode === "daily" && (
+            {calendarMode === "daily" && (
                 <div className="ml-20">
                     <p className="text-light-pink text-xs">{date.toLocaleDateString('fr-FR', { weekday: 'short' }).toUpperCase()}</p>
                     <p className="text-2xl font-semibold text-dark-pink">{date.getDate()}</p>

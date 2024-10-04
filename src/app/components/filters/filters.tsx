@@ -1,15 +1,11 @@
-import { Dispatch, SetStateAction } from "react";
+import { othersAtom, ownAtom, taggedAtom } from "@/app/atom";
+import { useAtom } from "jotai";
 
-interface FiltersProps {
-    own: boolean,
-    tagged: boolean,
-    setOwn: Dispatch<SetStateAction<boolean>>,
-    setTagged: Dispatch<SetStateAction<boolean>>,
-    others: boolean,
-    setOthers: Dispatch<SetStateAction<boolean>>
-}
+export default function Filters() {
+    const [own, setOwn] = useAtom(ownAtom);
+    const [tagged, setTagged] = useAtom(taggedAtom);
+    const [others, setOthers] = useAtom(othersAtom);
 
-export default function Filters({ own, tagged, setOwn, setTagged, others, setOthers }: Readonly<FiltersProps>) {
     return (
         <div className="text-sm text-dark-pink">
             <div className="flex gap-2">

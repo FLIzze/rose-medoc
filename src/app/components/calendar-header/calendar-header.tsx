@@ -1,38 +1,25 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
-
+import { useEffect, useRef } from 'react';
+import hideCalendarMode from '@/app/event/hideCalendarMode';
+import capitalizeFirstLetter from '@/app/capitalizeFirstLetter';
+import { useAtom, useSetAtom } from 'jotai';
+import { calendarModeAtom, dateAtom, isCalendarModeVisibleAtom, sidebarDateAtom } from '@/app/atom';
+import Image from 'next/image';
 import prevWeek from '@/app/date/prevWeek';
 import nextWeek from '@/app/date/nextWeek';
-import hideCalendarMode from '@/app/event/hideCalendarMode';
 import displayCalendarMode from '@/app/event/displayCalendarMode';
-import { UserInterface } from '@/app/model/user';
-import capitalizeFirstLetter from '@/app/capitalizeFirstLetter';
 import Profile from '../profil/profil';
-import Image from 'next/image';
 
-interface CalendarHeaderProps {
-    setDate: Dispatch<SetStateAction<Date>>,
-    setSidebarDate: Dispatch<SetStateAction<Date>>,
-    setCalendarMode: Dispatch<SetStateAction<string>>,
-    calendarMode: string,
-    currentUser: UserInterface,
-    date: Date,
-    defaultUser: UserInterface,
-    setCurrentUser: Dispatch<SetStateAction<UserInterface>>
-}
 
-const CalendarHeader: React.FC<CalendarHeaderProps> = ({ 
-    setDate,
-    setSidebarDate,
-    setCalendarMode,
-    calendarMode,
-    currentUser,
-    date,
-    defaultUser,
-    setCurrentUser
-}) => {
-    const [isCalendarModeVisible, setIsCalendarModeVisible] = useState(false);
+const CalendarHeader = () => {
+    const [isCalendarModeVisible, setIsCalendarModeVisible] = useAtom(isCalendarModeVisibleAtom);
+    const [calendarMode, setCalendarMode] = useAtom(calendarModeAtom);
+
+    const [date, setDate] = useAtom(dateAtom);
+
+    const setSidebarDate = useSetAtom(sidebarDateAtom);
+
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     function goToToday() {
@@ -148,19 +135,19 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
                         id='calMode'
                     >
                         <button
-                            onClick={() => setCalendar('daily')}
+                            onClick={() => setCalendarMode('daily')}
                             className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
                         >
                             Jour
                         </button>
                         <button
-                            onClick={() => setCalendar('weekly')}
+                            onClick={() => setCalendarMode('weekly')}
                             className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
                         >
                             Semaine
                         </button>
                         <button
-                            onClick={() => setCalendar('monthly')}
+                            onClick={() => setCalendarMode('monthly')}
                             className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
                         >
                             Mois
@@ -168,11 +155,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
                     </div>
                 </div>
 
-                <Profile
-                    currentUser={currentUser}
-                    setCurrentUser={setCurrentUser}
-                    defaultUser={defaultUser}
-                />
+                <Profile/>
             </div>
         </div>
     );

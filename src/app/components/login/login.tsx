@@ -1,20 +1,19 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import login from "@/app/user/login";
-import { UserInterface } from "@/app/model/user";
 import Image from "next/image";
+import { useSetAtom } from "jotai";
+import { currentUserAtom, registerAtom } from "@/app/atom";
 
-interface LoginProps {
-    setRegister: Dispatch<SetStateAction<boolean>>,
-    setCurrentUser: Dispatch<SetStateAction<UserInterface>>,
-}
-
-export default function Login({ setRegister, setCurrentUser }: Readonly<LoginProps>) {
+export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
+
+    const setCurrentUser = useSetAtom(currentUserAtom);
+    const setRegister = useSetAtom(registerAtom);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
