@@ -1,8 +1,7 @@
 import { createPool } from 'mysql2/promise';
-import { exit } from 'process';
 
 const pool = createPool({
-    host: 'localhost',
+    host: 'host',
     user: 'rose-medoc',
     password: '1231',
     database: 'calendar'
