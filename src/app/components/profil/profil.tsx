@@ -20,7 +20,7 @@ export default function Profile() {
         function handleClickOutside(event: MouseEvent) {
             const profile = document.getElementById("profile");
             if (profile && !profile.contains(event.target as Node)) {
-                hideProfile();
+                setIsProfileVisible(false);
             }
         }
 
@@ -28,20 +28,12 @@ export default function Profile() {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [setIsProfileVisible]);
 
     const dc = () => {
         document.cookie = 'uuid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         setCurrentUser(defaultUser);
         window.location.reload();
-    };
-
-    const displayProfile = () => {
-        setIsProfileVisible(true);
-    };
-
-    const hideProfile = () => {
-        setIsProfileVisible(false);
     };
 
     const editProfile = (currentUSer: UserInterface) => {
@@ -52,7 +44,7 @@ export default function Profile() {
         <div className="text-sm">
             <button
                 className="hover:opacity-70 transition-all"
-                onClick={displayProfile}
+                onClick={() => setIsProfileVisible(true)}
             >
                 <Image
                     src={`data:image/jpeg;base64,${currentUser.pp}`}
