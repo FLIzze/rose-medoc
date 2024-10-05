@@ -1,13 +1,13 @@
-import { createPool } from 'mysql2/promise';
-
-const pool = createPool({
-    host: 'db',
-    user: 'rose-medoc',
-    password: '1231',
-    database: 'calendar'
-});
-
 async function createTable() {
+    const mysql = require('mysql2');
+
+    const pool = mysql.createPool({
+        host: 'db',
+        user: 'rose-medoc',
+        password: '1231',
+        database: 'calendar'
+      });
+
     const connection = await pool.getConnection();
     try {
         const createDataseQuery = `
