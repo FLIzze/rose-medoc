@@ -4,6 +4,7 @@ import { EventInterface } from "../model/event";
 import createEvent from "./createEvent";
 import getEvents from "./getEvents";
 import { UserInterface } from "../model/user";
+import hideEventPopup from "./hideEventPopup";
 
 export default async function addEvent(
     title: string,
@@ -13,7 +14,8 @@ export default async function addEvent(
     participants: UserInterface[],
     location: string,
     popupDate: Date,
-    endHour: number) {
+    endHour: number,
+    setIsPopupVisible: Dispatch<SetStateAction<boolean>>) {
 
     const titleInput = document.getElementById("required-title");
 
@@ -22,6 +24,7 @@ export default async function addEvent(
             titleInput.style.display = 'block';
             return;
         } else {
+            hideEventPopup(setIsPopupVisible)
             titleInput.style.display = 'none';
         }
     }
@@ -29,6 +32,7 @@ export default async function addEvent(
     await createEvent(title, description, user, participants, location, popupDate, endHour);
     setEvents([]);
     getEvents(setEvents);
+
 
     const calendarPopup = document.getElementById("calendarPopup");
     if (calendarPopup) {

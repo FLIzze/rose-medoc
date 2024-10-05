@@ -9,13 +9,7 @@ import { useAtomValue } from "jotai";
 import { calendarModeAtom } from "@/app/atom";
 
 export default function MainCal() {
-
     const calendarMode = useAtomValue(calendarModeAtom);
-
-    // const startOfWeek = new Date(date);
-    // const dayOfWeek = startOfWeek.getDay();
-    // const diffToMonday = (dayOfWeek === 0 ? -6 : 1) - dayOfWeek;
-    // startOfWeek.setDate(startOfWeek.getDate() + diffToMonday);
 
     return (
         <div>
@@ -28,11 +22,11 @@ export default function MainCal() {
             <CalendarHeader/>
 
             <div className="mt-6 ml-3">
-                {(calendarMode === "weekly" || calendarMode === "daily") && (
+                {(calendarMode === "Semaine" || calendarMode === "Jour") && (
                     <WeeklyCal/>
                 )}
 
-                {calendarMode === "monthly" && (
+                {calendarMode === "Mois" && (
                     <MonthlyCal/>
                 )}
             </div>

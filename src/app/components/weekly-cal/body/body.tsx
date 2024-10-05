@@ -1,15 +1,16 @@
 import { EventInterface } from "@/app/model/event";
 import displayEventPopUp from "@/app/event/displayEventPopUp";
-import setPopUpPosition from "@/app/event/setPopUpPosition";
 import WeeklyEvent from "../../event/weekly-event/weekly-component";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { calendarModeAtom, dateAtom, descriptionAtom, eventAtom, filteredEventsAtom, hoursAtom, isDetailsVisibleAtom, isPopupVisibleAtom, locationAtom, participantsAtom, popupDateAtom, titleAtom, viewModeAtom } from "@/app/atom";
+import { calendarModeAtom, dateAtom, descriptionAtom, eventAtom, filteredEventsAtom, hoursAtom, isDetailsVisibleAtom, isPopupVisibleAtom, locationAtom, participantsAtom, popupDateAtom, positionAtom, titleAtom, viewModeAtom } from "@/app/atom";
 
 export default function Body() {
     const setTitle = useSetAtom(titleAtom);
     const setDescription = useSetAtom(descriptionAtom);
     const setParticipants = useSetAtom(participantsAtom);
     const setLocation = useSetAtom(locationAtom);
+
+    const setPosition = useSetAtom(positionAtom);
 
     const isDetailsVisible = useAtomValue(isDetailsVisibleAtom);
     const setPopupDate = useSetAtom(popupDateAtom);
@@ -85,7 +86,10 @@ export default function Body() {
                                     left: `${leftPosition}%`,
                                     height: `${eventDuration * 100}%`
                                 }}
-                                onClick={() => setEvent(event)}
+                                onClick={(e) => {
+                                    setEvent(event);
+                                    setPosition({ x: e.clientX, y: e.clientY });
+                                }}
                             >
                                 <WeeklyEvent
                                     event={event}
@@ -101,7 +105,7 @@ export default function Body() {
             skip === 0 && (
                 <button
                     className="bg-white border border-very-light-pink h-24 w-full"
-                    onClick={() => {
+                    onClick={(e) => {
                         displayEventPopUp(setTitle,
                             setDescription,
                             setParticipants,
@@ -113,7 +117,7 @@ export default function Body() {
                             date,
                             setPopupDate,
                         );
-                        // setPopUpPosition(e, setPosition);
+                        setPosition({ x: e.clientX, y: e.clientY });
                     }}
                 >
                 </button>
@@ -122,7 +126,7 @@ export default function Body() {
     }
 
     const renderGrid = () => {
-        if (calendarMode === "weekly") {
+        if (calendarMode === "Semaine") {
             const startOfWeek = new Date(date);
             startOfWeek.setDate(date.getDate() - date.getDay() + 1);
 
@@ -139,7 +143,7 @@ export default function Body() {
                     </div>
                 );
             });
-        } else if (calendarMode === "daily") {
+        } else if (calendarMode === "Jour") {
             return (
                 <div className="bg-white">
                     {hours.slice(0, -1).map((hour, hoursIndex) => (
@@ -154,8 +158,8 @@ export default function Body() {
 
     return (
         <div
-            className={`grid ${calendarMode === 'weekly' ? 'grid-cols-9' : 'grid-cols-2'} w-full overflow-y-scroll`}
-            style={{ gridTemplateColumns: calendarMode === 'weekly' ? '4rem repeat(8, 1fr)' : '4rem 1fr' }}
+            className={`grid ${calendarMode === 'Semaine' ? 'grid-cols-9' : 'grid-cols-2'} w-full overflow-y-scroll`}
+            style={{ gridTemplateColumns: calendarMode === 'Semaine' ? '4rem repeat(8, 1fr)' : '4rem 1fr' }}
         >
             <div className="bg-white">
                 {hours.slice(0, -1).map((hour, hoursIndex) => (

@@ -12,7 +12,7 @@ export const ownAtom = atom(true);
 export const taggedAtom = atom(true);
 export const othersAtom = atom(false);
 
-export const calendarModeAtom = atom('weekly');
+export const calendarModeAtom = atom('Semaine');
 
 export const usersAtom = atom<UserInterface[]>([]);
 

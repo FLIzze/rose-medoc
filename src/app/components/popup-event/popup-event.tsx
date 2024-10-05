@@ -78,14 +78,16 @@ export default function PopupEvent() {
                             height={10}
                         />
                     </div>
-                    <input
-                        type="text"
-                        placeholder='Ajouter un titre'
-                        className='h-9 outline-none p-2 mt-2 w-full transition-all text-medium-pink text-xl border-very-light-pink focus:border-medium-pink font-bold border-b-2 focus:border-b-4'
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
-                    <p className="text-xs text-red-500 hidden" id="required-title">Titre obligatoire.</p>
+                    <div>
+                        <input
+                            type="text"
+                            placeholder='Ajouter un titre'
+                            className='h-9 outline-none p-2 mt-2 w-full transition-all text-medium-pink text-xl border-very-light-pink focus:border-medium-pink font-bold border-b-2 focus:border-b-4'
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                        <p className="text-xs text-red hidden" id="required-title">Titre obligatoire.</p>
+                    </div>
 
                     <div className="bg-light-pink flex items-center justify-center pt-4">
                         <Image
@@ -153,8 +155,7 @@ export default function PopupEvent() {
                         <button
                             className='rounded-lg text-white bg-medium-pink hover:bg-dark-pink transition-all mx-4 py-2 mt-5 mb-4 w-full'
                             onClick={() => {
-                                addEvent(title, description, setEvents, currentUser, participants, location, popupDate, endHour);
-                                hideEventPopup(setIsPopupVisible)
+                                addEvent(title, description, setEvents, currentUser, participants, location, popupDate, endHour, setIsPopupVisible);
                             }}>
                             Enregistrer
                         </button>

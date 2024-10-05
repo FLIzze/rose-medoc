@@ -31,10 +31,6 @@ const CalendarHeader = () => {
         setSidebarDate(date);
     }, [date, setSidebarDate]);
 
-    function setCalendar(mode: string) {
-        setCalendarMode(mode);
-        hideCalendarMode(setIsCalendarModeVisible);
-    }
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -106,7 +102,7 @@ const CalendarHeader = () => {
                     </button>
                 </div>
 
-                {calendarMode == "weekly" ? (
+                {calendarMode == "Semaine" ? (
                     <p className='font-bold text-dark-pink'>{monthDisplay} {date.getFullYear()}</p>
                 ) : (
                     <p className='font-bold text-dark-pink'>{startMonth} {date.getFullYear()}</p>
@@ -135,19 +131,28 @@ const CalendarHeader = () => {
                         id='calMode'
                     >
                         <button
-                            onClick={() => setCalendarMode('daily')}
+                            onClick={() => {
+                                setCalendarMode('Jour');
+                                hideCalendarMode(setIsCalendarModeVisible)
+                            }}
                             className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
                         >
                             Jour
                         </button>
                         <button
-                            onClick={() => setCalendarMode('weekly')}
+                            onClick={() => {
+                                setCalendarMode('Semaine');
+                                hideCalendarMode(setIsCalendarModeVisible)
+                            }}
                             className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
                         >
                             Semaine
                         </button>
                         <button
-                            onClick={() => setCalendarMode('monthly')}
+                            onClick={() => {
+                                setCalendarMode('Mois');
+                                hideCalendarMode(setIsCalendarModeVisible)
+                            }}
                             className='hover:bg-dark-pink w-full rounded-lg text-left pl-3 transition-all h-9 pr-32'
                         >
                             Mois
@@ -155,7 +160,7 @@ const CalendarHeader = () => {
                     </div>
                 </div>
 
-                <Profile/>
+                <Profile />
             </div>
         </div>
     );

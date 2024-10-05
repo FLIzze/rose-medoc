@@ -8,7 +8,7 @@ import goToDailyCalendar from "@/app/date/goToDailyCalendar";
 import nextWeek from "@/app/date/nextWeek";
 import prevWeek from "@/app/date/prevWeek";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { calendarModeAtom, dateAtom, descriptionAtom, eventAtom, filteredEventsAtom, isDetailsVisibleAtom, isPopupVisibleAtom, locationAtom, participantsAtom, titleAtom } from "@/app/atom";
+import { calendarModeAtom, dateAtom, descriptionAtom, eventAtom, filteredEventsAtom, isDetailsVisibleAtom, isPopupVisibleAtom, locationAtom, participantsAtom, positionAtom, titleAtom } from "@/app/atom";
 
 export default function MainMonthlyCal() {
     const [date, setDate] = useAtom(dateAtom);
@@ -25,6 +25,8 @@ export default function MainMonthlyCal() {
 
     const setEvent = useSetAtom(eventAtom);
 
+    const setPosition = useSetAtom(positionAtom);
+
     const filteredEvents = useAtomValue(filteredEventsAtom);
 
     const currentMonth = date.getMonth();
@@ -35,11 +37,6 @@ export default function MainMonthlyCal() {
 
     for (let i = 1; i <= daysInMonth; i++) {
         daysArray.push(new Date(currentYear, currentMonth, i));
-    }
-
-    function setPopUpPosition(e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<HTMLDivElement>) {
-        const { clientX, clientY } = e;
-        // setPosition({ x: clientX, y: clientY });
     }
 
     useEffect(() => {
@@ -94,7 +91,7 @@ export default function MainMonthlyCal() {
                                 day,
                                 setDate,
                             );
-                            setPopUpPosition(e);
+                            setPosition({ x: e.clientX, y: e.clientY });
                         }}
                     >
                         {index < 7 && (
@@ -125,8 +122,8 @@ export default function MainMonthlyCal() {
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
-                                        setPopUpPosition(e);
                                         setEvent(event);
+                                        setPosition({ x: e.clientX, y: e.clientY });
                                     }}
                                     className="w-full pt-1 px-2"
                                 >

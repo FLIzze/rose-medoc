@@ -7,11 +7,11 @@ export default function nextWeek(
 ) {
     const newDate = new Date(currentDate);
 
-    if (calendarMode === "weekly") {
+    if (calendarMode === "Semaine") {
         newDate.setDate(newDate.getDate() + 7);
-    } else if (calendarMode === "monthly") {
+    } else if (calendarMode === "Mois") {
         newDate.setMonth(newDate.getMonth() + 1);
-    } else if (calendarMode === "daily") {
+    } else if (calendarMode === "Jour") {
         newDate.setDate(newDate.getDate() + 1);
     }
 

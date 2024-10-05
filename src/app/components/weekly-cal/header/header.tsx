@@ -11,7 +11,7 @@ export default function Header() {
 
     return (
         <div>
-            {calendarMode === "weekly" && (
+            {calendarMode === "Semaine" && (
                 <div
                     className="flex-none grid grid-cols-9 w-full"
                     style={{ gridTemplateColumns: '4rem repeat(8, 1fr)' }}
@@ -41,7 +41,7 @@ export default function Header() {
                 </div>
             )}
 
-            {calendarMode === "daily" && (
+            {calendarMode === "Jour" && (
                 <div className="ml-20">
                     <p className="text-light-pink text-xs">{date.toLocaleDateString('fr-FR', { weekday: 'short' }).toUpperCase()}</p>
                     <p className="text-2xl font-semibold text-dark-pink">{date.getDate()}</p>
