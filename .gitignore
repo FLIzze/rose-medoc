@@ -36,4 +36,6 @@ yarn-error.log*
 next-env.d.ts
 
 google_api_key.json
-db_credentials.json
+
+db_credentials.ts
+db_credentials.js
