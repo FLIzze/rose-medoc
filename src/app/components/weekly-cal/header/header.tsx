@@ -1,4 +1,4 @@
-import { calendarModeAtom, dateAtom, viewModeAtom } from "@/app/atom";
+import { calendarModeAtom, dateAtom } from "@/app/atom";
 import goToDailyCalendar from "@/app/date/goToDailyCalendar";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
@@ -19,14 +19,14 @@ export default function Header() {
                     <div className="bg-white">
                         {/* Empty cell for the top-left corner */}
                     </div>
-                    {Array.from({ length: 7 }).map((_, dayIndex) => {
+                    {Array.from({ length: 7 }).map((day, dayIndex) => {
                         const currentDate = new Date(date);
                         currentDate.setDate(date.getDate() - date.getDay() + dayIndex + 1);
                         const dayName = currentDate.toLocaleDateString('fr-FR', { weekday: 'short' }).toUpperCase();
                         return (
                             <button
                                 className="bg-white"
-                                key={dayIndex}
+                                key={day as number}
                             >
                                 <button
                                     className="rounded-full hover:bg-very-light-pink w-fit px-3 py-1"

@@ -18,8 +18,8 @@ const pool = mysql.createPool({
 
 const corsOptions = {
   origin: '*',  // Permettre à toutes les origines d'accéder à l'API
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Méthodes autorisées
-  allowedHeaders: ['Content-Type', 'Authorization'], // En-têtes autorisés
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'], 
   credentials: true
 };
 

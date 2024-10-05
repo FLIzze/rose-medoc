@@ -4,17 +4,15 @@ import { UserInterface } from "@/app/model/user";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import displayEventDetails from "@/app/event/displayEventDetails";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { eventAtom, isDetailsVisibleAtom, isPopupVisibleAtom } from "@/app/atom";
+import { useAtom, useAtomValue } from "jotai";
+import { isDetailsVisibleAtom, isPopupVisibleAtom } from "@/app/atom";
 import { EventInterface } from "@/app/model/event";
 
 interface WeeklyEventProps {
     event: EventInterface;
 }
 
-export default function WeeklyEvent({ event }: WeeklyEventProps) {
-    // const setPosition = useAtomValue(setPosition);
-
+export default function WeeklyEvent({ event }: Readonly<WeeklyEventProps>) {
     const [eventCreator, setEventCreator] = useState<UserInterface>({} as UserInterface);
 
     const [isDetailsVisible, setIsDetailsVisible] = useAtom(isDetailsVisibleAtom);

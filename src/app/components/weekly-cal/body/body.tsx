@@ -2,7 +2,7 @@ import { EventInterface } from "@/app/model/event";
 import displayEventPopUp from "@/app/event/displayEventPopUp";
 import WeeklyEvent from "../../event/weekly-event/weekly-component";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { calendarModeAtom, dateAtom, descriptionAtom, eventAtom, filteredEventsAtom, hoursAtom, isDetailsVisibleAtom, isPopupVisibleAtom, locationAtom, participantsAtom, popupDateAtom, positionAtom, titleAtom, viewModeAtom } from "@/app/atom";
+import { calendarModeAtom, dateAtom, descriptionAtom, eventAtom, filteredEventsAtom, hoursAtom, isDetailsVisibleAtom, isPopupVisibleAtom, locationAtom, participantsAtom, popupDateAtom, positionAtom, titleAtom } from "@/app/atom";
 
 export default function Body() {
     const setTitle = useSetAtom(titleAtom);
@@ -71,7 +71,7 @@ export default function Body() {
 
             return (
                 <div className="static h-full">
-                    {eventColumns.map(({ event, columnIndex, totalColumns }, eventIndex) => {
+                    {eventColumns.map(({ event, columnIndex, totalColumns }) => {
                         const eventDuration = (new Date(event.end).getHours() - new Date(event.beginning).getHours());
                         skip = eventDuration;
                         const columnWidth = 100 / totalColumns; 
@@ -80,7 +80,7 @@ export default function Body() {
                         return (
                             <button
                                 className="absolute pl-1 overflow-hidden"
-                                key={eventIndex}
+                                key={event.title}
                                 style={{
                                     width: `${columnWidth}%`,
                                     left: `${leftPosition}%`,
@@ -130,13 +130,13 @@ export default function Body() {
             const startOfWeek = new Date(date);
             startOfWeek.setDate(date.getDate() - date.getDay() + 1);
 
-            return Array.from({ length: 7 }).map((_, dayIndex) => {
+            return Array.from({ length: 7 }).map((day, dayIndex) => {
                 const currentDate = new Date(startOfWeek);
                 currentDate.setDate(startOfWeek.getDate() + dayIndex);
                 return (
-                    <div className="bg-white" key={dayIndex}>
-                        {hours.slice(0, -1).map((hour, hoursIndex) => (
-                            <div key={hoursIndex} className="h-24 relative">
+                    <div className="bg-white" key={day as number}>
+                        {hours.slice(0, -1).map((hour) => (
+                            <div key={hour} className="h-24 relative">
                                 {renderEventsForHour(hour, currentDate)}
                             </div>
                         ))}
@@ -146,8 +146,8 @@ export default function Body() {
         } else if (calendarMode === "Jour") {
             return (
                 <div className="bg-white">
-                    {hours.slice(0, -1).map((hour, hoursIndex) => (
-                        <div key={hoursIndex} className="h-24 relative">
+                    {hours.slice(0, -1).map((hour) => (
+                        <div key={hour} className="h-24 relative">
                             {renderEventsForHour(hour, date)}
                         </div>
                     ))}
@@ -162,8 +162,8 @@ export default function Body() {
             style={{ gridTemplateColumns: calendarMode === 'Semaine' ? '4rem repeat(8, 1fr)' : '4rem 1fr' }}
         >
             <div className="bg-white">
-                {hours.slice(0, -1).map((hour, hoursIndex) => (
-                    <div className="text-xs text-right text-dark-pink pr-3 h-24 flex items-center justify-end" key={hoursIndex}>
+                {hours.slice(0, -1).map((hour) => (
+                    <div className="text-xs text-right text-dark-pink pr-3 h-24 flex items-center justify-end" key={hour}>
                         {hour}:00
                     </div>
                 ))}

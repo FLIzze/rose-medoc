@@ -51,7 +51,7 @@ export default function Register() {
         }
 
         try {
-            const base64Image = await getBase64Image(file!);
+            const base64Image = await getBase64Image(file);
             if (await register(lastName, firstName, email, await hash(password), color, base64Image)) {
                 login(email, password, setCurrentUser);
                 setSuccessMessage("Inscription réussie !");
@@ -68,11 +68,9 @@ export default function Register() {
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            const selectedFile = e.target.files[0];
-            setFile(selectedFile);
-            setFileURL(URL.createObjectURL(selectedFile));
-        }
+        const selectedFile = e.target.files![0];
+        setFile(selectedFile);
+        setFileURL(URL.createObjectURL(selectedFile));
     };
 
     const validateEmail = (email: string) => {

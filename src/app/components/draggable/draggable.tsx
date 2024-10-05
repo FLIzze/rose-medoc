@@ -8,7 +8,7 @@ interface DraggableProps {
     children: React.ReactNode
 }
 
-export default function Draggable({ children }: DraggableProps) {
+export default function Draggable({ children }: Readonly<DraggableProps>) {
     const [position, setPosition] = useAtom(positionAtom);
     const size = useAtomValue(sizeAtom);
 

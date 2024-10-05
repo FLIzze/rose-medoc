@@ -8,7 +8,7 @@ import downloadEvent from "@/app/event/downloadEvent";
 import capitalizeFirstLetter from "@/app/capitalizeFirstLetter";
 import Image from "next/image";
 import { useAtomValue, useSetAtom } from "jotai";
-import { currentUserAtom, eventAtom, eventsAtom, isDetailsVisibleAtom, positionAtom, usersAtom } from "@/app/atom";
+import { currentUserAtom, eventAtom, eventsAtom, isDetailsVisibleAtom, usersAtom } from "@/app/atom";
 
 export default function EventDetails() {
     const event = useAtomValue(eventAtom);
@@ -20,20 +20,11 @@ export default function EventDetails() {
 
     const detailsRef = useRef<HTMLDivElement>(null);
 
-    const pos = useAtomValue(positionAtom);
-
     const users = useAtomValue(usersAtom);
 
     const currentUser = useAtomValue(currentUserAtom);
 
     const setEvents = useSetAtom(eventsAtom);
-
-    useEffect(() => {
-        if (detailsRef.current) {
-            const { offsetWidth, offsetHeight } = detailsRef.current;
-            // setSize({ width: offsetWidth, height: offsetHeight });
-        }
-    }, [event.participants]);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -150,10 +141,10 @@ export default function EventDetails() {
                             </div>
                             <div className="flex flex-col pb-4 pt-2">
                                 <p className="font-bold">{event.participants.length} participants</p>
-                                {event.participants.map((participantId, index) => {
+                                {event.participants.map((participantId) => {
                                     const participant = users.find(user => user.id === participantId);
                                     return (
-                                        <div className="flex items-center mt-1" key={index}>
+                                        <div className="flex items-center mt-1" key={participantId}>
                                             <Image
                                                 src={`data:image/jpeg;base64,${participant?.pp}`}
                                                 alt="Profile Picture"

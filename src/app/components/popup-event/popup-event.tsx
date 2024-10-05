@@ -25,14 +25,12 @@ export default function PopupEvent() {
 
     const currentUser = useAtomValue(currentUserAtom);
 
-    const pos = useAtomValue(positionAtom);
-
     const users = useAtomValue(usersAtom);
 
     const setEvents = useSetAtom(eventsAtom);
 
     const [endHour, setEndHour] = useState(date.getHours() + 1);
-    const [size, setSize] = useState({ width: 0, height: 0 });
+    const [_, setSize] = useState({ width: 0, height: 0 });
     const popupRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
