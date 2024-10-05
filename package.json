@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "concurrently \"node ./src/app/server.js\" \"next start\"",
+    "start": "concurrently \"node ./src/app/create_table.js\" \"node ./src/app/server.js\" \"next start\"",
     "lint": "next lint"
   },
   "dependencies": {
