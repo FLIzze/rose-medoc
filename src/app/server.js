@@ -48,7 +48,13 @@ var pool = mysql.createPool({
     password: '1231',
     database: 'calendar'
 });
-app.use(cors());
+var corsOptions = {
+    origin: '*', // Permettre à toutes les origines d'accéder à l'API
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Méthodes autorisées
+    allowedHeaders: ['Content-Type', 'Authorization'], // En-têtes autorisés
+    credentials: true
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
