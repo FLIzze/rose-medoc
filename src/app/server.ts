@@ -14,7 +14,14 @@ const pool = mysql.createPool({
   database: 'calendar'
 });
 
-app.use(cors());
+const corsOptions = {
+  origin: '*',  // Permettre à toutes les origines d'accéder à l'API
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Méthodes autorisées
+  allowedHeaders: ['Content-Type', 'Authorization'], // En-têtes autorisés
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.use(express.json({ limit: '10mb' }));

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "concurrently \"node ./src/app/create_table.js\" \"node ./src/app/server.js\" \"next start\"",
-    "lint": "next lint"
+    "lint": "next lint",
+    "proxy": "http://localhost:5000"
   },
   "dependencies": {
     "@react-google-maps/api": "^2.19.3",
