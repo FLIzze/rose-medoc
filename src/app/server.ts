@@ -8,7 +8,7 @@ const app = express();
 const port = 5000;
 
 const pool = mysql.createPool({
-  host: 'db',
+  host: '1234',
   user: 'rose-medoc',
   password: '1231',
   database: 'calendar'

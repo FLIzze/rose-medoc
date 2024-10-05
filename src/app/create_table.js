@@ -42,7 +42,7 @@ function createTable() {
                 case 0:
                     mysql = require('mysql2');
                     pool = mysql.createPool({
-                        host: 'db',
+                        host: '1234',
                         user: 'rose-medoc',
                         password: '1231',
                         database: 'calendar'
