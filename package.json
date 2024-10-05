@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "npx tsc ./src/app/create_table.ts && node ./src/app/create_table.js && node ./src/app/node server.js",
     "lint": "next lint"
   },
   "dependencies": {
