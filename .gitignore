@@ -36,7 +36,3 @@ yarn-error.log*
 next-env.d.ts
 
 google_api_key.json
-
-server.js
-db.js
-create_table.js
