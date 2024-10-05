@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently \"node ./src/app/create_table.js\" \"node ./src/app/server.js\" \"next dev\"",
     "build": "next build",
     "start": "concurrently \"node ./src/app/create_table.js\" \"node ./src/app/server.js\" \"next start\"",
     "lint": "next lint",

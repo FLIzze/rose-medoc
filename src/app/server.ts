@@ -1,3 +1,5 @@
+import { db_credentials } from "./db_credentials";
+
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
@@ -8,10 +10,10 @@ const app = express();
 const port = 5000;
 
 const pool = mysql.createPool({
-  host: 'random',
-  user: 'rose-medoc',
-  password: '1231',
-  database: 'calendar'
+  host: db_credentials.host,
+  user: db_credentials.user,
+  password: db_credentials.password,
+  database: db_credentials.database
 });
 
 const corsOptions = {

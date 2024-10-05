@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,19 +35,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
+Object.defineProperty(exports, "__esModule", { value: true });
+var db_credentials_1 = require("./db_credentials");
 var express = require('express');
 var mysql = require('mysql2');
 var cors = require('cors');
 var bodyParser = require('body-parser');
 var sharp = require('sharp');
+const { log } = require("console");
 var app = express();
 var port = 5000;
 var pool = mysql.createPool({
-    host: 'random',
-    user: 'rose-medoc',
-    password: '1231',
-    database: 'calendar'
+    host: db_credentials_1.db_credentials.host,
+    user: db_credentials_1.db_credentials.user,
+    password: db_credentials_1.db_credentials.password,
+    database: db_credentials_1.db_credentials.database
 });
 var corsOptions = {
     origin: '*', // Permettre à toutes les origines d'accéder à l'API
@@ -72,7 +75,7 @@ app.post('/api/events', function (req, res) {
         res.status(201).json({ message: 'Event created' });
     });
 });
-app.put('/api/users', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+app.put('/api/users', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, id, email, firstName, lastName, password, color, pp, fileBuffer, base64Data, buffer, sql, values;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -116,7 +119,7 @@ app.put('/api/users', function (req, res) { return __awaiter(_this, void 0, void
         }
     });
 }); });
-app.post('/api/users', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+app.post('/api/users', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, uuid, lastName, firstName, email, password, color, pp, fileBuffer, base64Data, buffer, sql, values;
     return __generator(this, function (_b) {
         switch (_b.label) {
