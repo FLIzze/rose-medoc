@@ -1,13 +1,13 @@
 "use client";
 import axios from "axios";
-import { UserInterface } from "../model/user";
+import { UserInterface } from "@/app/model/user";
 import { usePathname } from "next/navigation";
 import { FormEvent, useEffect, useState, useCallback } from "react";
-import defaultUser from "../defaultUser";
-import hash from "../password/hash";
+import defaultUser from "@/app/defaultUser";
+import hash from "@/app/password/hash";
 import { useRouter } from "next/navigation";
-import capitalizeFirstLetter from "../capitalizeFirstLetter";
-import getBase64Image from "../getBase64Image";
+import capitalizeFirstLetter from "@/app/capitalizeFirstLetter";
+import getBase64Image from "@/app/getBase64Image";
 import Cookies from "js-cookie";
 import Image from "next/image";
 export default function EditProfile() {

@@ -43,7 +43,7 @@ var sharp = require('sharp');
 var app = express();
 var port = 5000;
 var pool = mysql.createPool({
-    host: 'localhost',
+    host: 'db',
     user: 'rose-medoc',
     password: '1231',
     database: 'calendar'
