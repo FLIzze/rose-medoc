@@ -26,7 +26,10 @@ export default function Participants({ event, users }: Readonly<ParticipantsProp
                         {event.participants.map((participantId, index) => {
                             const participant = users.find(user => user.id === participantId);
                             return (
-                                <div className="flex items-center mt-1" key={event.id + participantId + index}>
+                                <div
+                                    className="flex items-center mt-1"
+                                // key={event.id + participantId + index}
+                                >
                                     <Image
                                         src={`data:image/jpeg;base64,${participant?.pp}`}
                                         alt="Profile Picture"

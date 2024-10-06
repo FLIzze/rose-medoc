@@ -39,17 +39,17 @@ export default function PopupEvent() {
     }, [popupDate]);
 
     useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
+        const handleClickOutside = (event: MouseEvent) => {
             if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
                 hideEventPopup(setIsPopupVisible);
             }
-        }
-
+        };
+    
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    })
+    }, [popupRef]);
 
     return (
         <Draggable>

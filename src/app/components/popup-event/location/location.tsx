@@ -17,13 +17,14 @@ export default function Location({ setLocation, location }: Readonly<LocationPro
         const script = document.createElement("script");
         script.src = `https://maps.googleapis.com/maps/api/js?key=${apiPassowrd}&libraries=places`;
         script.async = true;
-        script.onload = () => {
+    
+        const handleScriptLoad = () => {
             if (!inputRef.current) return;
-
+    
             const autocomplete = new google.maps.places.Autocomplete(inputRef.current, {
                 componentRestrictions: { country: 'fr' }
             });
-
+    
             autocomplete.addListener("place_changed", () => {
                 const place = autocomplete.getPlace();
                 if (place.formatted_address) {
@@ -31,12 +32,14 @@ export default function Location({ setLocation, location }: Readonly<LocationPro
                 }
             });
         };
+    
+        script.onload = handleScriptLoad;
         document.head.appendChild(script);
-
+    
         return () => {
             document.head.removeChild(script);
         };
-    }, [apiPassowrd, setLocation]);
+    }, [apiPassowrd]);
 
     return (
         <input

@@ -54,7 +54,7 @@ export default function EditProfile() {
 
     useEffect(() => {
         fetchUserData();
-    }, [fetchUserData]);
+    }, []);
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();

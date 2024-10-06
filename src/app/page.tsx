@@ -31,14 +31,14 @@ export default function Home() {
 
     useEffect(() => {
         getEvents(setEvents);
-    }, [setEvents]);
+    }, []);
 
     useEffect(() => {
         axios.get('http://localhost:5000/api/users')
             .then((response) => {
-                setUsers(response.data)
+                setUsers(response.data);
                 for (const user of response.data as UserInterface[]) {
-                    if (user.uuid == cookie['uuid']) {
+                    if (user.uuid === cookie['uuid']) {
                         setCurrentUser(user);
                     }
                 }
@@ -46,11 +46,11 @@ export default function Home() {
             .catch((error) => {
                 console.error('Error fetching users', error);
             });
-    }, [currentUser, cookie, setCurrentUser, setUsers]);
+    }, [cookie]);
 
     useEffect(() => {
         setFilteredEvents(filterEvent(events, currentUser, own, tagged, others));
-    }, [events, own, tagged, others, currentUser, setFilteredEvents]);
+    }, [events, own, tagged, others, currentUser]);
 
     return (
         <div className="h-screen w-screen flex items-center justify-center bg-gray-100">

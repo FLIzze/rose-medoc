@@ -19,7 +19,7 @@ export default function MainMonthlyCal() {
 
     const [isDetailsVisible, setIsDetailsVisible] = useAtom(isDetailsVisibleAtom);
     const [isPopupVisible, setIsPopupVisible] = useAtom(isPopupVisibleAtom);
-    
+
     const setTitle = useSetAtom(titleAtom);
     const setDescription = useSetAtom(descriptionAtom);
     const setParticipants = useSetAtom(participantsAtom);
@@ -39,19 +39,19 @@ export default function MainMonthlyCal() {
     }
 
     useEffect(() => {
-        function handleWheel(event: WheelEvent) {
+        const handleWheel = (event: WheelEvent) => {
             if (event.deltaY < 0) {
                 prevWeek(date, setDate, calendarMode);
             } else {
                 nextWeek(date, setDate, calendarMode);
             }
-        }
+        };
 
         window.addEventListener('wheel', handleWheel);
         return () => {
             window.removeEventListener('wheel', handleWheel);
         };
-    }, [date, setDate, setCalendarMode, calendarMode]);
+    }, [date, calendarMode]);
 
     return (
         <div className="grid grid-cols-7 text-dark-pink text-sm gap-0">
@@ -70,7 +70,7 @@ export default function MainMonthlyCal() {
 
                 return (
                     <div
-                        key={day.toString() + index + dayEvents.length}
+                        // key={day.toString() + index + dayEvents.length}
                         className={`flex items-start flex-col border-very-light-pink h-44 w-full text-left
                                     ${isFirstColumn ? 'border-l' : ''} 
                                     ${isLastColumn ? 'border-r' : ''} 
@@ -117,7 +117,7 @@ export default function MainMonthlyCal() {
                         <div className="w-full">
                             {dayEvents.slice(0, 4).map((event, index) => (
                                 <button
-                                    key={event.title + index + event.beginning}
+                                    // key={event.title + index + event.beginning}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);

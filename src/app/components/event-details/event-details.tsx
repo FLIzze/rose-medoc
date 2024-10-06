@@ -36,7 +36,7 @@ export default function EventDetails() {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [setIsDetailsVisible]);
+    }, [detailsRef.current]);
 
     return (
         <Draggable>

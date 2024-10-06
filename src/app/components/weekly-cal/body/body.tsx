@@ -74,13 +74,13 @@ export default function Body() {
                     {eventColumns.map(({ event, columnIndex, totalColumns }) => {
                         const eventDuration = (new Date(event.end).getHours() - new Date(event.beginning).getHours());
                         skip = eventDuration;
-                        const columnWidth = 100 / totalColumns; 
-                        const leftPosition = (columnWidth * columnIndex); 
+                        const columnWidth = 100 / totalColumns;
+                        const leftPosition = (columnWidth * columnIndex);
 
                         return (
                             <button
                                 className="absolute pl-1 overflow-hidden"
-                                key={event.title + columnIndex + totalColumns}
+                                // key={event.title + columnIndex + totalColumns}
                                 style={{
                                     width: `${columnWidth}%`,
                                     left: `${leftPosition}%`,
@@ -134,9 +134,15 @@ export default function Body() {
                 const currentDate = new Date(startOfWeek);
                 currentDate.setDate(startOfWeek.getDate() + dayIndex);
                 return (
-                    <div className="bg-white" key={day as string + dayIndex}>
+                    <div
+                        className="bg-white"
+                    // key={day as string + dayIndex}
+                    >
                         {hours.slice(0, -1).map((hour) => (
-                            <div key={hour + dayIndex + "week"} className="h-24 relative">
+                            <div
+                                // key={hour + dayIndex + "week"} 
+                                className="h-24 relative"
+                            >
                                 {renderEventsForHour(hour, currentDate)}
                             </div>
                         ))}
@@ -147,7 +153,10 @@ export default function Body() {
             return (
                 <div className="bg-white">
                     {hours.slice(0, -1).map((hour, index) => (
-                        <div key={hour + index + "day"} className="h-24 relative">
+                        <div
+                            // key={hour + index + "day"} 
+                            className="h-24 relative"
+                        >
                             {renderEventsForHour(hour, date)}
                         </div>
                     ))}
@@ -163,7 +172,10 @@ export default function Body() {
         >
             <div className="bg-white">
                 {hours.slice(0, -1).map((hour, index) => (
-                    <div className="text-xs text-right text-dark-pink pr-3 h-24 flex items-center justify-end" key={hour + index + "gridBody"}>
+                    <div
+                        className="text-xs text-right text-dark-pink pr-3 h-24 flex items-center justify-end"
+                    // key={hour + index + "gridBody"}
+                    >
                         {hour}:00
                     </div>
                 ))}

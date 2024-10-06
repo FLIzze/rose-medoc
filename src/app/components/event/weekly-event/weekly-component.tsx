@@ -19,18 +19,20 @@ export default function WeeklyEvent({ event }: Readonly<WeeklyEventProps>) {
     const isPopupVisible = useAtomValue(isPopupVisibleAtom);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/users')
-            .then((response) => {
-                for (const user of response.data as UserInterface[]) {
-                    if (user.id == +event.by) {
-                        setEventCreator(user);
-                        return;
-                    }
+        const fetchEventCreator = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/users');
+                const users = response.data as UserInterface[];
+                const eventCreator = users.find(user => user.id === +event.by);
+                if (eventCreator) {
+                    setEventCreator(eventCreator);
                 }
-            })
-            .catch((error) => {
-                console.error('Error fetching events', error);
-            });
+            } catch (error) {
+                console.error('Error fetching users', error);
+            }
+        };
+    
+        fetchEventCreator();
     }, [event.by]);
 
     return (

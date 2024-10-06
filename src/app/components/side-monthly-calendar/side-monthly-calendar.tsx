@@ -69,7 +69,10 @@ export default function SideMonthlyCal() {
 
             <div className="grid grid-cols-7 text-sm">
                 {daysOfWeek.map((day, index) => (
-                    <div className="p-1 text-center font-bold" key={day + index}>
+                    <div
+                        className="p-1 text-center font-bold"
+                        // key={day + index}
+                    >
                         <p className='text-xs text-dark-pink'>
                             {day}
                         </p>
@@ -77,7 +80,10 @@ export default function SideMonthlyCal() {
                 ))}
 
                 {Array.from({ length: firstDayOfMonth }).map((number, index) => (
-                    <div className="p-1 text-center" key={number as string + index}></div>
+                    <div 
+                    className="p-1 text-center" 
+                    // key={number as string + index}
+                    ></div>
                 ))}
 
                 {daysArray.map((date, index) => {
@@ -91,7 +97,7 @@ export default function SideMonthlyCal() {
                     return (
                         <button
                             onClick={() => setDateFunc(date)}
-                            key={date.toString() + index + hasEvents}
+                        // key={date.toString() + index + hasEvents}
                         >
                             <p className={`p-2 text-xs rounded-full transition-all ${hasEvents ? 'text-white bg-medium-pink hover:bg-dark-pink' : 'text-medium-pink hover:bg-very-light-pink'}`}>
                                 {date.getDate()}

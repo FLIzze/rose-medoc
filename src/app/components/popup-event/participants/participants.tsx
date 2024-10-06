@@ -14,11 +14,11 @@ interface ParticipantsProps {
 export default function Participants({ setParticipants, participants, users, currentUser }: Readonly<ParticipantsProps>) {
     const [participantsInput, setParticipantsInput] = useState("");
 
-    function removeParticipant(participantId: number) {
+    const removeParticipant = (participantId: number) => {
         setParticipants(participants.filter(participant => participant.id !== participantId));
     }
 
-    function hideParticipantsPopUp() {
+    const hideParticipantsPopUp = () => {
         const participantsInput = document.getElementById("participantsInput") as HTMLInputElement;
         if (participantsInput) {
             participantsInput.value = "";
@@ -38,17 +38,17 @@ export default function Participants({ setParticipants, participants, users, cur
     }
 
     useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
+        const handleClickOutside = (event: MouseEvent) => {
             const participantsPopUp = document.getElementById("participantsPopUp") as HTMLDivElement;
             if (participantsPopUp && !participantsPopUp.contains(event.target as Node)) {
                 hideParticipantsPopUp();
             }
-        }
-
+        };
+    
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
-        }
+        };
     }, []);
 
     return (
@@ -93,7 +93,7 @@ export default function Participants({ setParticipants, participants, users, cur
                             )
                             .map((user, index) => (
                                 <button
-                                    key={user.firstName + index + user.lastName}
+                                    // key={user.firstName + index + user.lastName}
                                     onClick={() => {
                                         setParticipants([...participants, user]);
                                         hideParticipantsPopUp();
@@ -119,7 +119,7 @@ export default function Participants({ setParticipants, participants, users, cur
             {participants.map((participant, index) => (
                 <div
                     className="flex justify-between hover:bg-very-light-pink rounded-lg p-2"
-                    key={participant.lastName + index + participant.firstName}
+                    // key={participant.lastName + index + participant.firstName}
                 >
                     <div className="flex items-center">
                         <Image

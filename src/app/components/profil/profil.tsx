@@ -16,18 +16,18 @@ export default function Profile() {
     const [currentUser, setCurrentUser] = useAtom(currentUserAtom);
 
     useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
+        const handleClickOutside = (event: MouseEvent) => {
             const profile = document.getElementById("profile");
             if (profile && !profile.contains(event.target as Node)) {
                 setIsProfileVisible(false);
             }
-        }
-
+        };
+    
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [setIsProfileVisible]);
+    }, []);
 
     const dc = () => {
         document.cookie = 'uuid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
