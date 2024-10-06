@@ -11,7 +11,7 @@ export default function prevWeek(
         newDate.setDate(newDate.getDate() - 7);
     } else if (calendarMode === "Mois") {
         newDate.setMonth(newDate.getMonth() - 1);
-    } else if (calendarMode === "jour") {
+    } else if (calendarMode === "Jour") {
         newDate.setDate(newDate.getDate() - 1);
     }
 

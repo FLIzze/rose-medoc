@@ -80,7 +80,7 @@ export default function Body() {
                         return (
                             <button
                                 className="absolute pl-1 overflow-hidden"
-                                key={event.title + columnIndex}
+                                key={event.title + columnIndex + totalColumns}
                                 style={{
                                     width: `${columnWidth}%`,
                                     left: `${leftPosition}%`,
@@ -103,7 +103,7 @@ export default function Body() {
 
         return (
             skip === 0 && (
-                <button
+                <div
                     className="bg-white border border-very-light-pink h-24 w-full"
                     onClick={(e) => {
                         displayEventPopUp(setTitle,
@@ -120,7 +120,7 @@ export default function Body() {
                         setPosition({ x: e.clientX, y: e.clientY });
                     }}
                 >
-                </button>
+                </div>
             )
         );
     }
@@ -136,7 +136,7 @@ export default function Body() {
                 return (
                     <div className="bg-white" key={day as string + dayIndex}>
                         {hours.slice(0, -1).map((hour) => (
-                            <div key={hour + dayIndex} className="h-24 relative">
+                            <div key={hour + dayIndex + "week"} className="h-24 relative">
                                 {renderEventsForHour(hour, currentDate)}
                             </div>
                         ))}
@@ -147,7 +147,7 @@ export default function Body() {
             return (
                 <div className="bg-white">
                     {hours.slice(0, -1).map((hour, index) => (
-                        <div key={hour + index} className="h-24 relative">
+                        <div key={hour + index + "day"} className="h-24 relative">
                             {renderEventsForHour(hour, date)}
                         </div>
                     ))}
@@ -163,7 +163,7 @@ export default function Body() {
         >
             <div className="bg-white">
                 {hours.slice(0, -1).map((hour, index) => (
-                    <div className="text-xs text-right text-dark-pink pr-3 h-24 flex items-center justify-end" key={hour + index}>
+                    <div className="text-xs text-right text-dark-pink pr-3 h-24 flex items-center justify-end" key={hour + index + "gridBody"}>
                         {hour}:00
                     </div>
                 ))}

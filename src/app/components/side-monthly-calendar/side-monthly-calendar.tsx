@@ -91,7 +91,7 @@ export default function SideMonthlyCal() {
                     return (
                         <button
                             onClick={() => setDateFunc(date)}
-                            key={date.toString() + index}
+                            key={date.toString() + index + hasEvents}
                         >
                             <p className={`p-2 text-xs rounded-full transition-all ${hasEvents ? 'text-white bg-medium-pink hover:bg-dark-pink' : 'text-medium-pink hover:bg-very-light-pink'}`}>
                                 {date.getDate()}

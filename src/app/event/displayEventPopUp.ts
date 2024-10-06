@@ -29,6 +29,8 @@ export default async function displayEventPopUp(
         if (titleInput) {
             titleInput.style.display = "none";
         }
+        console.log(date);
+        
 
         setPopupDate(new Date(date.setHours(hour, 0, 0, 0)));
         setPopupDate(new Date(date.setDate(date.getDate())))

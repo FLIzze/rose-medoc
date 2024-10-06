@@ -8,10 +8,12 @@ import goToDailyCalendar from "@/app/date/goToDailyCalendar";
 import nextWeek from "@/app/date/nextWeek";
 import prevWeek from "@/app/date/prevWeek";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { calendarModeAtom, dateAtom, descriptionAtom, eventAtom, filteredEventsAtom, isDetailsVisibleAtom, isPopupVisibleAtom, locationAtom, participantsAtom, positionAtom, titleAtom } from "@/app/atom";
+import { calendarModeAtom, dateAtom, descriptionAtom, eventAtom, filteredEventsAtom, isDetailsVisibleAtom, isPopupVisibleAtom, locationAtom, participantsAtom, popupDateAtom, positionAtom, titleAtom } from "@/app/atom";
 
 export default function MainMonthlyCal() {
     const [date, setDate] = useAtom(dateAtom);
+
+    const setPopupDate = useSetAtom(popupDateAtom);
 
     const [calendarMode, setCalendarMode] = useAtom(calendarModeAtom);
 
@@ -29,14 +31,11 @@ export default function MainMonthlyCal() {
 
     const filteredEvents = useAtomValue(filteredEventsAtom);
 
-    const currentMonth = date.getMonth();
-    const currentYear = date.getFullYear();
-
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
     const daysArray = [];
 
     for (let i = 1; i <= daysInMonth; i++) {
-        daysArray.push(new Date(currentYear, currentMonth, i));
+        daysArray.push(new Date(date.getFullYear(), date.getMonth(), i));
     }
 
     useEffect(() => {
@@ -70,8 +69,8 @@ export default function MainMonthlyCal() {
                 const isLastRow = index >= daysArray.length - 7;
 
                 return (
-                    <button
-                        key={day.toString() + index}
+                    <div
+                        key={day.toString() + index + dayEvents.length}
                         className={`flex items-start flex-col border-very-light-pink h-44 w-full text-left
                                     ${isFirstColumn ? 'border-l' : ''} 
                                     ${isLastColumn ? 'border-r' : ''} 
@@ -89,7 +88,7 @@ export default function MainMonthlyCal() {
                                 setLocation,
                                 7,
                                 day,
-                                setDate,
+                                setPopupDate,
                             );
                             setPosition({ x: e.clientX, y: e.clientY });
                         }}
@@ -118,7 +117,7 @@ export default function MainMonthlyCal() {
                         <div className="w-full">
                             {dayEvents.slice(0, 4).map((event, index) => (
                                 <button
-                                    key={event.title + index}
+                                    key={event.title + index + event.beginning}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
@@ -153,7 +152,7 @@ export default function MainMonthlyCal() {
                                 </button>
                             )}
                         </div>
-                    </button>
+                    </div>
                 );
             })}
         </div>

@@ -13,6 +13,7 @@ interface DateFieldProps {
 export default function DateField({ popupDate, setPopupDate, endHour, setEndHour }: Readonly<DateFieldProps>) {
     const [isBeginningHoursVisible, setIsBeginningHoursVisible] = useState(false);
     const [isEndHoursVisible, setIsEndHoursVisible] = useState(false);
+    
     const beginningHoursRef = useRef<HTMLDivElement>(null);
     const endHoursRef = useRef<HTMLDivElement>(null);
 
@@ -87,7 +88,7 @@ export default function DateField({ popupDate, setPopupDate, endHour, setEndHour
                 >
                     {Array.from({ length: 12 }, (_, i) => i + 7).map((hour, index) => (
                         <button
-                            key={hour + index}
+                            key={hour + index + 'beginning'}
                             className="hover:bg-gray-100 p-2 text-left w-32 hover:bg-very-light-pink"
                             onClick={() => handleBeginningHourClick(hour)}
                         >
@@ -115,7 +116,7 @@ export default function DateField({ popupDate, setPopupDate, endHour, setEndHour
                 >
                     {Array.from({ length: Math.min(14, 20 - popupDate.getHours() - 1) }, (_, i) => i + popupDate.getHours() + 1).map((hour, index) => (
                         <button
-                            key={hour + index}
+                            key={hour + index + 'end'}
                             className="hover:bg-gray-100 p-2 text-left w-32 hover:bg-very-light-pink"
                             onClick={() => handleEndHourClick(hour)}
                         >
