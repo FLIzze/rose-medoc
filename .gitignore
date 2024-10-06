@@ -39,3 +39,6 @@ google_api_key.json
 
 credentials.ts
 credentials.js
+
+create_table.js
+server.js
