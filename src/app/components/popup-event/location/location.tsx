@@ -1,7 +1,7 @@
 "use client";
 
 import { api_credentials } from "@/app/credentials";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
 interface LocationProps {
     setLocation: Dispatch<SetStateAction<string>>,

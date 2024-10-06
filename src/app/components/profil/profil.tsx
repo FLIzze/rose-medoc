@@ -1,6 +1,5 @@
 "use client";
 
-import { UserInterface } from "@/app/model/user";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";

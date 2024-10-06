@@ -1,4 +1,4 @@
-import { db_credentials } from "./db_credentials";
+import { db_credentials } from "./credentials";
 
 async function createTable() {
     const mysql = require('mysql2');

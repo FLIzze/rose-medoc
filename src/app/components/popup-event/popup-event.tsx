@@ -10,7 +10,7 @@ import Date from "./date/date";
 import Location from "./location/location";
 import Image from "next/image";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { currentUserAtom, descriptionAtom, eventsAtom, isPopupVisibleAtom, locationAtom, participantsAtom, popupDateAtom, positionAtom, titleAtom, usersAtom } from "@/app/atom";
+import { currentUserAtom, descriptionAtom, eventsAtom, isPopupVisibleAtom, locationAtom, participantsAtom, popupDateAtom, titleAtom, usersAtom } from "@/app/atom";
 
 export default function PopupEvent() {
     const date = useAtomValue(popupDateAtom)
@@ -30,19 +30,11 @@ export default function PopupEvent() {
     const setEvents = useSetAtom(eventsAtom);
 
     const [endHour, setEndHour] = useState(date.getHours() + 1);
-    const [_, setSize] = useState({ width: 0, height: 0 });
     const popupRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setEndHour(popupDate.getHours() + 1);
     }, [popupDate]);
-
-    useEffect(() => {
-        if (popupRef.current) {
-            const { offsetWidth, offsetHeight } = popupRef.current;
-            setSize({ width: offsetWidth, height: offsetHeight });
-        }
-    }, []);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
