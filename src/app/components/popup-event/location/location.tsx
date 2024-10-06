@@ -1,5 +1,6 @@
 "use client";
 
+import { api_credentials } from "@/app/credentials";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 interface LocationProps {
@@ -10,26 +11,11 @@ interface LocationProps {
 export default function Location({ setLocation, location }: Readonly<LocationProps>) {
     const inputRef = useRef<HTMLInputElement>(null);
     
-    const [apiKey, setApiKey] = useState<string>("");
-
-    const filePath = "/google_api_key.json";
+    const apiPassowrd = api_credentials.apiKey;
 
     useEffect(() => {
-        fetch(filePath)
-            .then(response => response.json())
-            .then(data => {
-                setApiKey(data.apiKey);
-            })
-            .catch(error => {
-                console.error("Error fetching API key:", error);
-            });
-    }, []);
-
-    useEffect(() => {
-        if (!inputRef.current || !apiKey) return;
-
         const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiPassowrd}&libraries=places`;
         script.async = true;
         script.onload = () => {
             if (!inputRef.current) return;
@@ -50,7 +36,7 @@ export default function Location({ setLocation, location }: Readonly<LocationPro
         return () => {
             document.head.removeChild(script);
         };
-    }, [apiKey, setLocation]);
+    }, [apiPassowrd, setLocation]);
 
     return (
         <input

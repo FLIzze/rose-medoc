@@ -141,10 +141,10 @@ export default function EventDetails() {
                             </div>
                             <div className="flex flex-col pb-4 pt-2">
                                 <p className="font-bold">{event.participants.length} participants</p>
-                                {event.participants.map((participantId) => {
+                                {event.participants.map((participantId, index) => {
                                     const participant = users.find(user => user.id === participantId);
                                     return (
-                                        <div className="flex items-center mt-1" key={participantId}>
+                                        <div className="flex items-center mt-1" key={participantId + index}>
                                             <Image
                                                 src={`data:image/jpeg;base64,${participant?.pp}`}
                                                 alt="Profile Picture"

@@ -91,10 +91,10 @@ export default function Participants({ setParticipants, participants, users, cur
                                 user.id !== currentUser?.id &&
                                 !participants.some(participant => participant.id === user.id)
                             )
-                            .map((user) => (
+                            .map((user, index) => (
                                 <button
-                                    key={user.firstName}
-                                    onClick={(e) => {
+                                    key={user.firstName + index}
+                                    onClick={() => {
                                         setParticipants([...participants, user]);
                                         hideParticipantsPopUp();
                                     }}
@@ -116,10 +116,10 @@ export default function Participants({ setParticipants, participants, users, cur
             )
             }
 
-            {participants.map((participant) => (
+            {participants.map((participant, index) => (
                 <div
                     className="flex justify-between hover:bg-very-light-pink rounded-lg p-2"
-                    key={participant.firstName}
+                    key={participant.lastName + index}
                 >
                     <div className="flex items-center">
                         <Image

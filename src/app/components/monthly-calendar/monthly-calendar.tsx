@@ -71,7 +71,7 @@ export default function MainMonthlyCal() {
 
                 return (
                     <button
-                        key={day.toString()}
+                        key={day.toString() + index}
                         className={`flex items-start flex-col border-very-light-pink h-44 w-full text-left
                                     ${isFirstColumn ? 'border-l' : ''} 
                                     ${isLastColumn ? 'border-r' : ''} 
@@ -116,9 +116,9 @@ export default function MainMonthlyCal() {
                         </div>
 
                         <div className="w-full">
-                            {dayEvents.slice(0, 4).map((event) => (
+                            {dayEvents.slice(0, 4).map((event, index) => (
                                 <button
-                                    key={event.title}
+                                    key={event.title + index}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);

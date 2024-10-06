@@ -42,7 +42,6 @@ var mysql = require('mysql2');
 var cors = require('cors');
 var bodyParser = require('body-parser');
 var sharp = require('sharp');
-const { log } = require("console");
 var app = express();
 var port = 5000;
 var pool = mysql.createPool({
@@ -53,8 +52,8 @@ var pool = mysql.createPool({
 });
 var corsOptions = {
     origin: '*', // Permettre à toutes les origines d'accéder à l'API
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Méthodes autorisées
-    allowedHeaders: ['Content-Type', 'Authorization'], // En-têtes autorisés
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 };
 app.use(cors(corsOptions));

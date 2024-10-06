@@ -36,10 +36,6 @@ export default function Profile() {
         window.location.reload();
     };
 
-    const editProfile = (currentUSer: UserInterface) => {
-        router.push(`/edit-profile=${currentUSer.id}`);
-    }
-
     return (
         <div className="text-sm">
             <button
@@ -63,18 +59,19 @@ export default function Profile() {
                     <p className="font-bold mb-3 mt-1">Bonjour {currentUser.lastName} {currentUser.firstName}</p>
                     <button
                         className="bg-medium-pink text-white hover:bg-dark-pink rounded-lg p-2 transition-colors text-left"
-                        onClick={() => editProfile(currentUser)}
+                        onClick={() => router.push(`/edit-profile=${currentUser.id}`)
+                    }
                     >
-                        Modifier le profil
-                    </button>
-                    <button
-                        className="bg-medium-pink text-white hover:bg-dark-pink rounded-lg p-2 transition-colors text-left"
-                        onClick={dc}
-                    >
-                        Déconnexion
-                    </button>
-                </div>
+                    Modifier le profil
+                </button>
+                <button
+                    className="bg-medium-pink text-white hover:bg-dark-pink rounded-lg p-2 transition-colors text-left"
+                    onClick={dc}
+                >
+                    Déconnexion
+                </button>
             </div>
         </div>
+        </div >
     );
 }

@@ -72,8 +72,8 @@ export default function PopupEvent() {
                             src="/title.png"
                             alt="title"
                             className='mx-3'
-                            width={10}
-                            height={10}
+                            width={20}
+                            height={20}
                         />
                     </div>
                     <div>
@@ -92,8 +92,8 @@ export default function PopupEvent() {
                             src="/clock.png"
                             alt="date"
                             className='mx-3'
-                            width={10}
-                            height={10}
+                            width={18}
+                            height={18}
                         />
                     </div>
                     <Date
@@ -108,8 +108,8 @@ export default function PopupEvent() {
                             src="/description.png"
                             alt="description"
                             className='mx-3'
-                            height={10}
-                            width={10}
+                            height={18}
+                            width={18}
                         />
                     </div>
                     <input
@@ -124,8 +124,8 @@ export default function PopupEvent() {
                             src="/person.png"
                             alt="participants"
                             className='mx-3'
-                            width={10}
-                            height={10}
+                            width={18}
+                            height={18}
                         />
                     </div>
                     <Participants
@@ -140,8 +140,8 @@ export default function PopupEvent() {
                             src="/pin.png"
                             alt="location"
                             className='mx-3'
-                            width={10}
-                            height={10}
+                            width={18}
+                            height={18}
                         />
                     </div>
                     <Location

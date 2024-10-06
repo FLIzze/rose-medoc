@@ -26,7 +26,7 @@ export default function Header() {
                         return (
                             <button
                                 className="bg-white"
-                                key={day as number}
+                                key={day as number + dayIndex}
                             >
                                 <button
                                     className="rounded-full hover:bg-very-light-pink w-fit px-3 py-1"

@@ -80,7 +80,7 @@ export default function Body() {
                         return (
                             <button
                                 className="absolute pl-1 overflow-hidden"
-                                key={event.title}
+                                key={event.title + columnIndex}
                                 style={{
                                     width: `${columnWidth}%`,
                                     left: `${leftPosition}%`,
@@ -134,9 +134,9 @@ export default function Body() {
                 const currentDate = new Date(startOfWeek);
                 currentDate.setDate(startOfWeek.getDate() + dayIndex);
                 return (
-                    <div className="bg-white" key={day as number}>
+                    <div className="bg-white" key={day as string + dayIndex}>
                         {hours.slice(0, -1).map((hour) => (
-                            <div key={hour} className="h-24 relative">
+                            <div key={hour + dayIndex} className="h-24 relative">
                                 {renderEventsForHour(hour, currentDate)}
                             </div>
                         ))}
@@ -146,8 +146,8 @@ export default function Body() {
         } else if (calendarMode === "Jour") {
             return (
                 <div className="bg-white">
-                    {hours.slice(0, -1).map((hour) => (
-                        <div key={hour} className="h-24 relative">
+                    {hours.slice(0, -1).map((hour, index) => (
+                        <div key={hour + index} className="h-24 relative">
                             {renderEventsForHour(hour, date)}
                         </div>
                     ))}
@@ -162,8 +162,8 @@ export default function Body() {
             style={{ gridTemplateColumns: calendarMode === 'Semaine' ? '4rem repeat(8, 1fr)' : '4rem 1fr' }}
         >
             <div className="bg-white">
-                {hours.slice(0, -1).map((hour) => (
-                    <div className="text-xs text-right text-dark-pink pr-3 h-24 flex items-center justify-end" key={hour}>
+                {hours.slice(0, -1).map((hour, index) => (
+                    <div className="text-xs text-right text-dark-pink pr-3 h-24 flex items-center justify-end" key={hour + index}>
                         {hour}:00
                     </div>
                 ))}

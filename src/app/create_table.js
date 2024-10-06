@@ -50,8 +50,6 @@ function createTable() {
                         password: db_credentials_1.db_credentials.password,
                         database: db_credentials_1.db_credentials.database
                     });
-                    console.log(db_credentials_1.db_credentials);
-                    
                     return [4 /*yield*/, pool.getConnection()];
                 case 1:
                     connection = _a.sent();
