@@ -79,7 +79,7 @@ export default function Register() {
     };
 
     return (
-        <div className="flex w-screen h-screen bg-very-light-pink">
+        <div className="flex w-screen h-min-screen h-full bg-very-light-pink">
             <div className="flex items-center justify-center w-1/2 p-8 bg-white rounded shadow-md">
                 <div className="w-96">
                     <h2 className="text-3xl font-bold mb-6 text-dark-pink">Inscription</h2>
@@ -136,7 +136,7 @@ export default function Register() {
                                     src={fileURL}
                                     alt="Selected file"
                                     className="mt-2 object-cover rounded-lg border border-medium-pink"
-                                    width={400} height={400}
+                                    width={200} height={200}
                                 />}
                         </div>
 

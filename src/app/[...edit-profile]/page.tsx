@@ -50,7 +50,7 @@ export default function EditProfile() {
 
     useEffect(() => {
         fetchUserData();
-    }, [currentUserId, fetchUserData]);
+    }, [fetchUserData]);
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -115,7 +115,7 @@ export default function EditProfile() {
     };
 
     return (
-        <div className="w-screen h-screen bg-white text-dark-pink text-lg pb-10 flex">
+        <div className="w-screen h-min-screen h-full bg-white text-dark-pink text-lg flex">
             <form method="post" className="flex flex-col gap-y-4 w-full px-72 justify-center" onSubmit={handleSubmit}>
                 <h2 className="text-3xl font-bold mb-6 text-dark-pink">Modifier votre compte</h2>
                 <div className="flex flex-col">
@@ -152,7 +152,7 @@ export default function EditProfile() {
                         value={newLastName}
                         onChange={(e) => setNewLastName(e.target.value)}
                     />
-                    
+
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="password" className="font-bold">Mot de passe</label>
@@ -193,12 +193,13 @@ export default function EditProfile() {
 
                 <div className="flex flex-col">
                     <label htmlFor="pp" className="font-bold">Photo de profil</label>
-                    {fileURL && <Image
-                        src={fileURL} alt="Selected file"
-                        className="object-cover rounded-lg border border-medium-pink"
-                        width={100}
-                        height={100}
-                    />}
+                    {fileURL &&
+                        <Image
+                            src={fileURL}
+                            alt="Selected file"
+                            className="mt-2 object-cover rounded-lg border border-medium-pink"
+                            width={200} height={200}
+                        />}
                     <input
                         type="file"
                         id="pp"
@@ -214,7 +215,7 @@ export default function EditProfile() {
                     value={"Mettre à jour le profil"}
                 />
             </form>
-            
+
             <button className="flex justify-center w-screen h-screen bg-very-light-pink items-center" onClick={goToHome}>
                 <Image
                     src="/logo.png"

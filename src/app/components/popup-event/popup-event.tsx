@@ -11,6 +11,8 @@ import Location from "./location/location";
 import Image from "next/image";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { currentUserAtom, descriptionAtom, eventsAtom, isPopupVisibleAtom, locationAtom, participantsAtom, popupDateAtom, titleAtom, usersAtom } from "@/app/atom";
+import Title from "./title/title";
+import Description from "./description/description";
 
 export default function PopupEvent() {
     const date = useAtomValue(popupDateAtom)
@@ -59,25 +61,10 @@ export default function PopupEvent() {
                 <Header setIsPopupVisible={setIsPopupVisible} />
 
                 <div className="grid grid-cols-[auto,2fr] gap-x-6 mr-6">
-                    <div className="bg-light-pink flex items-center justify-center p-2">
-                        <Image
-                            src="/title.png"
-                            alt="title"
-                            className='mx-3'
-                            width={20}
-                            height={20}
-                        />
-                    </div>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder='Ajouter un titre'
-                            className='h-9 outline-none p-2 mt-2 w-full transition-all text-medium-pink text-xl border-very-light-pink focus:border-medium-pink font-bold border-b-2 focus:border-b-4'
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
-                        <p className="text-xs text-red hidden" id="required-title">Titre obligatoire.</p>
-                    </div>
+                    <Title
+                        title={title}
+                        setTitle={setTitle}
+                    />
 
                     <div className="bg-light-pink flex items-center justify-center pt-4">
                         <Image
@@ -95,20 +82,9 @@ export default function PopupEvent() {
                         setEndHour={setEndHour}
                     />
 
-                    <div className="bg-light-pink flex items-center justify-center p-4">
-                        <Image
-                            src="/description.png"
-                            alt="description"
-                            className='mx-3'
-                            height={18}
-                            width={18}
-                        />
-                    </div>
-                    <input
-                        placeholder='Ajouter une description'
-                        className='outline-none pl-2 mt-2 w-full resize-none h-9 focus:border-b-2 border-medium-pink transition-all text-medium-pink'
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                    <Description
+                        description={description}
+                        setDescription={setDescription}
                     />
 
                     <div className="bg-light-pink flex items-center justify-center p-4">
