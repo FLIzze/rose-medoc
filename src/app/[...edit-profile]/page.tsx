@@ -28,6 +28,10 @@ export default function EditProfile() {
     const [fileURL, setFileURL] = useState<string | null>(null);
     const [errorMessage, setErrorMessage] = useState<string>("");
 
+    const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
+    const [isPasswordValid, setIsPasswordValid] = useState<boolean>(true);
+    const [doPasswordsMatch, setDoPasswordsMatch] = useState<boolean>(true);
+
     const fetchUserData = useCallback(async () => {
         try {
             const response = await axios.get(`http://localhost:5000/api/users`);
@@ -54,7 +58,15 @@ export default function EditProfile() {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        if (newPassword !== confirmPassword) {
+        if (!isEmailValid) {
+            setErrorMessage("Format de courriel invalide");
+            return;
+        }
+        if (!isPasswordValid) {
+            setErrorMessage("Le mot de passe doit contenir au moins 8 caractères, dont une majuscule et un caractère spécial.");
+            return;
+        }
+        if (!doPasswordsMatch) {
             setErrorMessage("Les mots de passe ne correspondent pas");
             return;
         }
@@ -106,12 +118,42 @@ export default function EditProfile() {
     const goToHome = () => {
         router.push("/");
     }
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const selectedFile = e.target.files[0];
             setFile(selectedFile);
             setFileURL(URL.createObjectURL(selectedFile));
         }
+    };
+
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const emailValue = e.target.value;
+        setNewEmail(emailValue);
+        setIsEmailValid(validateEmail(emailValue));
+    };
+
+    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const passwordValue = e.target.value;
+        setNewPassword(passwordValue);
+        setIsPasswordValid(validatePassword(passwordValue));
+        setDoPasswordsMatch(passwordValue === confirmPassword);
+    };
+
+    const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const confirmPasswordValue = e.target.value;
+        setConfirmPassword(confirmPasswordValue);
+        setDoPasswordsMatch(newPassword === confirmPasswordValue);
+    };
+
+    const validateEmail = (email: string) => {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(email);
+    };
+
+    const validatePassword = (password: string) => {
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+        return passwordRegex.test(password);
     };
 
     return (
@@ -122,12 +164,13 @@ export default function EditProfile() {
                     <label htmlFor="email" className="font-bold">Email</label>
                     <input
                         type="email"
-                        className="border border-medium-pink rounded-md p-2 focus:ring-2 focus:ring-medium-pink outline-none transition-all"
+                        className={`border rounded-md p-2 focus:ring-2 outline-none transition-all ${isEmailValid ? 'border-medium-pink focus:ring-medium-pink' : 'border-red focus:ring-red'}`}
                         placeholder={user.email}
                         id="email"
                         value={newEmail}
-                        onChange={(e) => setNewEmail(e.target.value)}
+                        onChange={handleEmailChange}
                     />
+                    {!isEmailValid && <p className="text-red text-xs mt-1">Format de courriel invalide.</p>}
                 </div>
 
                 <div className="flex flex-col">
@@ -152,32 +195,34 @@ export default function EditProfile() {
                         value={newLastName}
                         onChange={(e) => setNewLastName(e.target.value)}
                     />
-
                 </div>
+
                 <div className="flex flex-col">
                     <label htmlFor="password" className="font-bold">Mot de passe</label>
                     <input
                         type="password"
-                        className="border border-medium-pink rounded-md p-2 focus:ring-2 focus:ring-medium-pink outline-none transition-all"
+                        className={`border rounded-md p-2 focus:ring-2 outline-none transition-all ${isPasswordValid ? 'border-medium-pink focus:ring-medium-pink' : 'border-red focus:ring-red'}`}
                         placeholder="Nouveau mot de passe"
                         id="password"
                         autoComplete="new-password"
                         value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
+                        onChange={handlePasswordChange}
                     />
+                    {!isPasswordValid && <p className="text-red text-xs mt-1">Le mot de passe doit contenir au moins 8 caractères, dont une majuscule et un caractère spécial.</p>}
                 </div>
 
                 <div className="flex flex-col">
                     <label htmlFor="confirmPassword" className="font-bold">Confirmer le mot de passe</label>
                     <input
                         type="password"
-                        className="border border-medium-pink rounded-md p-2 focus:ring-2 focus:ring-medium-pink outline-none transition-all"
+                        className={`border rounded-md p-2 focus:ring-2 outline-none transition-all ${doPasswordsMatch ? 'border-medium-pink focus:ring-medium-pink' : 'border-red focus:ring-red'}`}
                         placeholder="Confirmer le mot de passe"
                         id="confirmPassword"
                         autoComplete="new-password"
                         value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        onChange={handleConfirmPasswordChange}
                     />
+                    {!doPasswordsMatch && <p className="text-red text-xs mt-1">Les mots de passe ne correspondent pas.</p>}
                 </div>
 
                 <div className="flex flex-col">

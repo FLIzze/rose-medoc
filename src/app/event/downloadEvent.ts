@@ -2,7 +2,6 @@ import autoTable from "jspdf-autotable";
 import { EventInterface } from "../model/event";
 import { UserInterface } from "../model/user";
 import { jsPDF } from "jspdf";
-import "jspdf-autotable";
 
 export default function downloadEvent(event: EventInterface, users: UserInterface[]) {
     console.log('Downloading event', event, users);
@@ -24,11 +23,13 @@ export default function downloadEvent(event: EventInterface, users: UserInterfac
         headStyles: { fillColor: "#813843" }
     })
 
-    autoTable(doc, {
-        head: [['Description',]],
-        body: [[event.description]],
-        headStyles: { fillColor: "#813843" }
-    })
+    if (event.description !== '') {
+        autoTable(doc, {
+            head: [['Description',]],
+            body: [[event.description]],
+            headStyles: { fillColor: "#813843" }
+        })
+    }
 
     autoTable(doc, {
         head: [['Date de début', 'Date de fin']],
@@ -39,7 +40,7 @@ export default function downloadEvent(event: EventInterface, users: UserInterfac
     autoTable(doc, {
         head: [['Nom', 'Prénom', 'Email']],
         body: users.map(user => [user.lastName, user.firstName, user.email]),
-        headStyles: { fillColor: "#813843"}
+        headStyles: { fillColor: "#813843" }
     })
 
     doc.save(`${event.title}.pdf`);
