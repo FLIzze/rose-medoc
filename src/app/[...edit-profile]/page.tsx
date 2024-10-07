@@ -50,7 +50,7 @@ export default function EditProfile() {
         } catch (error) {
             console.error('Erreur lors de la récupération de l\'utilisateur', error);
         }
-    }, [currentUserId, router]);
+    }, [currentUserId]);
 
     useEffect(() => {
         fetchUserData();
@@ -261,15 +261,6 @@ export default function EditProfile() {
                 />
             </form>
 
-            <button className="flex justify-center w-screen h-screen bg-very-light-pink items-center" onClick={goToHome}>
-                <Image
-                    src="/logo.png"
-                    alt="logo Rose Medoc"
-                    className="object-cover cursor-pointer"
-                    width={500}
-                    height={500}
-                />
-            </button>
         </div>
     );
 }
