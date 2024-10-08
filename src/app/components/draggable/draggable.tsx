@@ -22,7 +22,7 @@ export default function Draggable({ children }: Readonly<DraggableProps>) {
         } else {
             setPosition({ x: position.x, y: position.y });
         }
-    }, [position.x, position.y, size.width, size.height]);
+    }, [position.x, position.y, size.width, size.height, setPosition]);
 
     return (
         <button

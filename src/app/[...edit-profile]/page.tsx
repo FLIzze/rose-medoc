@@ -50,11 +50,11 @@ export default function EditProfile() {
         } catch (error) {
             console.error('Erreur lors de la récupération de l\'utilisateur', error);
         }
-    }, [currentUserId]);
+    }, [currentUserId, router]);
 
     useEffect(() => {
         fetchUserData();
-    }, []);
+    }, [fetchUserData]);
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -260,6 +260,17 @@ export default function EditProfile() {
                     value={"Mettre à jour le profil"}
                 />
             </form>
+
+            <button className="flex justify-center w-screen h-screen bg-very-light-pink items-center" onClick={goToHome}>
+                <Image
+                    src="/logo.png"
+                    alt="logo Rose Medoc"
+                    className="object-cover cursor-pointer"
+                    width={500}
+                    height={500}
+                    priority={true}
+                />
+            </button>
 
         </div>
     );

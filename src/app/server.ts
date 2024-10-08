@@ -17,7 +17,7 @@ const pool = mysql.createPool({
 });
 
 const corsOptions = {
-  origin: '*',  // Permettre à toutes les origines d'accéder à l'API
+  origin: ['https://calendar.rose-medoc.com', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'], 
   credentials: true

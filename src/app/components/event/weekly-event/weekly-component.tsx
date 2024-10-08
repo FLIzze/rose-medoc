@@ -44,7 +44,6 @@ export default function WeeklyEvent({ event }: Readonly<WeeklyEventProps>) {
             }}
             onClick={(e) => {
                 displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);
-                // setPopUpPosition(e, setPosition);
             }}
             className={`rounded-l-md pl-3 text-sm py-1 hover:cursor-pointer pb-3 select-none hover:opacity-100 opacity-75 transition-all items-start justify-start flex flex-col overflow-hidden whitespace-nowrap text-ellipsis w-full h-full`}
         >

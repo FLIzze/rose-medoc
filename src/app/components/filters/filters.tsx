@@ -14,7 +14,7 @@ export default function Filters() {
                     id="own"
                     onClick={() => setOwn(!own)}
                     className="accent-dark-pink"
-                    checked={own}
+                    defaultChecked={own}
                 />
                 <label htmlFor="own" className="select-none">Personnel</label>
             </div>
@@ -24,7 +24,7 @@ export default function Filters() {
                     id="tagged"
                     onClick={() => setTagged(!tagged)}
                     className="accent-dark-pink"
-                    checked={tagged}
+                    defaultChecked={tagged}
                 />
                 <label htmlFor="tagged" className="select-none">Participante</label>
             </div>
@@ -34,7 +34,7 @@ export default function Filters() {
                     id="others"
                     className="accent-dark-pink"
                     onClick={() => setOthers(!others)}
-                    checked={others}
+                    defaultChecked={others}
                 />
                 <label htmlFor="others" className="select-none">Autre</label>
             </div>

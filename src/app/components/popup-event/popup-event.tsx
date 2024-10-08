@@ -44,12 +44,12 @@ export default function PopupEvent() {
                 hideEventPopup(setIsPopupVisible);
             }
         };
-    
+
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [popupRef]);
+    }, [popupRef, setIsPopupVisible]);
 
     return (
         <Draggable>
@@ -112,6 +112,7 @@ export default function PopupEvent() {
                             height={18}
                         />
                     </div>
+
                     <Location
                         setLocation={setLocation}
                         location={location}

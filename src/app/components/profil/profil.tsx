@@ -27,7 +27,7 @@ export default function Profile() {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [setIsProfileVisible]);
 
     const dc = () => {
         document.cookie = 'uuid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"npx tsc ./src/app/create_table.ts && node ./src/app/create_table.js\" \"npx tsc ./src/app/server.ts && node ./src/app/server.js\" \"next dev\"",
-    "start": "concurrently \"npx tsc ./src/app/create_table.ts\" \"npx tsc ./src/app/server.ts\" && \"node ./src/app/create_table.js\" \"node ./src/app/server.js\" \"next start\"",
+    "start": "concurrently \"npx tsc ./src/app/create_table.ts && node ./src/app/create_table.js\" \"npx tsc ./src/app/server.ts && node ./src/app/server.js\" \"next start\"",
+    "build": "next build",
     "lint": "next lint",
     "proxy": "http://localhost:5000"
   },

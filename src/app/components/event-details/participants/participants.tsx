@@ -28,7 +28,7 @@ export default function Participants({ event, users }: Readonly<ParticipantsProp
                             return (
                                 <div
                                     className="flex items-center mt-1"
-                                // key={event.id + participantId + index}
+                                    key={event.id + participantId + index}
                                 >
                                     <Image
                                         src={`data:image/jpeg;base64,${participant?.pp}`}

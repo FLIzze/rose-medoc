@@ -18,6 +18,7 @@ export default function Sidebar() {
                 alt="logo Rose Medoc"
                 width={500}
                 height={500}
+                priority={true}
             />
         </div>
     )

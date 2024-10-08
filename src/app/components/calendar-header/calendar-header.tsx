@@ -29,7 +29,7 @@ const CalendarHeader = () => {
 
     useEffect(() => {
         setSidebarDate(date);
-    }, [date]);
+    }, [date, setSidebarDate]);
 
 
     useEffect(() => {
@@ -43,7 +43,7 @@ const CalendarHeader = () => {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [dropdownRef]);
+    }, [dropdownRef, setIsCalendarModeVisible]);
 
     // Calculate the start of the week (Monday)
     const startOfWeek = new Date(date);

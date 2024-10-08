@@ -51,7 +51,7 @@ export default function MainMonthlyCal() {
         return () => {
             window.removeEventListener('wheel', handleWheel);
         };
-    }, [date, calendarMode]);
+    }, [date, calendarMode, setDate]);
 
     return (
         <div className="grid grid-cols-7 text-dark-pink text-sm gap-0">
@@ -70,7 +70,7 @@ export default function MainMonthlyCal() {
 
                 return (
                     <div
-                        // key={day.toString() + index + dayEvents.length}
+                        key={day.toLocaleDateString() + index}
                         className={`flex items-start flex-col border-very-light-pink h-44 w-full text-left
                                     ${isFirstColumn ? 'border-l' : ''} 
                                     ${isLastColumn ? 'border-r' : ''} 
@@ -117,7 +117,7 @@ export default function MainMonthlyCal() {
                         <div className="w-full">
                             {dayEvents.slice(0, 4).map((event, index) => (
                                 <button
-                                    // key={event.title + index + event.beginning}
+                                    key={event.title + index + event.beginning}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         displayEventDetails(setIsDetailsVisible, isDetailsVisible, isPopupVisible);

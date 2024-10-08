@@ -31,7 +31,7 @@ export default function Home() {
 
     useEffect(() => {
         getEvents(setEvents);
-    }, []);
+    }, [setEvents]);
 
     useEffect(() => {
         axios.get('http://localhost:5000/api/users')
@@ -46,11 +46,11 @@ export default function Home() {
             .catch((error) => {
                 console.error('Error fetching users', error);
             });
-    }, [cookie]);
+    }, [cookie, setCurrentUser, setUsers]);
 
     useEffect(() => {
         setFilteredEvents(filterEvent(events, currentUser, own, tagged, others));
-    }, [events, own, tagged, others]);
+    }, [events, own, tagged, others, currentUser, setFilteredEvents]);
 
     return (
         <div className="h-screen w-screen flex items-center justify-center bg-gray-100">

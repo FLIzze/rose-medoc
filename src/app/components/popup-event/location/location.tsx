@@ -39,7 +39,7 @@ export default function Location({ setLocation, location }: Readonly<LocationPro
         return () => {
             document.head.removeChild(script);
         };
-    }, [apiPassowrd]);
+    }, [apiPassowrd, setLocation]);
 
     return (
         <input

@@ -105,6 +105,7 @@ export default function Login() {
                     className="object-cover"
                     width={500}
                     height={500}
+                    priority={true}
                 />
             </div>
         </div>
