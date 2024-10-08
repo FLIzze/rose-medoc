@@ -4,8 +4,9 @@ services:
   db:
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: 1231
+      MYSQL_ROOT_PASSWORD: "feba#!$&$"
       MYSQL_DATABASE: calendar
+      MYSQL_USER: 'rose-medoc'
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s

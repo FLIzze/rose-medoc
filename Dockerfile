@@ -9,19 +9,19 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --ignore-scripts
+RUN npm install
 
 # Copy the rest of the application files
-COPY ./src/app ./src/app
+COPY . .
 
 # Build the application
 RUN npm run build
 
 # Change ownership of the application files to the non-root user
-RUN chown -R appuser:appgroup /app
+# RUN chown -R appuser:appgroup /app
 
 # Switch to the non-root user
-USER appuser
+# USER appuser
 
 EXPOSE 1234
 
