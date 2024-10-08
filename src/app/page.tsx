@@ -50,7 +50,7 @@ export default function Home() {
 
     useEffect(() => {
         setFilteredEvents(filterEvent(events, currentUser, own, tagged, others));
-    }, [events, own, tagged, others, currentUser, setFilteredEvents]);
+    }, [events, own, tagged, others, setFilteredEvents]);
 
     return (
         <div className="h-screen w-screen flex items-center justify-center bg-gray-100">
