@@ -1,4 +1,4 @@
-import { db_credentials } from "./credentials";
+import { api_key, db_credentials } from "./credentials";
 
 const express = require('express');
 const mysql = require('mysql2');
@@ -29,6 +29,17 @@ app.options('*', cors(corsOptions));
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
+const apiKeyMiddleware = (req: any, res: any, next: any) => {
+  const apiKey = req.headers['x-api-key'];
+  if (apiKey && apiKey === api_key.key) {
+    next();
+  } else {
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+}
+
+app.use(apiKeyMiddleware);
 
 app.post('/events', (req: any, res: any) => {
   const { title, description, beginning, end, by, participants, location } = req.body;

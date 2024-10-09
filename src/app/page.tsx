@@ -13,6 +13,7 @@ import Register from './components/register/register';
 import defaultUser from './defaultUser';
 import { useAtom } from 'jotai';
 import { currentUserAtom, eventsAtom, filteredEventsAtom, othersAtom, ownAtom, registerAtom, taggedAtom, usersAtom } from './atom';
+import { api_key } from './credentials';
 
 export default function Home() {
     const cookie = Cookies.get();
@@ -34,7 +35,11 @@ export default function Home() {
     }, [setEvents]);
 
     useEffect(() => {
-        axios.get('https://api.calendar.alexandrebel.me/users')
+        axios.get('https://api.calendar.alexandrebel.me/users', {
+            headers: {
+                'x-api-key': api_key.key
+            }
+        })
             .then((response) => {
                 setUsers(response.data);
                 for (const user of response.data as UserInterface[]) {

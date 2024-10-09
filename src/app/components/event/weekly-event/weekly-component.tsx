@@ -7,6 +7,7 @@ import displayEventDetails from "@/app/event/displayEventDetails";
 import { useAtom, useAtomValue } from "jotai";
 import { isDetailsVisibleAtom, isPopupVisibleAtom } from "@/app/atom";
 import { EventInterface } from "@/app/model/event";
+import { api_key } from "@/app/credentials";
 
 interface WeeklyEventProps {
     event: EventInterface;
@@ -21,7 +22,11 @@ export default function WeeklyEvent({ event }: Readonly<WeeklyEventProps>) {
     useEffect(() => {
         const fetchEventCreator = async () => {
             try {
-                const response = await axios.get('https://api.calendar.alexandrebel.me/users');
+                const response = await axios.get('https://api.calendar.alexandrebel.me/users', {
+                    headers: {
+                        'x-api-key': api_key.key
+                    }
+                });
                 const users = response.data as UserInterface[];
                 const eventCreator = users.find(user => user.id === +event.by);
                 if (eventCreator) {

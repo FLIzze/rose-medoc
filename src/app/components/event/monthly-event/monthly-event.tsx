@@ -1,5 +1,6 @@
 "use client";
 
+import { api_key } from "@/app/credentials";
 import { EventInterface } from "@/app/model/event"
 import { UserInterface } from "@/app/model/user";
 import axios from "axios";
@@ -15,7 +16,11 @@ export default function MonthlyEvent({ event }: Readonly<MonthlyEventProps>) {
     useEffect(() => {
         const fetchEventCreator = async () => {
             try {
-                const response = await axios.get('https://api.calendar.alexandrebel.me/users');
+                const response = await axios.get('https://api.calendar.alexandrebel.me/users', {
+                    headers: {
+                        'x-api-key': api_key.key
+                    }
+                });
                 const users = response.data as UserInterface[];
                 const eventCreator = users.find(user => user.id === +event.by);
                 if (eventCreator) {

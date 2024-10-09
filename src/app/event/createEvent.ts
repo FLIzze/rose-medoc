@@ -1,3 +1,4 @@
+import { api_key } from "../credentials";
 import { UserInterface } from "../model/user";
 
 export default async function createEvent(
@@ -25,7 +26,8 @@ export default async function createEvent(
     const response = await fetch('https://api.calendar.alexandrebel.me/events', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-api-key': api_key.key
       },
       body: JSON.stringify({
         title: title,
