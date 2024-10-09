@@ -22,7 +22,7 @@ export default async function createEvent(
     let eventEndHour = new Date(popupDate);
     eventEndHour.setHours(endHour);
 
-    const response = await fetch('http://localhost:5000/api/events', {
+    const response = await fetch('https://api.calendar.alexandrebel.me/events', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -5,7 +5,7 @@ import { EventInterface } from "../model/event";
 
 export default async function deleteEvent(id: number | undefined, setEvents: Dispatch<SetStateAction<EventInterface[]>>) {
   try {
-    const response = await axios.delete(`http://localhost:5000/api/events`, {
+    const response = await axios.delete(`https://api.calendar.alexandrebel.me/events`, {
       data: { id }
     });
 

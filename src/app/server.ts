@@ -17,7 +17,7 @@ const pool = mysql.createPool({
 });
 
 const corsOptions = {
-  origin: '*',
+  origin: 'api.calendar.alexandrebel.me',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'], 
   credentials: true
