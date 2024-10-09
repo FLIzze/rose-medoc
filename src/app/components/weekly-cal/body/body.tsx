@@ -44,7 +44,7 @@ export default function Body() {
         const eventsForHour = filteredEvents.filter(event => {
             const eventStart = new Date(event.beginning);
             const eventDate = normalizeDate(eventStart);
-            return eventStart.getHours() === hour - 2 && eventDate.getTime() === normalizedDate.getTime();
+            return eventStart.getHours() === hour && eventDate.getTime() === normalizedDate.getTime();
         });
 
         if (skip > 0) {

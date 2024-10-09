@@ -4,7 +4,7 @@ import { EventInterface } from "../model/event";
 import { api_key } from "../credentials";
 
 export default function getEvents(setEvents: Dispatch<SetStateAction<EventInterface[]>>) {
-    axios.get('https://api.calendar.alexandrebel.me/events', {
+    axios.get('http://localhost:5000/events', {
         headers: {
             'x-api-key': api_key.key
         }

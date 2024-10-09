@@ -22,7 +22,7 @@ export default function WeeklyEvent({ event }: Readonly<WeeklyEventProps>) {
     useEffect(() => {
         const fetchEventCreator = async () => {
             try {
-                const response = await axios.get('https://api.calendar.alexandrebel.me/users', {
+                const response = await axios.get('http://localhost:5000/users', {
                     headers: {
                         'x-api-key': api_key.key
                     }
@@ -52,7 +52,7 @@ export default function WeeklyEvent({ event }: Readonly<WeeklyEventProps>) {
             }}
             className={`rounded-l-md pl-3 text-sm py-1 hover:cursor-pointer pb-3 select-none hover:opacity-100 opacity-75 transition-all items-start justify-start flex flex-col overflow-hidden whitespace-nowrap text-ellipsis w-full h-full`}
         >
-            <p>{new Date(event.beginning).getHours()}:00 - {new Date(event.end).getHours()}:00</p>
+            <p>{new Date(event.beginning).getHours() + 2}:00 - {new Date(event.end).getHours() + 2}:00</p>
             <p className="font-bold">{event.title}</p>
             <p>par {eventCreator.lastName} {eventCreator.firstName}</p>
             <p>{event.location}</p>

@@ -14,6 +14,7 @@ import defaultUser from './defaultUser';
 import { useAtom } from 'jotai';
 import { currentUserAtom, eventsAtom, filteredEventsAtom, othersAtom, ownAtom, registerAtom, taggedAtom, usersAtom } from './atom';
 import { api_key } from './credentials';
+import hash from './password/hash';
 
 export default function Home() {
     const cookie = Cookies.get();
@@ -35,7 +36,7 @@ export default function Home() {
     }, [setEvents]);
 
     useEffect(() => {
-        axios.get('https://api.calendar.alexandrebel.me/users', {
+        axios.get('http://localhost:5000/users', {
             headers: {
                 'x-api-key': api_key.key
             }
@@ -51,7 +52,7 @@ export default function Home() {
             .catch((error) => {
                 console.error('Error fetching users', error);
             });
-    }, [cookie, setCurrentUser, setUsers]);
+    }, []);
 
     useEffect(() => {
         setFilteredEvents(filterEvent(events, currentUser, own, tagged, others));

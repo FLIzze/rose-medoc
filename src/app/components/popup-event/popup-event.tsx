@@ -10,12 +10,12 @@ import Date from "./date/date";
 import Location from "./location/location";
 import Image from "next/image";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { currentUserAtom, descriptionAtom, eventsAtom, isPopupVisibleAtom, locationAtom, participantsAtom, popupDateAtom, titleAtom, usersAtom } from "@/app/atom";
+import { currentUserAtom, descriptionAtom, eventsAtom, isPopupVisibleAtom, locationAtom, participantsAtom, popupDateAtom, sizeAtom, titleAtom, usersAtom } from "@/app/atom";
 import Title from "./title/title";
 import Description from "./description/description";
 
 export default function PopupEvent() {
-    const date = useAtomValue(popupDateAtom)
+    const date = useAtomValue(popupDateAtom);
     const [popupDate, setPopupDate] = useAtom(popupDateAtom);
 
     const setIsPopupVisible = useSetAtom(isPopupVisibleAtom);
@@ -34,13 +34,15 @@ export default function PopupEvent() {
     const [endHour, setEndHour] = useState(date.getHours() + 1);
     const popupRef = useRef<HTMLDivElement>(null);
 
+    const setSize = useSetAtom(sizeAtom);
+
     useEffect(() => {
         setEndHour(popupDate.getHours() + 1);
     }, [popupDate]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+            if (popupRef.current && !popupRef.current.contains(event.target as Node) && !(event.target as HTMLElement).closest('.ignore-click-outside')) {
                 hideEventPopup(setIsPopupVisible);
             }
         };
@@ -50,6 +52,13 @@ export default function PopupEvent() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [popupRef, setIsPopupVisible]);
+
+    useEffect(() => {
+        if (popupRef.current) {
+            const { offsetWidth, offsetHeight } = popupRef.current;
+            setSize({ width: offsetWidth, height: offsetHeight });
+        }
+    }, [popupRef, setSize]);
 
     return (
         <Draggable>

@@ -17,8 +17,8 @@ export default function Draggable({ children }: Readonly<DraggableProps>) {
             setPosition({ x: position.x - size.width, y: position.y - size.height });
         } else if (position.x + size.width >= window.innerWidth) {
             setPosition({ x: position.x - size.width, y: position.y });
-        } else if (position.y + size.height >= window.innerHeight) {
-            setPosition({ x: position.x, y: position.y - size.height });
+        } else if (position.y + size.height + 100 >= window.innerHeight) {
+            setPosition({ x: position.x, y: position.y - size.height - 100 });
         } else {
             setPosition({ x: position.x, y: position.y });
         }
