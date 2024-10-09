@@ -6,19 +6,24 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "feba#!$&$"
       MYSQL_DATABASE: calendar
-      MYSQL_USER: 'rose-medoc'
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
+
   app:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "1234:1234"
+      - "1234:1234"  # Expose port 1234 for Next.js
+      - "5000:5000"  # Expose port 5000 for API access
     depends_on:
       db:
         condition: service_healthy
-
+    environment:
+      DB_HOST: db  # Set environment variable for DB host
+      DB_USER: root
+      DB_PASSWORD: "feba#!$&$"
+      DB_NAME: calendar

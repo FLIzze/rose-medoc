@@ -18,10 +18,10 @@ COPY . .
 RUN npm run build
 
 # Change ownership of the application files to the non-root user
-# RUN chown -R appuser:appgroup /app
+RUN chown -R appuser:appgroup /app
 
 # Switch to the non-root user
-# USER appuser
+USER appuser
 
 EXPOSE 1234
 
