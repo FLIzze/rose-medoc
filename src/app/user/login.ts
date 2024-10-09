@@ -11,7 +11,7 @@ export default async function login(
     setCurrentUser: Dispatch<SetStateAction<UserInterface>>) {
 
     try {
-        const response = await axios.get('localhost:5000/users', {
+        const response = await axios.get('https://api.calendar.alexandrebel.me/users', {
             headers: {
                 'x-api-key': api_key.key
             }

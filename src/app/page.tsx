@@ -36,7 +36,7 @@ export default function Home() {
     }, [setEvents]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/users', {
+        axios.get('https://api.calendar.alexandrebel.me/users', {
             headers: {
                 'x-api-key': api_key.key
             }
