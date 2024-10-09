@@ -15,7 +15,7 @@ export default function MonthlyEvent({ event }: Readonly<MonthlyEventProps>) {
     useEffect(() => {
         const fetchEventCreator = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/users');
+                const response = await axios.get('https://api.calendar.alexandrebel.me/users');
                 const users = response.data as UserInterface[];
                 const eventCreator = users.find(user => user.id === +event.by);
                 if (eventCreator) {

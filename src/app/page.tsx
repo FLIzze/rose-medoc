@@ -34,7 +34,7 @@ export default function Home() {
     }, [setEvents]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/users')
+        axios.get('https://api.calendar.alexandrebel.me/users')
             .then((response) => {
                 setUsers(response.data);
                 for (const user of response.data as UserInterface[]) {

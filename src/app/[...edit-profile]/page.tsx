@@ -34,7 +34,7 @@ export default function EditProfile() {
 
     const fetchUserData = useCallback(async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/users`);
+            const response = await axios.get(`https://api.calendar.alexandrebel.me/users`);
             const users: UserInterface[] = response.data;
             const currentUser = users.find(user => user.id === currentUserId);
 

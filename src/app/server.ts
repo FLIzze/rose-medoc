@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
-app.post('/api/events', (req: any, res: any) => {
+app.post('/events', (req: any, res: any) => {
   const { title, description, beginning, end, by, participants, location } = req.body;
 
   const beginningDate = new Date(beginning).toISOString().slice(0, 19).replace('T', ' ');
@@ -47,7 +47,7 @@ app.post('/api/events', (req: any, res: any) => {
   });
 });
 
-app.put('/api/users', async (req: any, res: any) => {
+app.put('/users', async (req: any, res: any) => {
   const { id, email, firstName, lastName, password, color, pp } = req.body;
 
   let fileBuffer = null;
@@ -90,7 +90,7 @@ app.put('/api/users', async (req: any, res: any) => {
   });
 });
 
-app.post('/api/users', async (req: any, res: any) => {
+app.post('/users', async (req: any, res: any) => {
   const { uuid, lastName, firstName, email, password, color, pp } = req.body;
 
   let fileBuffer = null;
@@ -115,7 +115,7 @@ app.post('/api/users', async (req: any, res: any) => {
   });
 });
 
-app.get('/api/events', (_: any, res: any) => {
+app.get('/events', (_: any, res: any) => {
   pool.query('SELECT * FROM event ORDER BY beginning ASC', (error: any, results: any) => {
     if (error) {
       console.error('Error fetching events:', error);
@@ -125,7 +125,7 @@ app.get('/api/events', (_: any, res: any) => {
   });
 });
 
-app.delete('/api/events', (req: any, res: any) => {
+app.delete('/events', (req: any, res: any) => {
   const { id } = req.body;
 
   const sql = 'DELETE FROM event WHERE ID = ?';
@@ -144,7 +144,7 @@ app.delete('/api/events', (req: any, res: any) => {
   });
 });
 
-app.get('/api/users', (_: any, res: any) => {
+app.get('/users', (_: any, res: any) => {
   pool.query('SELECT * FROM user', (error: any, results: any) => {
     if (error) {
       console.error('Error fetching users:', error);
