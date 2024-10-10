@@ -1,24 +1,24 @@
 import { db_credentials } from "./credentials";
-import * as mysql from 'mysql2/promise';
+import * as mysql from "mysql2/promise";
 
 async function createTable() {
-    const pool = mysql.createPool({
-        host: db_credentials.host,
-        user: db_credentials.user,
-        password: db_credentials.password,
-        database: db_credentials.database,
-    });
+  const pool = mysql.createPool({
+    host: db_credentials.host,
+    user: db_credentials.user,
+    password: db_credentials.password,
+    database: db_credentials.database,
+  });
 
-    const connection = await pool.getConnection();
-    try {
-        const createDatabaseQuery = `
+  const connection = await pool.getConnection();
+  try {
+    const createDatabaseQuery = `
             CREATE DATABASE IF NOT EXISTS calendar;
         `;
 
-        await connection.query(createDatabaseQuery);
-        await connection.changeUser({ database: 'calendar' });
+    await connection.query(createDatabaseQuery);
+    await connection.changeUser({ database: "calendar" });
 
-        const createUserTableQuery = `
+    const createUserTableQuery = `
             CREATE TABLE IF NOT EXISTS user (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 uuid VARCHAR(255) NOT NULL,
@@ -31,7 +31,7 @@ async function createTable() {
             );
         `;
 
-        const createEventTableQuery = `
+    const createEventTableQuery = `
             CREATE TABLE IF NOT EXISTS event (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 title VARCHAR(255) NOT NULL,
@@ -44,15 +44,14 @@ async function createTable() {
             );
         `;
 
-        await connection.query(createUserTableQuery);
-        await connection.query(createEventTableQuery);
-    } catch (error) {
-        console.error('Error creating tables', error);
-    } finally {
-        console.log("Tables created successfully");
-        connection.release();
-    }
+    await connection.query(createUserTableQuery);
+    await connection.query(createEventTableQuery);
+  } catch (error) {
+    console.error("Error creating tables", error);
+  } finally {
+    console.log("Tables created successfully");
+    connection.release();
+  }
 }
 
 createTable();
-
