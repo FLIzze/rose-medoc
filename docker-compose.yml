@@ -11,6 +11,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - db_data:/var/lib/mysql  # Mount volume to persist database data
 
   app:
     build:
@@ -27,3 +29,7 @@ services:
       DB_USER: root
       DB_PASSWORD: "feba#!$&$"
       DB_NAME: calendar
+
+volumes:
+  db_data:  # Define the volume for the database
+
