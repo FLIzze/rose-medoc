@@ -93,7 +93,7 @@ export default function EditProfile() {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/users", {
+      const response = await fetch("https://api.calendar.alexandrebel.me/users", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
