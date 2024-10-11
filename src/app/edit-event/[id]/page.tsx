@@ -74,7 +74,7 @@ export default function EditEvent() {
 
         const formatDateForMySQL = (dateString: Date) => {
             const date = new Date(dateString);
-            date.setHours(date.getHours() + 2);
+            date.setHours(date.getHours());
             return date.toISOString().slice(0, 19).replace('T', ' ');
         };
 
