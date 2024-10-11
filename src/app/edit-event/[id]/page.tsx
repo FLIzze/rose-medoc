@@ -36,7 +36,7 @@ export default function EditEvent() {
 
     const fetchEvent = useCallback(async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/events`, {
+            const response = await axios.get(`https://api.calendar.alexandrebel.me/events`, {
                 headers: {
                     "x-api-key": api_key.key,
                 },
@@ -90,7 +90,7 @@ export default function EditEvent() {
         };
 
         try {
-            const response = await fetch("http://localhost:5000/events", {
+            const response = await fetch("https://api.calendar.alexandrebel.me/events", {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',

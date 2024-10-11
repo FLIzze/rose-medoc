@@ -5,7 +5,7 @@ import axios from "axios";
 import { api_key } from "../credentials";
 
 export default function getUsers(setUsers: Dispatch<SetStateAction<UserInterface[]>>) {
-    axios.get('http://localhost:5000/users', {
+    axios.get('https://api.calendar.alexandrebel.me/users', {
         headers: {
             'x-api-key': api_key.key
         }

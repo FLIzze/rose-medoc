@@ -37,7 +37,7 @@ export default function EditProfile() {
 
   const fetchUserData = useCallback(async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/users`, {
+      const response = await axios.get(`https://api.calendar.alexandrebel.me/users`, {
         headers: {
           "x-api-key": api_key.key,
         },
@@ -95,7 +95,7 @@ export default function EditProfile() {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/users", {
+      const response = await fetch("https://api.calendar.alexandrebel.me/users", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

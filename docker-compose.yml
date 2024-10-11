@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: mysql:latest
@@ -11,6 +9,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - db_data:/var/lib/mysql  # Mount a volume for MySQL data
 
   app:
     build:
@@ -27,3 +27,6 @@ services:
       DB_USER: root
       DB_PASSWORD: "feba#!$&$"
       DB_NAME: calendar
+
+volumes:
+  db_data:
