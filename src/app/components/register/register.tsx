@@ -33,6 +33,8 @@ export default function Register() {
 
   const [isRegistrationKey, setIsRegistrationKey] = useState(false);
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
@@ -57,11 +59,6 @@ export default function Register() {
       setErrorMessage(
         "Le mot de passe doit contenir au moins 8 caractères, dont une majuscule et un caractère spécial."
       );
-      return;
-    }
-
-    if (file!.size > 65535) {
-      setErrorMessage("Fichier trop grand.");
       return;
     }
 
@@ -118,7 +115,7 @@ export default function Register() {
       {!isRegistrationKey ? (
         <RegistrationKey setIsRegistrationKey={setIsRegistrationKey} />
       ) : (
-        <div className="flex items-center h-min-screen h-full justify-center w-1/2 p-8 bg-white rounded shadow-md">
+        <div className="flex items-center h-screen h-min-full justify-center w-1/2 p-8 bg-white rounded shadow-md">
           <div className="w-96">
             <h2 className="text-3xl font-bold mb-6 text-dark-pink">
               Inscription
@@ -199,13 +196,13 @@ export default function Register() {
                 )}
               </div>
 
-              <div className="mb-4">
+              <div className="mb-4 relative">
                 <label className="text-dark-pink font-bold" htmlFor="password">
                   Mot de passe
                 </label>
                 <input
                   id="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={handlePasswordChange}
                   autoComplete="new-password"
@@ -216,6 +213,19 @@ export default function Register() {
                   }`}
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-10 text-dark-pink flex items-center justify-center w-8 h-8"
+                >
+                  <Image
+                    src={showPassword ? "/hide.png" : "/show.png"}
+                    alt={showPassword ? "Hide" : "Show"}
+                    width={20}
+                    height={20}
+                    className="mb-5"
+                  />
+                </button>
                 {!isPasswordValid && (
                   <p className="text-red text-xs mt-1">
                     Le mot de passe doit contenir au moins 8 caractères, dont
@@ -224,7 +234,7 @@ export default function Register() {
                 )}
               </div>
 
-              <div className="mb-4">
+              <div className="mb-4 relative">
                 <label
                   className="text-dark-pink font-bold"
                   htmlFor="confirmPassword"
@@ -233,13 +243,26 @@ export default function Register() {
                 </label>
                 <input
                   id="confirmPassword"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   autoComplete="new-password"
-                  className="w-full text-dark-pink px-3 py-2 border rounded-lg outline-none focus:ring-2 border-light-pink focus:ring-medium-pink"
+                  className="w-full text-dark-pink px-3 py-2 border rounded-lg outline-none focus:ring-2 border-light-pink focus:ring-medium-pink items-center"
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-10 text-dark-pink flex items-center justify-center w-8 h-8"
+                >
+                  <Image
+                    src={showPassword ? "/hide.png" : "/show.png"}
+                    alt={showPassword ? "Hide" : "Show"}
+                    width={20}
+                    height={20}
+                    className="mb-5"
+                  />
+                </button>
               </div>
 
               <div className="mb-4">
@@ -284,7 +307,7 @@ export default function Register() {
         </div>
       )}
 
-      <div className="flex items-center h-min-screen h-full justify-center w-1/2 bg-very-light-pink">
+      <div className="flex items-center h-screen h-min-full justify-center w-1/2 bg-very-light-pink">
         <Image
           src="/logo.png"
           alt="logo Rose Medoc"

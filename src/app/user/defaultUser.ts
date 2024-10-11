@@ -1,4 +1,4 @@
-import { UserInterface } from "./model/user";
+import { UserInterface } from "../model/user";
 
 const defaultUser: UserInterface = {
     id: 0,

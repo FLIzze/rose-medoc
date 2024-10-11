@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 import { UserInterface } from "./model/user";
-import defaultUser from "./defaultUser";
+import defaultUser from "./user/defaultUser";
 import { EventInterface } from "./model/event";
 
 export const dateAtom = atom(new Date());

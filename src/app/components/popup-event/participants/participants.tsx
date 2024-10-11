@@ -76,6 +76,7 @@ export default function Participants({
           type="text"
           className="outline-none pl-2 w-full resize-none h-9 focus:border-b-2 border-medium-pink transition-all text-medium-pink"
           placeholder="Ajouter des participants"
+          autoComplete="off"
           onChange={(e) => {
             setParticipantsInput(e.target.value);
             displayParticipantsPopUp();

@@ -5,10 +5,11 @@ import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
 interface LocationProps {
     setLocation: Dispatch<SetStateAction<string>>,
-    location: string
+    location: string,
+    edit: boolean
 }
 
-export default function Location({ setLocation, location }: Readonly<LocationProps>) {
+export default function Location({ setLocation, location, edit }: Readonly<LocationProps>) {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const apiPassword = api_credentials.apiKey;
@@ -48,7 +49,9 @@ export default function Location({ setLocation, location }: Readonly<LocationPro
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             placeholder="Laisser vide pour Rose Medoc"
-            className='outline-none pl-2 mt-2 w-full resize-none h-9 focus:border-b-2 border-medium-pink transition-all text-medium-pink ignore-click-outside'
+            className={!edit ?
+                "outline-none pl-2 mt-2 w-full resize-none h-9 focus:border-b-2 border-medium-pink transition-all text-medium-pink ignore-click-outside" :
+                "border border-medium-pink rounded-md p-2 focus:ring-2 focus:ring-medium-pink outline-none transition-all"}
         />
     );
 }

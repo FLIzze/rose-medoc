@@ -10,7 +10,7 @@ import axios from "axios";
 import filterEvent from "./event/filterEvents";
 import getEvents from "./event/getEvents";
 import Register from "./components/register/register";
-import defaultUser from "./defaultUser";
+import defaultUser from "./user/defaultUser";
 import { useAtom } from "jotai";
 import {
   currentUserAtom,
@@ -65,10 +65,10 @@ export default function Home() {
 
   useEffect(() => {
     setFilteredEvents(filterEvent(events, currentUser, own, tagged, others));
-  }, [events]);
+  }, [events, own, tagged, others]);
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center bg-gray-100">
+    <div className="h-full w-screen flex items-center justify-center bg-white">
       {currentUser !== defaultUser &&
       currentUser !== undefined &&
       currentUser !== null ? (

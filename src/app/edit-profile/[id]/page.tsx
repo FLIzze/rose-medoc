@@ -3,19 +3,19 @@ import axios from "axios";
 import { UserInterface } from "@/app/model/user";
 import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState, useCallback } from "react";
-import defaultUser from "@/app/defaultUser";
+import defaultUser from "@/app/user/defaultUser";
 import hash from "@/app/password/hash";
 import capitalizeFirstLetter from "@/app/capitalizeFirstLetter";
 import getBase64Image from "@/app/getBase64Image";
 import Cookies from "js-cookie";
 import Image from "next/image";
-import { api_key } from "../credentials";
+import { api_key } from "../../credentials";
 
 export default function EditProfile() {
   const router = useRouter();
   const pathName = usePathname();
 
-  const currentUserId = Number(pathName.split("=")[1]);
+  const currentUserId = Number(pathName.split("/")[2]);
 
   const [user, setUser] = useState<UserInterface>(defaultUser);
   const [newEmail, setNewEmail] = useState<string>("");
@@ -33,9 +33,11 @@ export default function EditProfile() {
   const [isPasswordValid, setIsPasswordValid] = useState<boolean>(true);
   const [doPasswordsMatch, setDoPasswordsMatch] = useState<boolean>(true);
 
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const fetchUserData = useCallback(async () => {
     try {
-      const response = await axios.get(`https://api.calendar.alexandrebel.me/users`, {
+      const response = await axios.get(`http://localhost:5000/users`, {
         headers: {
           "x-api-key": api_key.key,
         },
@@ -93,10 +95,11 @@ export default function EditProfile() {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/users", {
+      const response = await fetch("http://localhost:5000/users", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "x-api-key": api_key.key,
         },
         body: JSON.stringify(updatedUser),
       });
@@ -233,19 +236,33 @@ export default function EditProfile() {
           <label htmlFor="password" className="font-bold">
             Mot de passe
           </label>
-          <input
-            type="password"
-            className={`border rounded-md p-2 focus:ring-2 outline-none transition-all ${
-              isPasswordValid
-                ? "border-medium-pink focus:ring-medium-pink"
-                : "border-red focus:ring-red"
-            }`}
-            placeholder="Nouveau mot de passe"
-            id="password"
-            autoComplete="new-password"
-            value={newPassword}
-            onChange={handlePasswordChange}
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              className={`border rounded-md p-2 focus:ring-2 outline-none transition-all w-full ${
+                isPasswordValid
+                  ? "border-medium-pink focus:ring-medium-pink"
+                  : "border-red focus:ring-red"
+              }`}
+              placeholder="Nouveau mot de passe"
+              id="password"
+              autoComplete="new-password"
+              value={newPassword}
+              onChange={handlePasswordChange}
+            />
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              <Image
+                src={showPassword ? "/hide.png" : "/show.png"}
+                alt={showPassword ? "Hide password" : "Show password"}
+                width={20}
+                height={20}
+              />
+            </button>
+          </div>
           {!isPasswordValid && (
             <p className="text-red text-xs mt-1">
               Le mot de passe doit contenir au moins 8 caractères, dont une
@@ -258,19 +275,33 @@ export default function EditProfile() {
           <label htmlFor="confirmPassword" className="font-bold">
             Confirmer le mot de passe
           </label>
-          <input
-            type="password"
-            className={`border rounded-md p-2 focus:ring-2 outline-none transition-all ${
-              doPasswordsMatch
-                ? "border-medium-pink focus:ring-medium-pink"
-                : "border-red focus:ring-red"
-            }`}
-            placeholder="Confirmer le mot de passe"
-            id="confirmPassword"
-            autoComplete="new-password"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              className={`border rounded-md p-2 focus:ring-2 outline-none transition-all w-full ${
+                doPasswordsMatch
+                  ? "border-medium-pink focus:ring-medium-pink"
+                  : "border-red focus:ring-red"
+              }`}
+              placeholder="Confirmer le mot de passe"
+              id="confirmPassword"
+              autoComplete="new-password"
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
+            />
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              <Image
+                src={showPassword ? "/hide.png" : "/show.png"}
+                alt={showPassword ? "Hide password" : "Show password"}
+                width={20}
+                height={20}
+              />
+            </button>
+          </div>
           {!doPasswordsMatch && (
             <p className="text-red text-xs mt-1">
               Les mots de passe ne correspondent pas.

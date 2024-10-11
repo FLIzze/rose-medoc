@@ -3,7 +3,6 @@ import { api_key, db_credentials } from "./credentials";
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const sharp = require("sharp");
 
 const app = express();
@@ -29,11 +28,9 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(bodyParser.json());
+app.use(express.json({ limit: "50mb" })); // Increased limit to 50mb
+app.use(express.urlencoded({ limit: "50mb", extended: true })); // Increased limit to 50mb
 app.options("*", cors(corsOptions));
-
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 const apiKeyMiddleware = (req: any, res: any, next: any) => {
   const apiKey = req.headers["x-api-key"];
@@ -117,6 +114,33 @@ app.put("/users", async (req: any, res: any) => {
     }
 
     res.status(200).json({ message: "User updated successfully" });
+  });
+});
+
+app.put("/events", async (req: any, res: any) => {
+  const { id, title, description, beginning, end, location, participants, by } = req.body;
+
+  const sql =
+    "UPDATE event SET title = ?, description = ?, beginning = ?, end = ?, location = ?, participants = ?, `by` = ? WHERE id = ?";
+
+  const values = [
+    title,
+    description,
+    beginning,
+    end,
+    location,
+    JSON.stringify(participants),
+    by,
+    id,
+  ];
+
+  pool.query(sql, values, (error: any) => {
+    if (error) {
+      console.error("Error updating event:", error);
+      return res.status(500).json({ error: error.message });
+    }
+
+    res.status(200).json({ message: "Event updated" });
   });
 });
 

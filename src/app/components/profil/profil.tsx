@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAtom } from "jotai";
 import { currentUserAtom, isProfileVisibleAtom } from "@/app/atom";
-import defaultUser from "@/app/defaultUser";
+import defaultUser from "@/app/user/defaultUser";
 
 
 export default function Profile() {
@@ -58,7 +58,7 @@ export default function Profile() {
                     <p className="font-bold mb-3 mt-1">Bonjour {currentUser.lastName} {currentUser.firstName}</p>
                     <button
                         className="bg-medium-pink text-white hover:bg-dark-pink rounded-lg p-2 transition-colors text-left"
-                        onClick={() => router.push(`/edit-profile=${currentUser.id}`)
+                        onClick={() => router.push(`/edit-profile/${currentUser.id}`)
                     }
                     >
                     Modifier le profil

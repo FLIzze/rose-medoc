@@ -11,14 +11,11 @@ export default async function login(
   setCurrentUser: Dispatch<SetStateAction<UserInterface>>
 ) {
   try {
-    const response = await axios.get(
-      "https://api.calendar.alexandrebel.me/users",
-      {
-        headers: {
-          "x-api-key": api_key.key,
-        },
-      }
-    );
+    const response = await axios.get("http://localhost:5000/users", {
+      headers: {
+        "x-api-key": api_key.key,
+      },
+    });
     for (const user of response.data as UserInterface[]) {
       if (user.email == email && (await verify(password, user.password))) {
         console.log("Utilisateur connecté");
