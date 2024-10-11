@@ -36,7 +36,7 @@ export default function EditEvent() {
 
     const fetchEvent = useCallback(async () => {
         try {
-            const response = await axios.get(`https://api.calendar.alexandrebel.me/events`, {
+            const response = await axios.get("https://api.calendar.alexandrebel.me/events", {
                 headers: {
                     "x-api-key": api_key.key,
                 },
@@ -180,7 +180,7 @@ export default function EditEvent() {
                         className="p-2 bg-medium-pink hover:bg-dark-pink text-white rounded-lg transition-all text-base mt-4"
                         type="submit"
                     >
-                        Mettre à jour l'évènement
+                        Mettre à jour l&#39;évènement
                     </button>
                     {errorMessage !== "" && (
                         <p className="text-red text-base">{errorMessage}</p>

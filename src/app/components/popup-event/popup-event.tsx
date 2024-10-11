@@ -137,7 +137,7 @@ export default function PopupEvent() {
             />
           </div>
 
-          <Location setLocation={setLocation} location={location} />
+          <Location setLocation={setLocation} location={location} edit={false} />
 
           <div className="col-span-2 flex justify-end">
             <button

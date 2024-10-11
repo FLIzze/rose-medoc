@@ -61,11 +61,11 @@ export default function Home() {
       .catch((error) => {
         console.error("Error fetching users", error);
       });
-  }, []);
+  }, [setCurrentUser, setUsers]);
 
   useEffect(() => {
     setFilteredEvents(filterEvent(events, currentUser, own, tagged, others));
-  }, [events, own, tagged, others]);
+  }, [events, own, tagged, others, setFilteredEvents]);
 
   return (
     <div className="h-full w-screen flex items-center justify-center bg-white">
