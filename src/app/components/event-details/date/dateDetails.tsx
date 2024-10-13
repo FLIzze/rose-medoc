@@ -31,7 +31,7 @@ export default function dateDetails({ event }: Readonly<DateProps>) {
           {capitalizeFirstLetter(
             beginning.toLocaleDateString("fr-FR", { month: "long" })
           )}{" "}
-          {beginning.getHours() + 2}:00 - {end.getHours() + 2}:00
+          {beginning.getHours()}:00 - {end.getHours()}:00
         </p>
       </div>
     </>
