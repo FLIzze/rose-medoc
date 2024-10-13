@@ -115,8 +115,8 @@ export default function EditEvent() {
     };
 
     return (
-        <div className="flex text-dark-pink">
-            <div className="flex flex-col w-1/2 h-min-full h-screen bg-white justify-center">
+        <div className="flex text-dark-pink h-min-screen">
+            <div className="flex w-full flex-col bg-white justify-center px-10">
                 <form
                     action="post"
                     className="flex justify-center flex-col px-10 gap-5"
@@ -187,8 +187,9 @@ export default function EditEvent() {
                     )}
                 </form>
             </div>
+
             <button
-                className="flex justify-center w-screen h-screen bg-very-light-pink items-center"
+                className="flex justify-center w-full min-h-screen bg-very-light-pink items-center"
                 onClick={() => router.push("/")}
             >
                 <Image

@@ -68,7 +68,7 @@ export default function Home() {
   }, [events, own, tagged, others, setFilteredEvents, currentUser]);
 
   return (
-    <div className="h-full w-screen flex items-center justify-center bg-white">
+    <div className="w-screen flex items-center justify-center bg-white">
       {currentUser !== defaultUser &&
       currentUser !== undefined &&
       currentUser !== null ? (

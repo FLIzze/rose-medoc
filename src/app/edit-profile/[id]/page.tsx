@@ -172,10 +172,10 @@ export default function EditProfile() {
   };
 
   return (
-    <div className="w-screen h-min-screen h-full bg-white text-dark-pink text-lg flex">
+    <div className="w-screen min-h-screen bg-white text-dark-pink text-lg flex">
       <form
         method="post"
-        className="flex flex-col gap-y-4 w-full px-72 justify-center"
+        className="flex flex-col gap-y-4 w-full px-16 justify-center"
         onSubmit={handleSubmit}
       >
         <h2 className="text-3xl font-bold mb-6 text-dark-pink">
@@ -355,13 +355,13 @@ export default function EditProfile() {
       </form>
 
       <button
-        className="flex justify-center w-screen h-screen bg-very-light-pink items-center"
+        className="flex justify-center w-full min-h-screen bg-very-light-pink items-center cursor-pointer"
         onClick={goToHome}
       >
         <Image
           src="/logo.png"
           alt="logo Rose Medoc"
-          className="object-cover cursor-pointer"
+          className="object-cover"
           width={500}
           height={500}
           priority={true}

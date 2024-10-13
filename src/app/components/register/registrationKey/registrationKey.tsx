@@ -2,6 +2,7 @@ import { registerAtom } from "@/app/atom"
 import { secret_registration } from "@/app/credentials"
 import { useSetAtom } from "jotai"
 import { Dispatch, FormEvent, SetStateAction, useState } from "react"
+import Image from "next/image"
 
 interface RegistrationKeyProps {
     setIsRegistrationKey: Dispatch<SetStateAction<boolean>>
@@ -25,14 +26,14 @@ export default function RegistrationKey({ setIsRegistrationKey }: Readonly<Regis
 
     return (
         <div
-            className="h-min-screen h-full flex flex-col justify-center items-center bg-white w-1/2"
+            className="min-h-screen flex justify-center items-center bg-white w-screen"
         >
-            <div className="w-96">
-                <h2 className="text-3xl font-bold mb-6 text-dark-pink">Inscription</h2>
-
+            <div className="w-full flex justify-center">
                 <form
                     onSubmit={(e) => handleOnSubmit(e)}
+                    className="w-96 px-5"
                 >
+                    <h2 className="text-3xl font-bold mb-6 text-dark-pink">Inscription</h2>
                     <input
                         type="text"
                         onChange={(e) => setKey(e.target.value)}
@@ -57,6 +58,17 @@ export default function RegistrationKey({ setIsRegistrationKey }: Readonly<Regis
                         </button>
                     </div>
                 </form>
+            </div>
+
+            <div className="flex justify-center w-full min-h-screen bg-very-light-pink items-center">
+                <Image
+                    src="/logo.png"
+                    alt="logo Rose Medoc"
+                    className="object-cover pointer-events-none"
+                    width={500}
+                    priority={true}
+                    height={500}
+                />
             </div>
         </div >
     )

@@ -111,17 +111,20 @@ export default function Register() {
   };
 
   return (
-    <>
+    <div className="min-h-screen w-full flex">
       {!isRegistrationKey ? (
         <RegistrationKey setIsRegistrationKey={setIsRegistrationKey} />
       ) : (
-        <div className="flex items-center h-screen h-min-full justify-center w-1/2 p-8 bg-white rounded shadow-md">
-          <div className="w-96">
-            <h2 className="text-3xl font-bold mb-6 text-dark-pink">
-              Inscription
-            </h2>
+        <div className="flex items-center min-h-screen w-full bg-white">
+          <div className="w-full flex justify-center">
+            <form
+              onSubmit={handleRegister}
+              className="w-96 px-5 py-5"
+            >
+              <h2 className="text-3xl font-bold mb-6 text-dark-pink">
+                Inscription
+              </h2>
 
-            <form onSubmit={handleRegister}>
               <div className="mb-4">
                 <label className="text-dark-pink font-bold" htmlFor="lastName">
                   Nom
@@ -159,11 +162,10 @@ export default function Register() {
                   type="email"
                   value={email}
                   onChange={handleEmailChange}
-                  className={`text-dark-pink w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 ${
-                    isEmailValid
-                      ? "border-light-pink focus:ring-medium-pink"
-                      : "border-red focus:ring-red"
-                  }`}
+                  className={`text-dark-pink w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 ${isEmailValid
+                    ? "border-light-pink focus:ring-medium-pink"
+                    : "border-red focus:ring-red"
+                    }`}
                   required
                 />
                 {!isEmailValid && (
@@ -206,11 +208,10 @@ export default function Register() {
                   value={password}
                   onChange={handlePasswordChange}
                   autoComplete="new-password"
-                  className={`w-full text-dark-pink px-3 py-2 border rounded-lg outline-none focus:ring-2 ${
-                    isPasswordValid
-                      ? "border-light-pink focus:ring-medium-pink"
-                      : "border-red focus:ring-red"
-                  }`}
+                  className={`w-full text-dark-pink px-3 py-2 border rounded-lg outline-none focus:ring-2 ${isPasswordValid
+                    ? "border-light-pink focus:ring-medium-pink"
+                    : "border-red focus:ring-red"
+                    }`}
                   required
                 />
                 <button
@@ -304,10 +305,11 @@ export default function Register() {
               </div>
             </form>
           </div>
+
         </div>
       )}
 
-      <div className="flex items-center h-screen h-min-full justify-center w-1/2 bg-very-light-pink">
+      <div className="flex justify-center w-full h-min-screen bg-very-light-pink items-center">
         <Image
           src="/logo.png"
           alt="logo Rose Medoc"
@@ -317,6 +319,6 @@ export default function Register() {
           height={500}
         />
       </div>
-    </>
+    </div>
   );
 }
