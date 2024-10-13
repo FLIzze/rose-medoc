@@ -127,7 +127,7 @@ export default function Body() {
     const renderGrid = () => {
         if (calendarMode === "Semaine") {
             const startOfWeek = new Date(date);
-            startOfWeek.setDate(date.getDate() - date.getDay() + 1);
+            startOfWeek.setDate(date.getDate() - date.getDay());
 
             return Array.from({ length: 7 }).map((day, dayIndex) => {
                 const currentDate = new Date(startOfWeek);

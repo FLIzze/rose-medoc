@@ -19,7 +19,7 @@ export default function Header() {
                     <div className="bg-white"></div>
                     {Array.from({ length: 7 }).map((day, dayIndex) => {
                         const currentDate = new Date(date);
-                        currentDate.setDate(date.getDate() - date.getDay() + dayIndex + 1);
+                        currentDate.setDate(date.getDate() - date.getDay() + dayIndex);
                         const dayName = currentDate.toLocaleDateString('fr-FR', { weekday: 'short' }).toUpperCase();
                         return (
                             <button
