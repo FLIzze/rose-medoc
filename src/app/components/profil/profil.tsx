@@ -47,6 +47,7 @@ export default function Profile() {
                     className='rounded-full mr-6'
                     width={40}
                     height={40}
+              priority={true}
                 />
             </button>
 

@@ -144,6 +144,7 @@ const CalendarHeader = () => {
               className="ml-4"
               width={10}
               height={10}
+              priority={true}
             />
           </button>
 
