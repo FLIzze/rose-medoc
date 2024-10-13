@@ -5,8 +5,11 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Rose Medoc",
-  description: "by alexandre bel",
+  title: "Rose Médoc",
+  description: "calendar",
+  icons: {
+    icon: "/favicon.ico",
+  }
 };
 
 export default function RootLayout({
