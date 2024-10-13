@@ -4,7 +4,7 @@ import axios from "axios";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import { api_key } from "../../credentials";
+import { api_key, api_url } from "../../credentials";
 import { EventInterface } from "../../model/event";
 import defaultEvent from "../../event/defaultEvent";
 import Location from "@/app/components/popup-event/location/location";
@@ -36,7 +36,7 @@ export default function EditEvent() {
 
     const fetchEvent = useCallback(async () => {
         try {
-            const response = await axios.get("https://api.calendar.alexandrebel.me/events", {
+            const response = await axios.get(`${api_url.url}events`, {
                 headers: {
                     "x-api-key": api_key.key,
                 },
@@ -90,7 +90,7 @@ export default function EditEvent() {
         };
 
         try {
-            const response = await fetch("https://api.calendar.alexandrebel.me/events", {
+            const response = await fetch(`${api_url.url}events`, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',

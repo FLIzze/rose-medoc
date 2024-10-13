@@ -2,11 +2,11 @@ import axios from "axios";
 import getEvents from "./getEvents";
 import { Dispatch, SetStateAction } from "react";
 import { EventInterface } from "../model/event";
-import { api_key } from "../credentials";
+import { api_key, api_url } from "../credentials";
 
 export default async function deleteEvent(id: number | undefined, setEvents: Dispatch<SetStateAction<EventInterface[]>>) {
   try {
-    const response = await axios.delete(`https://api.calendar.alexandrebel.me/events`, {
+    const response = await axios.delete(`${api_url.url}events`, {
       headers: {
         'x-api-key': api_key.key
       },

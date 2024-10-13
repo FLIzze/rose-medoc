@@ -3,7 +3,7 @@ import { UserInterface } from "../model/user";
 import { verify } from "../password/verify";
 import { Dispatch, SetStateAction } from "react";
 import Cookies from "js-cookie";
-import { api_key } from "../credentials";
+import { api_key, api_url } from "../credentials";
 
 export default async function login(
   email: string,
@@ -11,7 +11,7 @@ export default async function login(
   setCurrentUser: Dispatch<SetStateAction<UserInterface>>
 ) {
   try {
-    const response = await axios.get("https://api.calendar.alexandrebel.me/users", {
+    const response = await axios.get(`${api_url.url}users`, {
       headers: {
         "x-api-key": api_key.key,
       },

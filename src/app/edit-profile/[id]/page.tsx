@@ -9,7 +9,7 @@ import capitalizeFirstLetter from "@/app/capitalizeFirstLetter";
 import getBase64Image from "@/app/getBase64Image";
 import Cookies from "js-cookie";
 import Image from "next/image";
-import { api_key } from "../../credentials";
+import { api_key, api_url } from "../../credentials";
 
 export default function EditProfile() {
   const router = useRouter();
@@ -37,7 +37,7 @@ export default function EditProfile() {
 
   const fetchUserData = useCallback(async () => {
     try {
-      const response = await axios.get(`https://api.calendar.alexandrebel.me/users`, {
+      const response = await axios.get(`${api_url.url}users`, {
         headers: {
           "x-api-key": api_key.key,
         },
@@ -95,7 +95,7 @@ export default function EditProfile() {
     };
 
     try {
-      const response = await fetch("https://api.calendar.alexandrebel.me/users", {
+      const response = await fetch(`${api_url.url}users`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

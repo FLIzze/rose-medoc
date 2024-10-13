@@ -1,6 +1,6 @@
 import capitalizeFirstLetter from "../capitalizeFirstLetter";
 import { v4 as uuidv4 } from "uuid";
-import { api_key } from "../credentials";
+import { api_key, api_url } from "../credentials";
 
 export default async function register(
   lastName: string,
@@ -11,7 +11,7 @@ export default async function register(
   file: string
 ): Promise<boolean> {
   try {
-    const response = await fetch("https://api.calendar.alexandrebel.me/users", {
+    const response = await fetch(`${api_url.url}users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

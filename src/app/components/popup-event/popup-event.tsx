@@ -87,7 +87,7 @@ export default function PopupEvent() {
         <div className="grid grid-cols-[auto,2fr] gap-x-6 mr-6">
           <Title title={title} setTitle={setTitle} />
 
-          <div className="bg-light-pink flex items-center justify-center pt-4">
+          <div className="bg-light-pink flex items-center justify-center p-4 pt-8">
             <Image
               src="/clock.png"
               alt="date"
@@ -109,15 +109,17 @@ export default function PopupEvent() {
             setDescription={setDescription}
           />
 
-          <div className="bg-light-pink flex items-center justify-center p-4">
-            <Image
-              src="/person.png"
-              alt="participants"
-              className="mx-3"
-              width={18}
-              priority={true}
-              height={18}
-            />
+          <div className="bg-light-pink flex items-center justify-center p-2 pt-4">
+            <label htmlFor="participantsInput">
+              <Image
+                src="/person.png"
+                alt="participants"
+                className="mx-3"
+                width={18}
+                priority={true}
+                height={18}
+              />
+            </label>
           </div>
           <Participants
             setParticipants={setParticipants}
@@ -126,15 +128,17 @@ export default function PopupEvent() {
             currentUser={currentUser}
           />
 
-          <div className="bg-light-pink flex items-center justify-center p-4">
-            <Image
-              src="/pin.png"
-              alt="location"
-              className="mx-3"
-              width={18}
-              priority={true}
-              height={18}
-            />
+          <div className="bg-light-pink flex items-center justify-center p2 pt-4 pb-4">
+            <label htmlFor="location">
+              <Image
+                src="/pin.png"
+                alt="location"
+                className="mx-3"
+                width={18}
+                priority={true}
+                height={18}
+              />
+            </label>
           </div>
 
           <Location setLocation={setLocation} location={location} edit={false} />

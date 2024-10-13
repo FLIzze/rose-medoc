@@ -22,7 +22,7 @@ import {
   taggedAtom,
   usersAtom,
 } from "./atom";
-import { api_key } from "./credentials";
+import { api_key, api_url } from "./credentials";
 
 export default function Home() {
   const cookie = Cookies.get();
@@ -45,7 +45,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get("https://api.calendar.alexandrebel.me/users", {
+      .get(`${api_url.url}users`, {
         headers: {
           "x-api-key": api_key.key,
         },
