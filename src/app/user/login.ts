@@ -12,7 +12,9 @@ export default async function login(
 ) {
   try {
     const response = await axios.get(`${api_url.url}users`, {
+      method: "GET",
       headers: {
+        "Content-Type": "application/json",
         "x-api-key": api_key.key,
       },
     });

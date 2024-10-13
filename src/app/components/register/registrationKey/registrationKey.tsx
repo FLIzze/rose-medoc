@@ -59,17 +59,6 @@ export default function RegistrationKey({ setIsRegistrationKey }: Readonly<Regis
                     </div>
                 </form>
             </div>
-
-            <div className="flex justify-center w-full min-h-screen bg-very-light-pink items-center">
-                <Image
-                    src="/logo.png"
-                    alt="logo Rose Medoc"
-                    className="object-cover pointer-events-none"
-                    width={500}
-                    priority={true}
-                    height={500}
-                />
-            </div>
         </div >
     )
 }
