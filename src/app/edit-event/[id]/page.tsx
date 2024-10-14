@@ -12,6 +12,8 @@ import getUsers from "@/app/user/getUsers";
 import { UserInterface } from "@/app/model/user";
 import Participants from "@/app/components/popup-event/participants/participants";
 import defaultUser from "@/app/user/defaultUser";
+import Cookies from "js-cookie";
+import Description from "./description/description";
 
 export default function EditEvent() {
     const router = useRouter();
@@ -53,6 +55,13 @@ export default function EditEvent() {
                     return users.find((user) => user.id === participantId);
                 }).filter(Boolean) as UserInterface[];
                 setParticipants(eventParticipants);
+
+                const currentUser = users.find((user) => user.id === currentEvent.by);
+                if (currentUser) {
+                    if (currentUser.uuid !== Cookies.get("uuid")) {
+                        router.push("/");
+                    }
+                }
             }
         } catch (error) {
             console.error("Erreur lors de la récupération de l'évènement", error);
@@ -143,29 +152,10 @@ export default function EditEvent() {
                         />
                     </div>
 
-                    {event.description !== "" ? (
-                        <div className="flex flex-col">
-                            <label htmlFor="description" className="font-bold">Description</label>
-                            <input
-                                type="text"
-                                onChange={(e) => setDescription(e.target.value)}
-                                id="description"
-                                placeholder={event.description}
-                                className="border border-medium-pink rounded-md p-2 focus:ring-2 focus:ring-medium-pink outline-none transition-all"
-                            />
-                        </div>
-                    ) : (
-                        <div className="flex flex-col">
-                            <label htmlFor="description" className="font-bold">Description</label>
-                            <input
-                                type="text"
-                                onChange={(e) => setDescription(e.target.value)}
-                                id="description"
-                                placeholder='Ajouter une description'
-                                className="border border-medium-pink rounded-md p-2 focus:ring-2 focus:ring-medium-pink outline-none transition-all"
-                            />
-                        </div>
-                    )}
+                    <Description
+                        setDescription={setDescription}
+                        event={event}
+                    />
 
                     <div className="flex flex-col">
                         <p className="font-bold">Location</p>

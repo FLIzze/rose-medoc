@@ -228,6 +228,21 @@ app.get("/users", (_: any, res: any) => {
   });
 });
 
+app.post("/check-email", (req: any, res: any) => {
+  const { email } = req.body;
+
+  const sql = "SELECT COUNT(*) as count FROM user WHERE email = ?";
+  pool.query(sql, [email], (error: any, results: any) => {
+    if (error) {
+      console.error("Error checking email:", error);
+      return res.status(500).json({ error: error.message });
+    }
+
+    const emailExists = results[0].count > 0;
+    res.status(200).json({ exists: emailExists });
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

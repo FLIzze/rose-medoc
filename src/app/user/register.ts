@@ -15,7 +15,7 @@ export default async function register(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": api_key.key,
+        "x-api-key": api_key.key
       },
       body: JSON.stringify({
         uuid: uuidv4(),

@@ -63,6 +63,24 @@ export default function EditProfile() {
     fetchUserData();
   }, [fetchUserData]);
 
+  const checkEmailExists = async (email: string) => {
+    try {
+      const response = await fetch(`${api_url.url}check-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": api_key.key,
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+      return data.exists;
+    } catch (error) {
+      console.error("Error checking email:", error);
+      return false;
+    }
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!isEmailValid) {
@@ -78,6 +96,14 @@ export default function EditProfile() {
     if (!doPasswordsMatch) {
       setErrorMessage("Les mots de passe ne correspondent pas");
       return;
+    }
+
+    if (newEmail && newEmail !== user.email) {
+      const emailExists = await checkEmailExists(newEmail);
+      if (emailExists) {
+        setErrorMessage("L'email est déjà utilisé.");
+        return;
+      }
     }
 
     const hashedPassword = await hash(newPassword);

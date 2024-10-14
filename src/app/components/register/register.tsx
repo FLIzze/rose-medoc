@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useSetAtom } from "jotai";
 import { currentUserAtom, registerAtom } from "@/app/atom";
 import RegistrationKey from "./registrationKey/registrationKey";
+import { api_url, api_key } from "@/app/credentials"; // Import your API URL and key
 
 export default function Register() {
   const [firstName, setFirstName] = useState("");
@@ -35,6 +36,24 @@ export default function Register() {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const checkEmailExists = async (email: string) => {
+    try {
+      const response = await fetch(`${api_url.url}check-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": api_key.key,
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+      return data.exists;
+    } catch (error) {
+      console.error("Error checking email:", error);
+      return false;
+    }
+  };
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
@@ -59,6 +78,12 @@ export default function Register() {
       setErrorMessage(
         "Le mot de passe doit contenir au moins 8 caractères, dont une majuscule et un caractère spécial."
       );
+      return;
+    }
+
+    const emailExists = await checkEmailExists(email);
+    if (emailExists) {
+      setErrorMessage("L'email est déjà utilisé.");
       return;
     }
 
@@ -117,10 +142,7 @@ export default function Register() {
       ) : (
         <div className="flex items-center min-h-screen w-full bg-white">
           <div className="w-full flex justify-center">
-            <form
-              onSubmit={handleRegister}
-              className="w-96 px-5 py-5"
-            >
+            <form onSubmit={handleRegister} className="w-96 px-5 py-5">
               <h2 className="text-3xl font-bold mb-6 text-dark-pink">
                 Inscription
               </h2>
@@ -162,10 +184,11 @@ export default function Register() {
                   type="email"
                   value={email}
                   onChange={handleEmailChange}
-                  className={`text-dark-pink w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 ${isEmailValid
-                    ? "border-light-pink focus:ring-medium-pink"
-                    : "border-red focus:ring-red"
-                    }`}
+                  className={`text-dark-pink w-full px-3 py-2 border rounded-lg outline-none focus:ring-2 ${
+                    isEmailValid
+                      ? "border-light-pink focus:ring-medium-pink"
+                      : "border-red focus:ring-red"
+                  }`}
                   required
                 />
                 {!isEmailValid && (
@@ -208,10 +231,11 @@ export default function Register() {
                   value={password}
                   onChange={handlePasswordChange}
                   autoComplete="new-password"
-                  className={`w-full text-dark-pink px-3 py-2 border rounded-lg outline-none focus:ring-2 ${isPasswordValid
-                    ? "border-light-pink focus:ring-medium-pink"
-                    : "border-red focus:ring-red"
-                    }`}
+                  className={`w-full text-dark-pink px-3 py-2 border rounded-lg outline-none focus:ring-2 ${
+                    isPasswordValid
+                      ? "border-light-pink focus:ring-medium-pink"
+                      : "border-red focus:ring-red"
+                  }`}
                   required
                 />
                 <button
@@ -305,7 +329,6 @@ export default function Register() {
               </div>
             </form>
           </div>
-
         </div>
       )}
 
