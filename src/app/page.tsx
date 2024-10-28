@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { UserInterface } from "./model/user";
 import Sidebar from "./components/sidebar/sidebar";
@@ -23,6 +23,7 @@ import {
   usersAtom,
 } from "./atom";
 import { api_key, api_url } from "./credentials";
+import Image from "next/image";
 
 export default function Home() {
   const cookie = Cookies.get();
@@ -39,8 +40,11 @@ export default function Home() {
 
   const [register] = useAtom(registerAtom);
 
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [loadingEvents, setLoadingEvents] = useState(true);
+
   useEffect(() => {
-    getEvents(setEvents);
+    getEvents(setEvents).finally(() => setLoadingEvents(false));
   }, [setEvents]);
 
   useEffect(() => {
@@ -60,18 +64,30 @@ export default function Home() {
       })
       .catch((error) => {
         console.error("Error fetching users", error);
-      });
+      })
+      .finally(() => setLoadingUser(false));
   }, [setCurrentUser, setUsers]);
 
   useEffect(() => {
     setFilteredEvents(filterEvent(events, currentUser, own, tagged, others));
   }, [events, own, tagged, others, setFilteredEvents, currentUser]);
 
+  if (loadingUser || loadingEvents) {
+    return <div className="flex justify-center items-center h-screen bg-white w-screen">
+      <Image
+        src="loading.svg"
+        alt="loading..."
+        width={150}
+        height={150}
+      />
+    </div>
+  }
+
   return (
     <div className="w-screen flex items-center justify-center bg-white">
       {currentUser !== defaultUser &&
-      currentUser !== undefined &&
-      currentUser !== null ? (
+        currentUser !== undefined &&
+        currentUser !== null ? (
         <div className="bg-white h-screen overflow-hidden">
           <div className="flex mt-5">
             <div>
